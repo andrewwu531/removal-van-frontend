@@ -15,10 +15,10 @@ const HeroSection = () => {
   ];
 
   return (
-    <section id="home" className="text-black bg-blue-500">
-      <div className="container mx-auto flex flex-row mt-5 items-start">
+    <section id="home" className="text-blue-950">
+      <div className="container mx-auto flex flex-row mt-2 items-start">
         {/* Left Column: Main text content */}
-        <div className="w-[38%] ml-20 mt-20 flex flex-col justify-center">
+        <div className="w-[38%] ml-20 mt-25 flex flex-col justify-center">
           <div>
             <h1 className="text-5xl font-bold pb-2 text-left">
               Home &amp; Business
@@ -34,18 +34,18 @@ const HeroSection = () => {
           </p>
           <a
             href="#booking"
-            className="flex bg-black w-[40%] text-gray-200 font-medium text-lg py-3 px-4 rounded-md 
+            className="flex bg-green-600 w-[40%] text-gray-50 font-medium text-lg py-3 px-4 rounded-md 
                       align-middle justify-center transform transition duration-300 hover:scale-104"
           >
             Book Removal
           </a>
         </div>
         {/* Right Column: 2x2 grid of cards */}
-        <div className="w-[62%] mr-20 mt-2">
+        <div className="w-[62%] mr-20 mt-8">
           <div className="grid grid-cols-2 gap-3.5 p-4">
             {cards.map((card, index) => (
               <a href="#booking" key={index} className="block">
-                <div className="h-72 relative rounded-md shadow overflow-hidden cursor-pointer transform transition duration-500 hover:scale-102">
+                <div className="h-64 relative rounded-md shadow overflow-hidden cursor-pointer transform transition duration-500 hover:scale-102">
                   {/* Card image */}
                   <img
                     src={card.image}

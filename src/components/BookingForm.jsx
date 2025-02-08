@@ -40,7 +40,7 @@ const BookingForm = () => {
   return (
     <section id="booking">
       <div className="container mx-auto px-4 pt-10">
-        <h2 className="text-3xl font-bold text-center mb-8">
+        <h2 className="text-4xl text-gray-950 font-bold text-center mb-8">
           Book Your Removal Appointment
         </h2>
         <form
