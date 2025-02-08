@@ -2,7 +2,7 @@
 import React from "react";
 
 const Footer = () => (
-  <footer className="bg-gray-800 text-gray-300 py-4">
+  <footer className="bg-gray-950 text-gray-300 py-4">
     <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
       <div>
         <a href="#home" className="hover:text-white">
@@ -17,7 +17,7 @@ const Footer = () => (
           Contact Us
         </a>
       </div>
-      <div>
+      {/* <div>
         <a href="#" className="hover:text-white">
           Privacy Policy
         </a>{" "}
@@ -25,7 +25,7 @@ const Footer = () => (
         <a href="#" className="hover:text-white">
           Terms of Service
         </a>
-      </div>
+      </div> */}
       <div className="mt-2 md:mt-0">
         Trusted Home & Business Removal © {new Date().getFullYear()}
       </div>

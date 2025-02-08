@@ -10,11 +10,17 @@ import Footer from "./components/Footer";
 function App() {
   return (
     <div className="font-sans text-gray-900">
-      <Header />
-      <HeroSection />
-      <BookingForm />
-      <FAQSection />
-      <ContactSection />
+      <div className="min-h-screen bg-blue-500 flex flex-col">
+        <Header />
+        <HeroSection />
+      </div>
+      <div className="min-h-screen bg-green-300 flex flex-col">
+        <BookingForm />
+      </div>
+      <div className="min-h-screen bg-amber-200 flex flex-col">
+        <FAQSection />
+      </div>
+      {/* <ContactSection /> */}
       <Footer />
     </div>
   );

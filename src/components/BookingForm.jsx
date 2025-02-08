@@ -38,8 +38,8 @@ const BookingForm = () => {
   };
 
   return (
-    <section id="booking" className="py-16 bg-gray-100">
-      <div className="container mx-auto px-4">
+    <section id="booking">
+      <div className="container mx-auto px-4 pt-10">
         <h2 className="text-3xl font-bold text-center mb-8">
           Book Your Removal Appointment
         </h2>

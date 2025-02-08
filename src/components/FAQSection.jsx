@@ -2,7 +2,7 @@
 import React from "react";
 
 const FAQSection = () => (
-  <section id="faq" className="py-16">
+  <section id="faq" className="py-16 bg-amber-200">
     <div className="container mx-auto px-4">
       <h2 className="text-3xl font-bold text-center mb-8">FAQ</h2>
       <div className="max-w-3xl mx-auto">
