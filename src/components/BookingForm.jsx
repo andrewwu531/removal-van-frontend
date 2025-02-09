@@ -1,4 +1,3 @@
-// src/components/BookingForm.jsx
 import React, { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 
@@ -6,216 +5,139 @@ const stripePromise = loadStripe("YOUR_PUBLISHABLE_KEY");
 
 const BookingForm = () => {
   const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    telephone: "",
-    removalAddress: "",
-    deliveryAddress: "",
-    removalType: "Home",
-    bedrooms: "",
-    appliances: "",
-    date: "",
-    additionalInformation: "",
+    FullName: "",
+    Email: "",
+    Telephone: "",
+    RemovalAddress: "",
+    DeliveryAddress: "",
+    RemovalType: "Home",
+    Bedrooms: "",
+    Appliances: "",
+    AvailableDate: "",
+    AdditionalInformation: "",
   });
   const [quote, setQuote] = useState(null);
-  const [paymentCompleted, setPaymentCompleted] = useState(false);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "number" ? (value ? parseInt(value) : "") : value,
+    }));
   };
 
   const handleQuote = (e) => {
     e.preventDefault();
-    let basePrice = 100; // Base price in GBP
+    let basePrice = 100;
     let businessPrice = 75;
 
-    if (formData.removalType === "Home") {
-      const bedrooms = parseInt(formData.bedrooms) || 0;
-      basePrice += bedrooms * 85; // £50 per bedroom
-    } else if (formData.removalType === "Business") {
-      const appliances = parseInt(formData.appliances) || 0;
-      basePrice += businessPrice + appliances * 25; // £75 per appliance
+    if (formData.RemovalType === "Home") {
+      const bedrooms = parseInt(formData.Bedrooms) || 0;
+      basePrice += bedrooms * 85;
+    } else if (formData.RemovalType === "Business") {
+      const appliances = parseInt(formData.Appliances) || 0;
+      basePrice += businessPrice + appliances * 25;
     }
     setQuote(basePrice);
   };
 
-  const handlePayment = async () => {
-    const stripe = await stripePromise;
-
-    const response = await fetch("/create-checkout-session/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        amount: quote,
-        formData: formData,
-      }),
-    });
-
-    const session = await response.json();
-
-    // Redirect to Stripe Checkout
-    const result = await stripe.redirectToCheckout({
-      sessionId: session.id,
-    });
-
-    if (result.error) {
-      console.error(result.error.message);
-    }
-
-    setPaymentCompleted(true);
-  };
-
   return (
-    <section id="booking">
-      <div className="container px-4 pt-20 mx-auto">
-        <h2 className="mb-8 text-4xl font-bold text-center text-gray-950">
-          Book Your Removal Appointment
+    <section className="flex items-center justify-center min-h-screen py-16 bg-gray-50">
+      <div className="w-full max-w-lg p-6 bg-white rounded-lg shadow-md">
+        <h2 className="mb-6 text-2xl font-bold text-center text-gray-900">
+          Book Removal Appointment
         </h2>
-        {/* If no quote is generated, show the form */}
+
         {!quote ? (
-          <form
-            onSubmit={handleQuote}
-            className="max-w-2xl p-8 mx-auto bg-white rounded shadow"
-          >
-            {/* Full Name */}
-            <div className="mb-4">
-              <label className="block text-gray-700">Full Name</label>
-              <input
-                type="text"
-                name="fullName"
-                value={formData.fullName}
-                onChange={handleChange}
-                className="block w-full mt-1 border-gray-300 rounded-md shadow-sm"
-                required
-              />
-            </div>
-            {/* Email Address */}
-            <div className="mb-4">
-              <label className="block text-gray-700">Email Address</label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="block w-full mt-1 border-gray-300 rounded-md shadow-sm"
-                required
-              />
-            </div>
-            {/* Telephone Number */}
-            <div className="mb-4">
-              <label className="block text-gray-700">Telephone Number</label>
-              <input
-                type="tel"
-                name="telephone"
-                value={formData.telephone}
-                onChange={handleChange}
-                className="block w-full mt-1 border-gray-300 rounded-md shadow-sm"
-                required
-              />
-            </div>
-            {/* Removal Address */}
-            <div className="mb-4">
-              <label className="block text-gray-700">Removal Address</label>
-              <input
-                type="text"
-                name="removalAddress"
-                value={formData.removalAddress}
-                onChange={handleChange}
-                className="block w-full mt-1 border-gray-300 rounded-md shadow-sm"
-                required
-              />
-            </div>
-            {/* Delivery Address */}
-            <div className="mb-4">
-              <label className="block text-gray-700">Delivery Address</label>
-              <input
-                type="text"
-                name="deliveryAddress"
-                value={formData.deliveryAddress}
-                onChange={handleChange}
-                className="block w-full mt-1 border-gray-300 rounded-md shadow-sm"
-                required
-              />
-            </div>
-            {/* Type of Removal */}
-            <div className="mb-4">
-              <label className="block text-gray-700">Type of Removal</label>
+          <form onSubmit={handleQuote} className="space-y-8">
+            {[
+              "FullName",
+              "Email",
+              "Telephone",
+              "RemovalAddress",
+              "DeliveryAddress",
+              "AvailableDate",
+            ].map((field, index) => (
+              <div key={index} className="relative mb-3">
+                <label className="block px-0.5 mb-1 text-sm font-medium text-gray-700">
+                  {field.replace(/([A-Z])/g, " $1").trim()}
+                </label>
+                <input
+                  type={field === "AvailableDate" ? "date" : "text"}
+                  name={field}
+                  value={formData[field]}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 text-gray-900 border rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  required
+                />
+              </div>
+            ))}
+
+            <div className="relative mb-3">
+              <label className="block mb-1 px-0.5 text-sm font-medium text-gray-700">
+                Type of Removal
+              </label>
               <select
-                name="removalType"
-                value={formData.removalType}
+                name="RemovalType"
+                value={formData.RemovalType}
                 onChange={handleChange}
-                className="block w-full mt-1 border-gray-300 rounded-md shadow-sm"
+                className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-500"
               >
                 <option value="Home">Home</option>
                 <option value="Business">Business</option>
               </select>
             </div>
-            {/* Conditional Fields */}
-            {formData.removalType === "Home" && (
-              <div className="mb-4">
-                <label className="block text-gray-700">
-                  Number of Bedrooms for Removal
+
+            {formData.RemovalType === "Home" && (
+              <div className="relative mb-3">
+                <label className="block mb-1 text-sm font-medium text-gray-700 px-0.5">
+                  Number of Bedrooms
                 </label>
                 <input
                   type="number"
-                  name="bedrooms"
-                  value={formData.bedrooms}
+                  name="Bedrooms" // Fix: Make sure the name matches formData
+                  value={formData.Bedrooms}
                   onChange={handleChange}
-                  className="block w-full mt-1 border-gray-300 rounded-md shadow-sm"
-                  placeholder="Excluding Sitting Room, Kitchen and Bathroom"
+                  className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-500"
                   required
                 />
               </div>
             )}
-            {formData.removalType === "Business" && (
-              <div className="mb-4">
-                <label className="block text-gray-700">
-                  Number of Medium &amp; Large Appliances for Removal
+
+            {formData.RemovalType === "Business" && (
+              <div className="relative mb-3">
+                <label className="block mb-1 px-0.5 text-sm font-medium text-gray-700">
+                  Number of Appliances
                 </label>
                 <input
                   type="number"
-                  name="appliances"
-                  value={formData.appliances}
+                  name="Appliances" // Fix: Ensure correct name
+                  value={formData.Appliances}
                   onChange={handleChange}
-                  className="block w-full mt-1 border-gray-300 rounded-md shadow-sm"
-                  placeholder="Enter number of appliances"
+                  className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-500"
                   required
                 />
               </div>
             )}
-            {/* Available Date */}
-            <div className="mb-4">
-              <label className="block text-gray-700">Available Date</label>
-              <input
-                type="date"
-                name="date"
-                value={formData.date}
-                onChange={handleChange}
-                className="block w-full mt-1 border-gray-300 rounded-md shadow-sm"
-                required
-              />
-            </div>
-            {/* Additional Information */}
-            <div className="mb-4">
-              <label className="block text-gray-700">
+
+            <div className="relative mb-6">
+              <label className="block mb-1 text-sm font-medium text-gray-700">
                 Additional Information
               </label>
               <textarea
-                name="additionalInformation"
-                value={formData.additionalInformation}
+                name="AdditionalInformation" // Fix: Ensure correct name
+                value={formData.AdditionalInformation}
                 onChange={handleChange}
-                className="block w-full mt-1 border-gray-300 rounded-md shadow-sm"
+                className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-500"
                 rows="3"
-                placeholder="e.g. alternative available dates and special requirements"
               ></textarea>
             </div>
+
             <div className="flex justify-center">
               <button
                 type="submit"
-                className="px-4 py-2 font-bold text-white bg-orange-500 rounded hover:bg-orange-600"
+                className="w-1/2 px-4 py-2 text-white bg-green-500 rounded-md hover:bg-pink-600"
               >
                 View Price
               </button>
@@ -229,55 +151,43 @@ const BookingForm = () => {
             </h3>
             <div className="mb-8 text-left text-gray-700">
               <p>
-                <strong>Name:</strong> {formData.fullName}
+                <strong>Name:</strong> {formData.FullName}
               </p>
               <p>
-                <strong>Email:</strong> {formData.email}
+                <strong>Email:</strong> {formData.Email}
               </p>
               <p>
-                <strong>Telephone:</strong> {formData.telephone}
+                <strong>Telephone:</strong> {formData.Telephone}
               </p>
               <p>
-                <strong>Removal Address:</strong> {formData.removalAddress}
+                <strong>Removal Address:</strong> {formData.RemovalAddress}
               </p>
               <p>
-                <strong>Delivery Address:</strong> {formData.deliveryAddress}
+                <strong>Delivery Address:</strong> {formData.DeliveryAddress}
               </p>
               <p>
-                <strong>Removal Type:</strong> {formData.removalType}
+                <strong>Removal Type:</strong> {formData.RemovalType}
               </p>
-              {formData.removalType === "Home" && (
+              {formData.RemovalType === "Home" && (
                 <p>
-                  <strong>Bedrooms:</strong> {formData.bedrooms}
+                  <strong>Bedrooms:</strong> {formData.Bedrooms}
                 </p>
               )}
-              {formData.removalType === "Business" && (
+              {formData.RemovalType === "Business" && (
                 <p>
-                  <strong>Appliances:</strong> {formData.appliances}
+                  <strong>Appliances:</strong> {formData.Appliances}
                 </p>
               )}
               <p>
-                <strong>Available Date:</strong> {formData.date}
+                <strong>Available Date:</strong> {formData.AvailableDate}
               </p>
-              {formData.additionalInformation && (
+              {formData.AdditionalInformation && (
                 <p>
                   <strong>Additional Information:</strong>{" "}
-                  {formData.additionalInformation}
+                  {formData.AdditionalInformation}
                 </p>
               )}
             </div>
-            {!paymentCompleted ? (
-              <button
-                onClick={handlePayment}
-                className="px-6 py-2 font-bold text-white bg-green-500 rounded hover:bg-green-600"
-              >
-                Pay with Stripe
-              </button>
-            ) : (
-              <p className="font-bold text-green-700">
-                Payment Successful! A confirmation email has been sent.
-              </p>
-            )}
           </div>
         )}
       </div>

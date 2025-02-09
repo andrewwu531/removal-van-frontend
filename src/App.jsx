@@ -14,12 +14,12 @@ function App() {
         <Header />
         <HeroSection />
       </div>
-      <div className="flex flex-col min-h-screen bg-gray-50">
+      <div className="flex flex-col bg-gray-50">
         <BookingForm />
       </div>
-      <div className="flex flex-col min-h-screen bg-blue-50">
+      {/* <div className="flex flex-col bg-blue-50">
         <FAQSection />
-      </div>
+      </div> */}
       {/* <ContactSection /> */}
       <Footer />
     </div>

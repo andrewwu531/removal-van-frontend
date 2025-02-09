@@ -2,8 +2,8 @@
 import React from "react";
 
 const Footer = () => (
-  <footer className="bg-blue-950 text-gray-50 py-5">
-    <div className="container mx-auto flex flex-row justify-between align-middle items-center px-6">
+  <footer className="text-gray-200 py-7 bg-blue-950">
+    <div className="container flex flex-row items-center justify-between mx-auto align-middle px-7">
       {/* <div>
         <a href="#home" className="hover:text-white">
           Home
@@ -26,8 +26,12 @@ const Footer = () => (
           Terms of Service
         </a>
       </div> */}
-      <div>Trusted Home & Business Removal</div>
-      <div>© {new Date().getFullYear()}</div>
+      <div className="text-lg font-semibold">
+        trusted.removal.services@gmail.com
+      </div>
+      <div className="pr-5 font-semibold text-md">
+        © {new Date().getFullYear()}
+      </div>
     </div>
   </footer>
 );
