@@ -10,14 +10,14 @@ import Footer from "./components/Footer";
 function App() {
   return (
     <div className="font-sans text-gray-900">
-      <div className="min-h-screen bg-blue-50 flex flex-col">
+      <div className="flex flex-col min-h-screen">
         <Header />
         <HeroSection />
       </div>
-      <div className="min-h-screen bg-gray-50 flex flex-col">
+      <div className="flex flex-col min-h-screen bg-gray-50">
         <BookingForm />
       </div>
-      <div className="min-h-screen bg-blue-50 flex flex-col">
+      <div className="flex flex-col min-h-screen bg-blue-50">
         <FAQSection />
       </div>
       {/* <ContactSection /> */}

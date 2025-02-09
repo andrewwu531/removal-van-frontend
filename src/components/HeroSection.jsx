@@ -1,9 +1,9 @@
-// src/components/HeroSection.jsx
 import React from "react";
 import home_removal_image from "../assets/home-removal.png";
 import business_removal_image from "../assets/business-removal.png";
 import booking_form_image from "../assets/booking-form.png";
 import contact_us_image from "../assets/contact-us.png";
+import background_image from "../assets/background.png"; // Add your background image
 
 const HeroSection = () => {
   // Define card data: text labels and corresponding images
@@ -15,19 +15,27 @@ const HeroSection = () => {
   ];
 
   return (
-    <section id="home" className="text-blue-950">
-      <div className="container mx-auto flex flex-row mt-2 items-start">
+    <section
+      id="home"
+      className="flex-grow text-blue-950"
+      style={{
+        backgroundImage: `url(${background_image})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <div className="container flex flex-row items-start mx-auto">
         {/* Left Column: Main text content */}
-        <div className="w-[38%] ml-20 mt-25 flex flex-col justify-center">
+        <div className="w-[38%] ml-20 mt-20 flex flex-col justify-center">
           <div>
-            <h1 className="text-5xl font-bold pb-2 text-left">
+            <h1 className="pb-2 text-5xl font-bold text-left">
               Home &amp; Business
             </h1>
-            <h1 className="text-5xl font-bold pb-10 text-left">
+            <h1 className="pb-10 text-5xl font-bold text-left">
               Removal Services
             </h1>
           </div>
-          <p className="text-xl mr-35 pb-30">
+          <p className="pb-40 text-xl mr-35">
             A seamless, transparent, and reliable way to book professional
             removal services. Whether you’re moving home furniture or business
             assets, we’re here for you!
@@ -45,17 +53,17 @@ const HeroSection = () => {
           <div className="grid grid-cols-2 gap-3.5 p-4">
             {cards.map((card, index) => (
               <a href="#booking" key={index} className="block">
-                <div className="h-64 relative rounded-md shadow overflow-hidden cursor-pointer transform transition duration-500 hover:scale-102">
+                <div className="relative h-64 overflow-hidden transition duration-500 transform rounded-md shadow cursor-pointer hover:scale-102">
                   {/* Card image */}
                   <img
                     src={card.image}
                     alt={card.text}
-                    className="w-full h-full object-cover"
+                    className="object-cover w-full h-full"
                   />
                   {/* Text overlay: absolutely positioned to overlap the image */}
-                  <div className="absolute inset-0 flex items-end justify-end z-10">
-                    <div className=" bg-gray-950 bg-opacity-80 px-5 py-2 rounded">
-                      <p className="text-lg font-medium text-gray-100 tracking-wide">
+                  <div className="absolute inset-0 z-10 flex items-end justify-end">
+                    <div className="px-5 py-2 rounded bg-gray-950 bg-opacity-80">
+                      <p className="text-lg font-medium tracking-wide text-gray-100">
                         {card.text}
                       </p>
                     </div>
