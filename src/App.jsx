@@ -14,7 +14,7 @@ function App() {
         <Header />
         <HeroSection />
       </div>
-      <div className="flex flex-col bg-gray-50">
+      <div className="flex flex-col bg-blue-50">
         <BookingForm />
       </div>
       {/* <div className="flex flex-col bg-blue-50">

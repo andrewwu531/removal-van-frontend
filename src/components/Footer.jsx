@@ -26,9 +26,7 @@ const Footer = () => (
           Terms of Service
         </a>
       </div> */}
-      <div className="text-lg font-semibold">
-        trusted.removal.services@gmail.com
-      </div>
+      <div className="text-lg font-semibold">trusted-removal@outlook.com</div>
       <div className="pr-5 font-semibold text-md">
         © {new Date().getFullYear()}
       </div>
