@@ -17,10 +17,6 @@ function App() {
       <div className="flex flex-col bg-blue-50">
         <BookingForm />
       </div>
-      {/* <div className="flex flex-col bg-blue-50">
-        <FAQSection />
-      </div> */}
-      {/* <ContactSection /> */}
       <Footer />
     </div>
   );
