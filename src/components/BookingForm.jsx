@@ -7,7 +7,7 @@ import {
 import BookingDetailsForm from "./BookingDetailsForm";
 import QuoteSummary from "./QuoteSummary";
 import PaymentForm from "./PaymentForm";
-import uk_map from "../assets/uk-map.png";
+import uk_map from "../assets/UK-map.png";
 
 const BookingForm = () => {
   const [formData, setFormData] = useState({
