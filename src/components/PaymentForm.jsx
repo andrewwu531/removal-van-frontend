@@ -11,7 +11,10 @@ import {
   PayPalCVVField,
 } from "@paypal/react-paypal-js";
 
-export default function App() {
+const baseUrl = import.meta.env.VITE_BASE_URL;
+const paymentApiUrl = import.meta.env.VITE_PAYMENT_API_URL;
+
+export default function PaymentForm() {
   const [isPaying, setIsPaying] = useState(false);
   const [PaymentError, setPaymentError] = useState("");
   const initialOptions = {
@@ -29,7 +32,7 @@ export default function App() {
 
   async function createOrder() {
     try {
-      const response = await fetch("http://localhost:5000/api/orders", {
+      const response = await fetch(`${baseUrl}/api/orders`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -67,7 +70,7 @@ export default function App() {
   async function onApprove(data, actions) {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/orders/${data.orderID}/capture`,
+        `http://${paymentApiUrl}/api/orders/${data.orderID}/capture`,
         {
           method: "POST",
           headers: {
