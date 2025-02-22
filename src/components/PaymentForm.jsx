@@ -5,7 +5,6 @@ import {
   usePayPalCardFields,
   PayPalCardFieldsProvider,
   PayPalButtons,
-  PayPalNameField,
   PayPalNumberField,
   PayPalExpiryField,
   PayPalCVVField,
@@ -172,6 +171,9 @@ export default function PaymentForm({ bookingDetails }) {
         </div>
       ) : (
         <>
+          <div className="p-6 text-center">
+            <h2 className="text-3xl font-bold">Complete Payment</h2>
+          </div>
           <div className="relative">
             <PayPalButtons
               createOrder={createOrder}
@@ -195,7 +197,7 @@ export default function PaymentForm({ bookingDetails }) {
                   "Payment was not approved successfully. Please check your card details and try again."
                 );
                 setIsPaying(false);
-                // Force reinitialize the card fields
+                // Force reinitialize the card fields to clear input
                 setFormKey((prev) => prev + 1);
               }}
               style={{
@@ -213,12 +215,7 @@ export default function PaymentForm({ bookingDetails }) {
                 ".invalid": { color: "#a78bfa" }, // Tailwind purple-400
               }}
             >
-              <PayPalNameField
-                style={{
-                  input: { color: "#6b7280" },
-                  ".invalid": { color: "#10b981" },
-                }}
-              />
+              {/* Removed PayPalNameField */}
               <PayPalNumberField />
               <PayPalExpiryField />
               <PayPalCVVField />

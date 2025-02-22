@@ -67,7 +67,7 @@ const BookingForm = () => {
           <div className="w-full max-w-lg p-6 rounded-lg">
             <h2 className="mb-10 text-2xl font-bold text-center text-gray-700">
               {isPaying
-                ? "Complete Payment"
+                ? ""
                 : isViewingQuote
                   ? "Quote Summary"
                   : "Book Removal Appointment"}
