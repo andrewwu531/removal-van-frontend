@@ -18,9 +18,7 @@ export default function PaymentForm() {
   const [isPaying, setIsPaying] = useState(false);
   const [PaymentError, setPaymentError] = useState("");
   const initialOptions = {
-    "client-id":
-      //   "AdVTLtaahpyF5NOuaSQp7v8kajW1gcYCTtZ6wBGcGpaiC8vByUIw6S8Ap66m30Y2HbSoQduiXNS0vxll", // paypal
-      "AdVTLtaahpyF5NOuaSQp7v8kajW1gcYCTtZ6wBGcGpaiC8vByUIw6S8Ap66m30Y2HbSoQduiXNS0vxll",
+    "client-id": import.meta.env.VITE_PAYPAL_CLIENT_ID,
     "enable-funding": "venmo",
     "disable-funding": "",
     "buyer-country": "GB",
@@ -32,7 +30,7 @@ export default function PaymentForm() {
 
   async function createOrder() {
     try {
-      const response = await fetch(`${baseUrl}/api/orders`, {
+      const response = await fetch(`${paymentApiUrl}/api/orders`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -70,7 +68,7 @@ export default function PaymentForm() {
   async function onApprove(data, actions) {
     try {
       const response = await fetch(
-        `http://${paymentApiUrl}/api/orders/${data.orderID}/capture`,
+        `${paymentApiUrl}/api/orders/${data.orderID}/capture`,
         {
           method: "POST",
           headers: {
