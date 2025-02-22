@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import PropTypes from "prop-types";
 import {
   PayPalScriptProvider,
   usePayPalCardFields,
@@ -11,12 +11,15 @@ import {
   PayPalCVVField,
 } from "@paypal/react-paypal-js";
 
-const baseUrl = import.meta.env.VITE_BASE_URL;
 const paymentApiUrl = import.meta.env.VITE_PAYMENT_API_URL;
 
-export default function PaymentForm() {
+export default function PaymentForm({ bookingDetails }) {
   const [isPaying, setIsPaying] = useState(false);
-  const [PaymentError, setPaymentError] = useState("");
+  const [paymentError, setPaymentError] = useState("");
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [transactionDetails, setTransactionDetails] = useState(null);
+  const [formKey, setFormKey] = useState(0); // Force remount of card fields
+
   const initialOptions = {
     "client-id": import.meta.env.VITE_PAYPAL_CLIENT_ID,
     "enable-funding": "venmo",
@@ -30,25 +33,16 @@ export default function PaymentForm() {
 
   async function createOrder() {
     try {
+      // Clear previous errors before starting a new order.
+      setPaymentError("");
       const response = await fetch(`${paymentApiUrl}/api/orders`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        // use the "body" param to optionally pass additional order information
-        // like product ids and quantities
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          cart: [
-            {
-              sku: "1blwyeo8",
-              quantity: 2,
-            },
-          ],
+          cart: [{ sku: "1blwyeo8", quantity: 2 }],
         }),
       });
-
       const orderData = await response.json();
-
       if (orderData.id) {
         return orderData.id;
       } else {
@@ -56,12 +50,11 @@ export default function PaymentForm() {
         const errorMessage = errorDetail
           ? `${errorDetail.issue} ${errorDetail.description} (${orderData.debug_id})`
           : JSON.stringify(orderData);
-
         throw new Error(errorMessage);
       }
     } catch (error) {
-      console.error(error);
-      return `Could not initiate PayPal Checkout...${error}`;
+      console.error("Order creation error:", error);
+      throw new Error(`Could not initiate PayPal Checkout: ${error}`);
     }
   }
 
@@ -71,122 +64,228 @@ export default function PaymentForm() {
         `${paymentApiUrl}/api/orders/${data.orderID}/capture`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
         }
       );
-
       const orderData = await response.json();
-      // Three cases to handle:
-      //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
-      //   (2) Other non-recoverable errors -> Show a failure message
-      //   (3) Successful transaction -> Show confirmation or thank you message
+      console.log("Payment capture JSON:", orderData);
 
       const transaction =
         orderData?.purchase_units?.[0]?.payments?.captures?.[0] ||
         orderData?.purchase_units?.[0]?.payments?.authorizations?.[0];
-      const errorDetail = orderData?.details?.[0];
 
-      if (errorDetail || !transaction || transaction.status === "DECLINED") {
-        // (2) Other non-recoverable errors -> Show a failure message
-        let errorMessage;
-        if (transaction) {
-          errorMessage = `Transaction ${transaction.status}: ${transaction.id}`;
-        } else if (errorDetail) {
-          errorMessage = `${errorDetail.description} (${orderData.debug_id})`;
-        } else {
-          errorMessage = JSON.stringify(orderData);
-        }
-
-        throw new Error(errorMessage);
-      } else {
-        // (3) Successful transaction -> Show confirmation or thank you message
-        // Or go to another URL:  actions.redirect('thank_you.html');
-        console.log(
-          "Capture result",
-          orderData,
-          JSON.stringify(orderData, null, 2)
-        );
-        return `Transaction ${transaction.status}: ${transaction.id}. See console for all available details`;
+      if (!transaction) {
+        throw new Error("No transaction details found.");
       }
+
+      // Only consider the payment successful if status is "COMPLETED"
+      if (transaction.status !== "COMPLETED") {
+        throw new Error(`Transaction status is ${transaction.status}`);
+      }
+
+      console.log("Payment approved:", transaction);
+      setTransactionDetails({
+        orderID: data.orderID,
+        captureID: transaction.id,
+        amount: transaction.amount.value,
+        currency: transaction.amount.currency_code,
+      });
+      setPaymentSuccess(true);
+      return `Transaction ${transaction.status}: ${transaction.id}`;
     } catch (error) {
-      return `Sorry, your transaction could not be processed...${error}`;
+      console.error("Payment approval error:", error);
+      console.log("Payment failure details:", error);
+      setPaymentError(
+        "Payment was not approved successfully. Please check your card details and try again."
+      );
+      setIsPaying(false);
+      // Force reinitialize the card fields to clear input
+      setFormKey((prev) => prev + 1);
+      return error;
     }
   }
 
   function onError(error) {
-    // Do something with the error from the SDK
+    console.error("Payment error:", error);
+    console.log("Payment error details:", error);
+    setPaymentError(
+      "Payment was not approved successfully. Please check your card details and try again."
+    );
+    setIsPaying(false);
+    // Force reinitialize card fields on error
+    setFormKey((prev) => prev + 1);
   }
 
   return (
     <PayPalScriptProvider options={initialOptions}>
-      <PayPalButtons
-        createOrder={createOrder}
-        onApprove={onApprove}
-        onError={onError}
-        style={{
-          shape: "rect",
-          layout: "vertical",
-          color: "gold",
-          label: "pay",
-        }}
-      />
+      {paymentSuccess && transactionDetails ? (
+        <div className="p-6 text-center">
+          <h3 className="mb-3 text-2xl font-bold">Payment Successful!</h3>
+          <p>
+            Your payment of {transactionDetails.currency}{" "}
+            {transactionDetails.amount} has been processed successfully for
+            Order ID: {transactionDetails.orderID}.
+          </p>
+          <p className="mt-4">
+            You will receive an email confirmation shortly with the details you
+            provided:
+          </p>
+          <div className="mt-4 text-left">
+            <p>
+              <strong>Full Name:</strong> {bookingDetails.FullName}
+            </p>
+            <p>
+              <strong>Email:</strong> {bookingDetails.Email}
+            </p>
+            <p>
+              <strong>Telephone:</strong> {bookingDetails.Telephone}
+            </p>
+            <p>
+              <strong>Removal Address:</strong> {bookingDetails.RemovalAddress}
+            </p>
+            <p>
+              <strong>Delivery Address:</strong>{" "}
+              {bookingDetails.DeliveryAddress}
+            </p>
+            <p>
+              <strong>Removal Type:</strong> {bookingDetails.RemovalType}
+            </p>
+            {bookingDetails.RemovalType === "Home" && (
+              <p>
+                <strong>Number of Bedrooms:</strong> {bookingDetails.Bedrooms}
+              </p>
+            )}
+            {bookingDetails.RemovalType === "Business" && (
+              <p>
+                <strong>Number of Large Appliances:</strong>{" "}
+                {bookingDetails.Appliances}
+              </p>
+            )}
+            <p>
+              <strong>Available Date:</strong> {bookingDetails.AvailableDate}
+            </p>
+            <p>
+              <strong>Additional Information:</strong>{" "}
+              {bookingDetails.AdditionalInformation}
+            </p>
+          </div>
+        </div>
+      ) : (
+        <>
+          <div className="relative">
+            <PayPalButtons
+              createOrder={createOrder}
+              onApprove={onApprove}
+              onError={onError}
+              style={{
+                shape: "rect",
+                layout: "vertical",
+                color: "gold",
+                label: "pay",
+              }}
+            />
+            <PayPalCardFieldsProvider
+              key={formKey}
+              createOrder={createOrder}
+              onApprove={onApprove}
+              onError={(err) => {
+                console.error("Card Fields Error:", err);
+                console.log("Card Fields error details:", err);
+                setPaymentError(
+                  "Payment was not approved successfully. Please check your card details and try again."
+                );
+                setIsPaying(false);
+                // Force reinitialize the card fields
+                setFormKey((prev) => prev + 1);
+              }}
+              style={{
+                input: {
+                  fontSize: "1rem", // Tailwind text-base
+                  fontFamily: "monospace", // Tailwind font-mono
+                  fontWeight: "300", // Tailwind font-light
+                  color: "#9ca3af", // Tailwind text-gray-400
+                  backgroundColor: "#f3f4f6", // Tailwind bg-gray-100
+                  border: "1px solid #d1d5db", // Tailwind border border-gray-300
+                  borderRadius: "0.375rem", // Tailwind rounded-md
+                  padding: "0.5rem", // Tailwind p-2
+                  marginBottom: "0.5rem", // Tailwind mb-2
+                },
+                ".invalid": { color: "#a78bfa" }, // Tailwind purple-400
+              }}
+            >
+              <PayPalNameField
+                style={{
+                  input: { color: "#6b7280" },
+                  ".invalid": { color: "#10b981" },
+                }}
+              />
+              <PayPalNumberField />
+              <PayPalExpiryField />
+              <PayPalCVVField />
+              <SubmitPayment
+                isPaying={isPaying}
+                setIsPaying={setIsPaying}
+                setPaymentError={setPaymentError}
+              />
+            </PayPalCardFieldsProvider>
 
-      <PayPalCardFieldsProvider
-        createOrder={createOrder}
-        onApprove={onApprove}
-        onError={(err) => {
-          // Log the error to the console
-          console.error("Card Fields Error:", err);
-          // Option 1: Display the error message on the UI by setting state
-          setPaymentError(err.message || "An error occurred.");
-          console.log(PaymentError, "Hi");
-        }}
-        style={{
-          input: {
-            "font-size": "16px",
-            "font-family": "courier, monospace",
-            "font-weight": "lighter",
-            color: "#ccc",
-          },
-          ".invalid": { color: "purple" },
-        }}
-      >
-        <PayPalNameField
-          style={{
-            input: { color: "grey" },
-            ".invalid": { color: "green" },
-          }}
-        />
-        <PayPalNumberField />
-        <PayPalExpiryField />
-        <PayPalCVVField />
-
-        {/* Custom client component to handle card fields submission */}
-        <SubmitPayment isPaying={isPaying} setIsPaying={setIsPaying} />
-      </PayPalCardFieldsProvider>
+            {isPaying && !paymentSuccess && (
+              <div className="absolute inset-0 z-50 flex items-center justify-center bg-white bg-opacity-75">
+                <svg
+                  className="w-10 h-10 text-green-500 animate-spin"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v8H4z"
+                  ></path>
+                </svg>
+              </div>
+            )}
+          </div>
+          {paymentError && (
+            <div className="mt-4 text-center text-red-600">
+              <p>{paymentError}</p>
+            </div>
+          )}
+        </>
+      )}
     </PayPalScriptProvider>
   );
 }
 
-const SubmitPayment = ({ isPaying, setIsPaying, billingAddress }) => {
-  const { cardFieldsForm, fields } = usePayPalCardFields();
+const SubmitPayment = ({
+  isPaying,
+  setIsPaying,
+  billingAddress,
+  setPaymentError,
+}) => {
+  const { cardFieldsForm } = usePayPalCardFields();
 
   const handleClick = async () => {
     if (!cardFieldsForm) {
       const childErrorMessage =
         "Unable to find any child components in the <PayPalCardFieldsProvider />";
-
       throw new Error(childErrorMessage);
     }
+    // Clear previous error before submission.
+    setPaymentError("");
     const formState = await cardFieldsForm.getState();
-
     if (!formState.isFormValid) {
       return alert("The payment form is invalid");
     }
     setIsPaying(true);
-
     cardFieldsForm.submit({ billingAddress }).catch((err) => {
       setIsPaying(false);
     });
@@ -197,14 +296,61 @@ const SubmitPayment = ({ isPaying, setIsPaying, billingAddress }) => {
       <button
         className={
           !isPaying
-            ? "px-12 py-3 font-medium text-md mt-5 text-black bg-green-500 rounded-xl hover:scale-103 "
+            ? "px-12 py-3 font-medium text-md mt-5 text-black bg-green-500 rounded-xl hover:scale-105"
             : "btn btn-primary"
         }
         style={{ float: "right" }}
         onClick={handleClick}
       >
-        {isPaying ? <div className="spinner tiny" /> : "Pay"}
+        {isPaying ? (
+          <div className="spinner tiny">
+            <svg
+              className="inline-block w-6 h-6 text-white animate-spin"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              ></circle>
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8v8H4z"
+              ></path>
+            </svg>
+          </div>
+        ) : (
+          "Pay"
+        )}
       </button>
     </div>
   );
+};
+
+SubmitPayment.propTypes = {
+  isPaying: PropTypes.bool.isRequired,
+  setIsPaying: PropTypes.func.isRequired,
+  billingAddress: PropTypes.object,
+  setPaymentError: PropTypes.func.isRequired,
+};
+
+PaymentForm.propTypes = {
+  bookingDetails: PropTypes.shape({
+    FullName: PropTypes.string.isRequired,
+    Email: PropTypes.string.isRequired,
+    Telephone: PropTypes.string.isRequired,
+    RemovalAddress: PropTypes.string.isRequired,
+    DeliveryAddress: PropTypes.string.isRequired,
+    RemovalType: PropTypes.string.isRequired,
+    Bedrooms: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    Appliances: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    AvailableDate: PropTypes.string.isRequired,
+    AdditionalInformation: PropTypes.string.isRequired,
+  }).isRequired,
 };

@@ -92,7 +92,8 @@ const BookingForm = () => {
             )}
 
             {/* Phase 3: Payment */}
-            {isPaying && <PaymentForm />}
+            {/* {isPaying && <PaymentForm />} */}
+            {isPaying && <PaymentForm bookingDetails={formData} />}
           </div>
         </div>
       </div>
