@@ -3,7 +3,7 @@ import React from "react";
 
 function Header() {
   return (
-    <div className="shadow bg-blue-950">
+    <div className="h-[14vh] shadow bg-blue-950">
       <div className="container flex items-center justify-between px-4 mx-auto py-7">
         <div className="flex flex-row">
           <div className="ml-4 mr-5 text-3xl font-medium text-white ">

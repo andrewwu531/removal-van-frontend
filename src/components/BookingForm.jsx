@@ -54,7 +54,7 @@ const BookingForm = () => {
   return (
     <section
       id="booking"
-      className="flex items-center justify-center min-h-screen my-12"
+      className="flex items-center justify-center min-h-screen mt-12"
     >
       <div className="flex w-full h-[92vh] max-w-6xl overflow-hidden bg-white shadow-lg rounded-2xl">
         {/* Left Side - Image */}

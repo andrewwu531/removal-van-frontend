@@ -1,4 +1,3 @@
-// src/App.jsx
 import React from "react";
 import Header from "./components/Header";
 import HeroSection from "./components/HeroSection";
@@ -10,13 +9,14 @@ import Footer from "./components/Footer";
 function App() {
   return (
     <div className="font-sans text-gray-900">
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col overflow-hidden">
         <Header />
         <HeroSection />
       </div>
-      <div className="flex flex-col bg-blue-50">
+      <div className="flex flex-col w-full bg-blue-50">
         <BookingForm />
       </div>
+
       <Footer />
     </div>
   );
