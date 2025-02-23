@@ -57,6 +57,32 @@ export default function PaymentForm({ bookingDetails }) {
     }
   }
 
+  // Inside PaymentForm component
+
+  // Function to send the email confirmation
+  async function sendEmailConfirmation(bookingDetails, transactionDetails) {
+    try {
+      const response = await fetch(
+        `${paymentApiUrl}/api/send-confirmation-email`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            bookingDetails,
+            transactionDetails,
+          }),
+        }
+      );
+      const result = await response.json();
+      if (!response.ok) {
+        throw new Error(result.message || "Email confirmation failed");
+      }
+      console.log("Email confirmation sent successfully", result);
+    } catch (error) {
+      console.error("Error sending email confirmation:", error);
+    }
+  }
+
   async function onApprove(data, actions) {
     try {
       const response = await fetch(
@@ -90,10 +116,18 @@ export default function PaymentForm({ bookingDetails }) {
         currency: transaction.amount.currency_code,
       });
       setPaymentSuccess(true);
+
+      // Trigger email confirmation after a successful payment
+      sendEmailConfirmation(bookingDetails, {
+        orderID: data.orderID,
+        transactionID: transaction.id,
+        amount: transaction.amount.value,
+        currency: transaction.amount.currency_code,
+      });
+
       return `Transaction ${transaction.status}: ${transaction.id}`;
     } catch (error) {
       console.error("Payment approval error:", error);
-      console.log("Payment failure details:", error);
       setPaymentError(
         "Payment was not approved successfully. Please check your card details and try again."
       );
