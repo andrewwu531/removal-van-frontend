@@ -119,17 +119,14 @@ export default function PaymentForm({ bookingDetails }) {
     <PayPalScriptProvider options={initialOptions}>
       {paymentSuccess && transactionDetails ? (
         <div className="p-6 text-center">
-          <h3 className="mb-3 text-2xl font-bold">Payment Successful!</h3>
+          <h3 className="mb-4 text-2xl font-bold">Payment Successful!</h3>
           <p>
-            Your payment of {transactionDetails.currency}{" "}
-            {transactionDetails.amount} has been processed successfully for
-            Order ID: {transactionDetails.orderID}.
+            Your payment of £{transactionDetails.amount} has been processed
+            successfully with the order ID: {transactionDetails.orderID}. You
+            will receive an email and text confirmation shortly.
           </p>
-          <p className="mt-4">
-            You will receive an email confirmation shortly with the details you
-            provided:
-          </p>
-          <div className="mt-4 text-left">
+
+          <div className="mt-15 space-y-0.5 text-left">
             <p>
               <strong>Full Name:</strong> {bookingDetails.FullName}
             </p>
@@ -163,29 +160,39 @@ export default function PaymentForm({ bookingDetails }) {
             <p>
               <strong>Available Date:</strong> {bookingDetails.AvailableDate}
             </p>
-            <p>
-              <strong>Additional Information:</strong>{" "}
-              {bookingDetails.AdditionalInformation}
-            </p>
+            {bookingDetails.AdditionalInformation &&
+              bookingDetails.AdditionalInformation.trim() !== "" && (
+                <p>
+                  <strong>Additional Information:</strong>{" "}
+                  {bookingDetails.AdditionalInformation}
+                </p>
+              )}
           </div>
         </div>
       ) : (
         <>
-          <div className="p-6 text-center">
-            <h2 className="text-3xl font-bold">Complete Payment</h2>
+          <div className="pb-6 text-center ">
+            <h2 className="text-2xl font-bold text-center text-gray-700">
+              Book Removal Appointment
+            </h2>
           </div>
+
           <div className="relative">
-            <PayPalButtons
-              createOrder={createOrder}
-              onApprove={onApprove}
-              onError={onError}
-              style={{
-                shape: "rect",
-                layout: "vertical",
-                color: "gold",
-                label: "pay",
-              }}
-            />
+            {!isPaying && (
+              <div className="mb-3">
+                <PayPalButtons
+                  createOrder={createOrder}
+                  onApprove={onApprove}
+                  onError={onError}
+                  style={{
+                    shape: "rect",
+                    layout: "vertical",
+                    color: "gold",
+                    label: "pay",
+                  }}
+                />
+              </div>
+            )}
             <PayPalCardFieldsProvider
               key={formKey}
               createOrder={createOrder}
@@ -206,19 +213,19 @@ export default function PaymentForm({ bookingDetails }) {
                   fontFamily: "monospace", // Tailwind font-mono
                   fontWeight: "300", // Tailwind font-light
                   color: "#9ca3af", // Tailwind text-gray-400
-                  backgroundColor: "#f3f4f6", // Tailwind bg-gray-100
+                  // backgroundColor: "#f3f4f6", // Tailwind bg-gray-100
                   border: "1px solid #d1d5db", // Tailwind border border-gray-300
                   borderRadius: "0.375rem", // Tailwind rounded-md
                   padding: "0.5rem", // Tailwind p-2
-                  marginBottom: "0.5rem", // Tailwind mb-2
                 },
                 ".invalid": { color: "#a78bfa" }, // Tailwind purple-400
               }}
             >
-              {/* Removed PayPalNameField */}
-              <PayPalNumberField />
-              <PayPalExpiryField />
-              <PayPalCVVField />
+              <div className="flex flex-col">
+                <PayPalNumberField />
+                <PayPalExpiryField />
+                <PayPalCVVField />
+              </div>
               <SubmitPayment
                 isPaying={isPaying}
                 setIsPaying={setIsPaying}
