@@ -6,7 +6,7 @@ const HeroSectionMobile = () => {
       {/* Text Content */}
       <div className="flex flex-col justify-center w-full mt-12">
         <h1 className="pb-2 text-3xl font-bold text-left">
-          Home &amp; Business
+          Home &amp; Busines
         </h1>
         <h1 className="pb-6 text-3xl font-bold text-left">Removal Services</h1>
         <p className="pb-10 text-base">

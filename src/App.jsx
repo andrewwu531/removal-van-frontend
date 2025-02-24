@@ -9,10 +9,9 @@ import Footer from "./components/Footer";
 function App() {
   return (
     <div className="font-sans text-gray-900">
-      <div className="flex flex-col overflow-hidden">
-        <Header />
-        <HeroSection />
-      </div>
+      <Header />
+      <HeroSection />
+
       <div className="flex flex-col w-full bg-blue-50">
         <BookingForm />
       </div>
