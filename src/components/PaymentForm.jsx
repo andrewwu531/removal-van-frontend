@@ -12,6 +12,8 @@ import {
 
 const paymentApiUrl = import.meta.env.VITE_PAYMENT_API_URL;
 
+console.log("🔎 Payment API URL:", paymentApiUrl);
+
 export default function PaymentForm({ bookingDetails }) {
   const [isPaying, setIsPaying] = useState(false);
   const [paymentError, setPaymentError] = useState("");
@@ -35,6 +37,11 @@ export default function PaymentForm({ bookingDetails }) {
       // Clear previous errors before starting a new order.
       setPaymentError("");
       console.log("VITE_PAYMENT_API_URL: 1", paymentApiUrl);
+      console.log(
+        "🔎 VITE_PAYPAL_CLIENT_ID:",
+        import.meta.env.VITE_PAYPAL_CLIENT_ID
+      );
+
       const response = await fetch(`${paymentApiUrl}/api/orders`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
