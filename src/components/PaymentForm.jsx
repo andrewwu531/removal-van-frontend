@@ -12,6 +12,8 @@ import {
 
 const paymentApiUrl = import.meta.env.VITE_PAYMENT_API_URL;
 
+console.log("VITE_PAYMENT_API_URL:", paymentApiUrl);
+
 export default function PaymentForm({ bookingDetails }) {
   const [isPaying, setIsPaying] = useState(false);
   const [paymentError, setPaymentError] = useState("");
