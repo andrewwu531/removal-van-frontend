@@ -13,6 +13,7 @@ import {
 const paymentApiUrl = import.meta.env.VITE_PAYMENT_API_URL;
 
 console.log("🔎 Payment API URL:", paymentApiUrl);
+console.log("🔎 VITE_PAYPAL_CLIENT_ID:", import.meta.env.VITE_PAYPAL_CLIENT_ID);
 
 export default function PaymentForm({ bookingDetails }) {
   const [isPaying, setIsPaying] = useState(false);
