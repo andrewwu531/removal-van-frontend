@@ -26,7 +26,8 @@ export default function PaymentForm({ bookingDetails }) {
     "client-id": import.meta.env.VITE_PAYPAL_CLIENT_ID,
     "enable-funding": "venmo",
     "disable-funding": "",
-    "buyer-country": "GB",
+    // Only include buyer-country in non-production environments
+    ...(import.meta.env.MODE !== "production" ? { "buyer-country": "GB" } : {}),
     currency: "GBP",
     "data-page-type": "product-details",
     components: "buttons,card-fields",
