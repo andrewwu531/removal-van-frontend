@@ -13,7 +13,10 @@ import {
 const paymentApiUrl = import.meta.env.VITE_PAYMENT_API_URL;
 
 console.log("🔎 Payment API URL:", paymentApiUrl);
-console.log("🔎 VITE_PAYPAL_CLIENT_ID:", import.meta.env.VITE_PAYPAL_CLIENT_ID);
+console.log(
+  "🔎 VITE_PAYPAL_CLIENT_ID:",
+  import.meta.env.VITE_PAYPAL_CLIENT_ID.slice(0, 6)
+);
 
 export default function PaymentForm({ bookingDetails }) {
   const [isPaying, setIsPaying] = useState(false);
@@ -41,7 +44,7 @@ export default function PaymentForm({ bookingDetails }) {
       console.log("VITE_PAYMENT_API_URL: 1", paymentApiUrl);
       console.log(
         "🔎 VITE_PAYPAL_CLIENT_ID:",
-        import.meta.env.VITE_PAYPAL_CLIENT_ID
+        import.meta.env.VITE_PAYPAL_CLIENT_ID.slice(0, 6)
       );
 
       const response = await fetch(`${paymentApiUrl}/api/orders`, {
@@ -166,7 +169,7 @@ export default function PaymentForm({ bookingDetails }) {
           <h3 className="mb-4 text-2xl font-bold">Payment Successful!</h3>
           <p>
             Your payment of £{transactionDetails.amount} has been processed
-            successfully with the order ID: {transactionDetails.orderID}. You
+            successfully with the order ID: {transactionDetails.captureID}. You
             will receive an email and text confirmation shortly.
           </p>
 
