@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import HeroSectionDesktop from "./HeroSectionDesktop";
 import HeroSectionMobile from "./HeroSectionMobile";
-import Header from "./Header";
 
 const HeroSection = () => {
   const [screenSize, setScreenSize] = useState(window.innerWidth);

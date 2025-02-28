@@ -15,14 +15,14 @@ const HeroSection = () => {
   return (
     <section
       id="home"
-      className="flex flex-col min-h-[calc(100vh-100px)] py-10 text-blue-950"
+      className="flex flex-col [@media(min-height:1200px)]:!min-h-[calc(100vh-190px)] [@media(min-height:950px)]:min-h-[calc(100vh-120px)] min-h-[calc(100vh-100px)] py-10 text-blue-950"
       style={{
         backgroundImage: `url(${background_image})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-      <div className="flex flex-row items-start w-full px-8 mx-auto xl:px-10 2xl:px-14 [@media(min-height:1200px)]:!px-28 [@media(min-height:1800px)]:!pt-60 [@media(min-height:1200px)]:!pt-32 [@media(min-height:800px)]:pt-5 [@media(min-height:850px)]:pt-10 [@media(min-height:950px)]:pt-16">
+      <div className="flex flex-row items-start w-full px-8 mx-auto xl:px-10 2xl:px-14 [@media(min-height:1200px)]:!px-28 [@media(min-height:1800px)]:!pt-42 [@media(min-height:1200px)]:!pt-26 [@media(min-height:800px)]:pt-5 [@media(min-height:850px)]:pt-10 [@media(min-height:950px)]:pt-16">
         {/* Left Column */}
         <div className="xl:w-[38%] 2xl:w-[38%] ml-5 lg:ml-10 xl:ml-12 2xl:ml-14">
           <div className="pt-8 xl:pt-14 2xl:pt-14 [@media(min-height:1200px)]:!pt-24 [@media(min-height:900px)]:pt-18 [@media(min-height:980px)]:pt-14">
