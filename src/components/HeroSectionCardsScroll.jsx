@@ -5,27 +5,56 @@ const HeroSectionCardsScroll = ({ cards }) => {
   const containerRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Scroll to the card at the specified index
-  const scrollToIndex = (index) => {
+  // Set fixed number of dots to 4 and map them evenly to card indices.
+  const numDots = 4;
+  const dotMapping = Array.from({ length: numDots }, (_, i) =>
+    Math.round((i / (numDots - 1)) * (cards.length - 1))
+  );
+
+  // Scroll to the card corresponding to the dot (using the mapping)
+  const scrollToIndex = (cardIndex) => {
     if (containerRef.current) {
       const cardWidth = containerRef.current.clientWidth;
       containerRef.current.scrollTo({
-        left: index * cardWidth,
+        left: cardIndex * cardWidth,
         behavior: "smooth",
       });
-      setCurrentIndex(index);
+      setCurrentIndex(cardIndex);
     }
   };
 
   // Update the current index based on scroll position
   const handleScroll = () => {
     if (containerRef.current) {
-      const index = Math.round(
-        containerRef.current.scrollLeft / containerRef.current.clientWidth
-      );
-      setCurrentIndex(index);
+      const { scrollLeft, clientWidth, scrollWidth } = containerRef.current;
+      // If the scroll position is at (or nearly at) the end, set to last index.
+      if (scrollLeft + clientWidth >= scrollWidth - 1) {
+        setCurrentIndex(cards.length - 1);
+      } else {
+        // Otherwise, calculate the index normally.
+        const index = Math.floor((scrollLeft + clientWidth / 2) / clientWidth);
+        setCurrentIndex(index);
+      }
     }
   };
+
+  // Determine the active dot based on currentIndex and dotMapping thresholds.
+  const getActiveDot = () => {
+    let activeDot = 0;
+    // Iterate through dotMapping to calculate boundaries between dot regions.
+    for (let i = 0; i < dotMapping.length - 1; i++) {
+      const boundary = (dotMapping[i] + dotMapping[i + 1]) / 2;
+      if (currentIndex < boundary) {
+        activeDot = i;
+        break;
+      } else {
+        activeDot = i + 1;
+      }
+    }
+    return activeDot;
+  };
+
+  const activeDot = getActiveDot();
 
   return (
     <div>
@@ -62,13 +91,13 @@ const HeroSectionCardsScroll = ({ cards }) => {
       </div>
 
       {/* Dot Navigation */}
-      <div className="flex justify-center mt-4 mb-8 [@media(min-height:730px)]:!mb-14  [@media(min-height:780px)]:!mb-20 space-x-2">
-        {cards.map((_, index) => (
+      <div className="flex justify-center mt-4 mb-8 [@media(min-height:730px)]:!mb-14 [@media(min-height:780px)]:!mb-20 space-x-2">
+        {Array.from({ length: numDots }).map((_, dotIndex) => (
           <button
-            key={index}
-            onClick={() => scrollToIndex(index)}
+            key={dotIndex}
+            onClick={() => scrollToIndex(dotMapping[dotIndex])}
             className={`w-2 h-2 rounded-full ${
-              currentIndex === index ? "bg-blue-500" : "bg-gray-300"
+              activeDot === dotIndex ? "bg-blue-500" : "bg-gray-300"
             }`}
           />
         ))}
