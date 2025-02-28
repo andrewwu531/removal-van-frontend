@@ -165,8 +165,8 @@ export default function PaymentForm({ bookingDetails }) {
   return (
     <PayPalScriptProvider options={initialOptions}>
       {paymentSuccess && transactionDetails ? (
-        <div className="p-6 text-center">
-          <h3 className="mb-4 text-2xl font-bold">Payment Successful!</h3>
+        <div className="p-5 text-center">
+          <h3 className="mb-6 text-2xl font-bold">Payment Successful!</h3>
           <p>
             Your payment of £{transactionDetails.amount} has been processed
             successfully with the order ID: {transactionDetails.captureID}. You

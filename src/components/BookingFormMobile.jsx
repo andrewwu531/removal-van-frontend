@@ -58,7 +58,7 @@ const BookingFormMobile = () => {
     >
       <div className="flex w-full max-w-6xl overflow-hidden bg-white shadow-lg rounded-2xl">
         {/* Right Side - Content */}
-        <div className="flex items-center justify-center px-8 [@media(min-width:400px)]:px-10 py-16">
+        <div className="flex items-center justify-center [@media(max-width:330px)]:px-5 px-8 [@media(min-width:400px)]:px-10 py-16">
           <div className="w-full max-w-lg p-6 rounded-lg">
             <h2
               className={`mb-10 text-2xl font-bold text-center text-gray-700 ${

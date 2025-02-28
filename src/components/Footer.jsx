@@ -1,37 +1,32 @@
-// src/components/Footer.jsx
-import React from "react";
+import { useState, useEffect } from "react";
+import FooterDesktop from "./FooterDesktop";
+import FooterMobile from "./FooterMobile";
 
-const Footer = () => (
-  <footer className="text-gray-200 py-7 bg-blue-950">
-    <div className="container flex flex-row items-center justify-between mx-auto align-middle px-7">
-      {/* <div>
-        <a href="#home" className="hover:text-white">
-          Home
-        </a>{" "}
-        |{" "}
-        <a href="#faq" className="hover:text-white">
-          FAQ
-        </a>{" "}
-        |{" "}
-        <a href="#contact" className="hover:text-white">
-          Contact Us
-        </a>
-      </div> */}
-      {/* <div>
-        <a href="#" className="hover:text-white">
-          Privacy Policy
-        </a>{" "}
-        |{" "}
-        <a href="#" className="hover:text-white">
-          Terms of Service
-        </a>
-      </div> */}
-      <div className="text-lg font-semibold">welcome-removal@outlook.com</div>
-      <div className="pr-5 font-semibold text-md">
-        © {new Date().getFullYear()}
-      </div>
+const Footer = () => {
+  const [screenSize, setScreenSize] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenSize(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  let ComponentToRender;
+
+  if (screenSize < 950) {
+    ComponentToRender = FooterMobile; // Mobile view
+  } else {
+    ComponentToRender = FooterDesktop; // Full Desktop view
+  }
+
+  return (
+    <div>
+      <ComponentToRender />
     </div>
-  </footer>
-);
+  );
+};
 
 export default Footer;
