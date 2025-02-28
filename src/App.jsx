@@ -1,9 +1,7 @@
-import React from "react";
 import Header from "./components/Header";
 import HeroSection from "./components/HeroSection";
 import BookingForm from "./components/BookingForm";
-import FAQSection from "./components/FAQSection";
-import ContactSection from "./components/ContactSection";
+
 import Footer from "./components/Footer";
 
 function App() {
