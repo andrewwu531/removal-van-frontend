@@ -24,7 +24,7 @@ const HeroSection = () => {
     >
       <div className="flex flex-row items-start w-full px-8 mx-auto xl:px-10 2xl:px-14 [@media(min-height:1200px)]:!px-28 [@media(min-height:1800px)]:!pt-42 [@media(min-height:1200px)]:!pt-26 [@media(min-height:800px)]:pt-5 [@media(min-height:850px)]:pt-10 [@media(min-height:950px)]:pt-16">
         {/* Left Column */}
-        <div className="xl:w-[38%] 2xl:w-[38%] ml-5 lg:ml-10 xl:ml-12 2xl:ml-14">
+        <div className="w-[calc(100vw-62vw)] ml-10 xl:ml-12 2xl:ml-14">
           <div className="pt-8 xl:pt-14 2xl:pt-14 [@media(min-height:1200px)]:!pt-24 [@media(min-height:900px)]:pt-18 [@media(min-height:980px)]:pt-14">
             <h1 className="pb-1 2xl:pb-2 text-4xl font-bold text-left xl:text-3xl 2xl:text-3xl [@media(min-height:1200px)]:!text-7xl [@media(min-height:980px)]:text-5xl">
               Home &amp; Business
@@ -33,7 +33,7 @@ const HeroSection = () => {
               Removal Services
             </h1>
           </div>
-          <p className="pb-16 text-lg pr-18 [@media(min-height:1200px)]:!pr-38 lg:pb-20 xl:pb-36 2xl:pb-36 [@media(min-height:1200px)]:!pb-68 [@media(min-height:980px)]:pb-60 xl:text-lg 2xl:text-lg xl:pr-20 2xl:pr-20 [@media(min-height:1200px)]:!text-5xl [@media(min-height:980px)]:text-2xl">
+          <p className="text-lg pr-18 [@media(min-height:1200px)]:!pr-38 pb-20 xl:pb-36 2xl:pb-36 [@media(min-height:1200px)]:!pb-68 [@media(min-height:980px)]:pb-60 xl:text-lg 2xl:text-lg xl:pr-20 2xl:pr-20 [@media(min-height:1200px)]:!text-5xl [@media(min-height:980px)]:text-2xl">
             A seamless, transparent, and reliable way to book professional
             removal services. Whether you’re moving home furniture or business
             assets, we’re here for you!
@@ -48,18 +48,18 @@ const HeroSection = () => {
         </div>
 
         {/* Right Column */}
-        <div className="w-[60%] xl:w-[62%] 2xl:w-[62%] mr-4 lg:mr-6 xl:mr-10 2xl:mr-20 mt-2 xl:mt-6 2xl:mt-6 ">
-          <div className="grid grid-cols-2 gap-2 p-2 xl:gap-3 2xl:gap-4 xl:p-3 2xl:p-3">
+        <div className="w-[calc(100vw-38vw)] mr-6 xl:mr-10 2xl:mr-20 mt-2 xl:mt-6 2xl:mt-6 ">
+          <div className="grid grid-cols-2 gap-2 p-2 xl:gap-3 2xl:gap-3.5 [@media(min-height:1200px)]:!gap-6 xl:p-3 2xl:p-3">
             {cards.map((card, index) => (
               <a href="#booking" key={index} className="block">
-                <div className="relative h-56  [@media(min-height:1200px)]:!h-128 [@media(min-height:900px)]:h-62 [@media(min-height:980px)]:h-82 overflow-hidden transition duration-500 transform rounded-md [@media(min-height:1200px)]:!rounded-xl shadow cursor-pointer xl:h-60 2xl:h-60 hover:scale-102">
+                <div className="relative h-56 [@media(min-height:1900px)]:!h-160 [@media(min-height:1700px)]:!h-128 [@media(min-height:1400px)]:!h-115  [@media(min-height:980px)]:h-82 [@media(min-height:900px)]:h-68 overflow-hidden transition duration-500 transform rounded-md [@media(min-height:1200px)]:!rounded-xl shadow cursor-pointer xl:h-60 2xl:h-60 hover:scale-102">
                   <img
                     src={card.image}
                     alt={card.text}
                     className="object-cover w-full h-full"
                   />
                   <div className="absolute inset-0 z-10 flex items-end justify-end">
-                    <div className="px-4 py-2 [@media(min-height:1200px)]:!rounded-lg rounded xl:px-5.5 2xl:px-5 [@media(min-height:1200px)]:!py-6 [@media(min-height:1200px)]:!px-16 [@media(min-height:980px)]:px-7 [@media(min-height:980px)]:py-3 bg-gray-950 bg-opacity-80">
+                    <div className="px-4 py-2 [@media(min-height:1200px)]:!rounded-lg rounded xl:px-5.5 2xl:px-5 [@media(min-height:1200px)]:!py-6 [@media(min-height:1700px)]:!px-16 [@media(min-height:1400px)]:!px-14 [@media(min-height:980px)]:px-7 [@media(min-height:980px)]:py-3 bg-gray-950 bg-opacity-80">
                       <p className="font-medium tracking-wide text-gray-100 text-md text-md xl:text-lg 2xl:text-lg [@media(min-height:1200px)]:!text-4xl [@media(min-height:980px)]:text-2xl">
                         {card.text}
                       </p>

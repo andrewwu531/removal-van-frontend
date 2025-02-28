@@ -16,7 +16,7 @@ const HeroSection = () => {
 
   let ComponentToRender;
 
-  if (screenSize < 950) {
+  if (screenSize < 1024) {
     ComponentToRender = HeroSectionMobile; // Mobile view
   } else {
     ComponentToRender = HeroSectionDesktop; // Full Desktop view
