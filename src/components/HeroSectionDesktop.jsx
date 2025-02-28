@@ -22,14 +22,14 @@ const HeroSection = () => {
         backgroundPosition: "center",
       }}
     >
-      <div className="flex flex-row items-start w-full px-8 mx-auto xl:px-10 2xl:px-14 [@media(min-height:1200px)]:!px-28 [@media(min-height:1800px)]:!pt-42 [@media(min-height:1200px)]:!pt-26 [@media(min-height:800px)]:pt-5 [@media(min-height:850px)]:pt-10 [@media(min-height:950px)]:pt-16">
+      <div className="flex flex-row items-start w-full px-8 mx-auto xl:px-10 2xl:px-14 [@media(min-height:1200px)]:!px-28 [@media(min-height:1800px)]:!pt-42 [@media(min-height:1200px)]:!pt-26 [@media(min-height:800px)]:pt-5 [@media(min-height:850px)]:pt-10 [@media(min-height:950px)]:pt-14">
         {/* Left Column */}
         <div className="w-[calc(100vw-62vw)] ml-10 xl:ml-12 2xl:ml-14">
           <div className="pt-8 xl:pt-14 2xl:pt-14 [@media(min-height:1200px)]:!pt-24 [@media(min-height:900px)]:pt-18 [@media(min-height:980px)]:pt-14">
-            <h1 className="pb-1 2xl:pb-2 text-4xl font-bold text-left xl:text-3xl 2xl:text-3xl [@media(min-height:1200px)]:!text-7xl [@media(min-height:980px)]:text-5xl">
+            <h1 className="pb-1 2xl:pb-2 text-4xl font-bold text-left xl:text-3xl 2xl:text-4xl [@media(min-height:1200px)]:!text-7xl [@media(min-height:980px)]:text-5xl">
               Home &amp; Business
             </h1>
-            <h1 className="text-4xl font-bold text-left pb-7 xl:pb-10 2xl:pb-10 [@media(min-height:1200px)]:!pb-30 [@media(min-height:980px)]:pb-18 xl:text-3xl 2xl:text-3xl [@media(min-height:1200px)]:!text-7xl [@media(min-height:980px)]:text-5xl">
+            <h1 className="text-4xl font-bold text-left pb-7 xl:pb-10 2xl:pb-10 [@media(min-height:1200px)]:!pb-30 [@media(min-height:980px)]:pb-18 xl:text-3xl 2xl:text-4xl [@media(min-height:1200px)]:!text-7xl [@media(min-height:980px)]:text-5xl">
               Removal Services
             </h1>
           </div>
