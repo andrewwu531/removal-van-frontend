@@ -1,9 +1,6 @@
 // src/components/BookingForm.jsx
 import React, { useState, useEffect } from "react";
-import {
-  PayPalScriptProvider,
-  PayPalHostedFieldsProvider,
-} from "@paypal/react-paypal-js";
+
 import BookingDetailsForm from "./BookingDetailsForm";
 import QuoteSummary from "./QuoteSummary";
 import PaymentForm from "./PaymentForm";
