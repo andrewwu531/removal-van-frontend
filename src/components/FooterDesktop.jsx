@@ -1,13 +1,4 @@
-import React from "react";
-import {
-  FaFacebook,
-  FaInstagram,
-  FaTwitter,
-  FaLinkedin,
-  FaPhone,
-  FaEnvelope,
-  FaClock,
-} from "react-icons/fa";
+import { FaPhone, FaEnvelope, FaClock } from "react-icons/fa";
 
 const FooterDesktop = () => {
   return (

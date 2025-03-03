@@ -1,7 +1,6 @@
 import home_removal_image from "../assets/home-removal.png";
 import business_removal_image from "../assets/business-removal.png";
 import booking_form_image from "../assets/booking-form.png";
-import contact_us_image from "../assets/contact-us.png";
 
 const HeroSectionDesktop = () => {
   // Data for the four photo cards
@@ -11,7 +10,7 @@ const HeroSectionDesktop = () => {
       alt: "Photo 1",
       title: "Residential Removal",
       text: "Move home furniture and dispose of unwanted items. We accept same day, short notice & long distance removal services. Call us now to secure a booking.",
-      linkText: "View Details",
+      linkText: "Contact Team",
       linkUrl: "#",
     },
     {
@@ -19,7 +18,7 @@ const HeroSectionDesktop = () => {
       alt: "Photo 2",
       title: "Business Asset Relocations",
       text: "Help businesses relocate office equipment and inventory. Our removal service comes with an insurance guarantee to cover for any damages.",
-      linkText: "View Details",
+      linkText: "Contact Team",
       linkUrl: "#",
     },
     {
@@ -27,7 +26,7 @@ const HeroSectionDesktop = () => {
       alt: "Photo 3",
       title: "Customer Protection",
       text: "Our professional removal team is trained to package and load your furniture and office equipment with care. We use lifting tools, traps, safety blankets and moving boxes while moving your items.",
-      linkText: "View Details",
+      linkText: "Contact Team",
       linkUrl: "#",
     },
     // {
@@ -67,25 +66,30 @@ const HeroSectionDesktop = () => {
           </a>
         </div> */}
 
-        <div className="grid grid-cols-1 gap-7 md:grid-cols-3">
+        <div className="grid grid-cols-3 gap-7">
           {photos.map((photo, index) => (
             <div
               key={index}
-              className="overflow-hidden bg-white shadow-md rounded-2xl"
+              className="flex flex-col overflow-hidden bg-white shadow-md rounded-2xl"
             >
+              {/* Image */}
               <img
                 src={photo.imgSrc}
                 alt={photo.alt}
                 className="object-cover w-full h-48 rounded-2xl"
               />
-              <div className="p-6">
+
+              {/* Card Content - Ensures content fills remaining space */}
+              <div className="px-7 pt-5 pb-5 flex flex-col flex-grow min-h-[255px]">
                 <h3 className="mb-2 text-xl font-semibold text-gray-800">
                   {photo.title}
                 </h3>
-                <p className="mb-4 text-gray-600">{photo.text}</p>
+                <p className="flex-grow text-gray-600">{photo.text}</p>
+
+                {/* Link forced to the bottom */}
                 <a
                   href={photo.linkUrl}
-                  className="font-semibold text-teal-600 hover:underline"
+                  className="mt-auto font-semibold text-teal-600 hover:underline"
                 >
                   {photo.linkText}
                 </a>

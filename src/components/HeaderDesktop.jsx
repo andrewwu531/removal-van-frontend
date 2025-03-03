@@ -7,13 +7,13 @@ const Header = () => {
       <div className="max-w-screen-xl px-4 mx-auto sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Left Section: Logo / Brand */}
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center space-x-1.5">
             <span className="text-xl font-semibold text-gray-900">
               Welcome Removal
             </span>
             {/* Small upward arrow (SVG icon) */}
             <svg
-              className="w-3 h-3 text-teal-500"
+              className="w-4 h-4 text-teal-500"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
