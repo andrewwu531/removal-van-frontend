@@ -1,19 +1,23 @@
 import Header from "./components/Header";
 import HeroSection from "./components/HeroSection";
-import BookingForm from "./components/BookingForm";
-
+import MainContents from "./components/MainContents";
+// import BookingForm from "./components/BookingForm";
 import Footer from "./components/Footer";
+import Form from "./components/Form";
+import BookingSteps from "./components/BookingSteps";
 
 function App() {
   return (
     <div className="font-sans text-gray-900">
       <Header />
+      <MainContents />
+      <BookingSteps />
       <HeroSection />
 
-      <div className="flex flex-col w-full bg-blue-50">
+      <Form />
+      {/* <div className="flex flex-col w-full bg-blue-50">
         <BookingForm />
-      </div>
-
+      </div> */}
       <Footer />
     </div>
   );

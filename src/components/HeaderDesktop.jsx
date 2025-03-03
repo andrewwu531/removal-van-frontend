@@ -1,32 +1,59 @@
-// src/components/Header.jsx
+import React from "react";
 
-function HeaderDesktop() {
+const Header = () => {
   return (
-    <div className=" [@media(min-height:1800px)]:!h-[220px] [@media(min-height:1200px)]:!h-[190px] [@media(min-height:950px)]:h-[120px] h-[100px] shadow bg-blue-950">
-      <div className="flex items-center justify-between px-5 xl:px-6 2xl:px-8 mx-auto py-7  [@media(min-height:1800px)]:!px-16 [@media(min-height:1200px)]:!px-12  [@media(min-height:1800px)]:!pt-19 [@media(min-height:950px)]:pt-9 [@media(min-height:1200px)]:!pt-16">
-        <div className="flex flex-row pt-1">
-          <div className="pl-10 [@media(min-height:1200px)]:!pl-14 pr-5 text-3xl  [@media(min-height:1800px)]:!text-6xl [@media(min-height:1200px)]:!text-5xl [@media(min-height:950px)]:text-4xl font-medium text-white">
-            Welcome
+    <header className="fixed top-0 left-0 z-50 w-full bg-white border-gray-200">
+      {/* Use a container to keep the content centered */}
+      <div className="max-w-screen-xl px-4 mx-auto sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Left Section: Logo / Brand */}
+          <div className="flex items-center space-x-1">
+            <span className="text-xl font-semibold text-gray-900">
+              Welcome Removal
+            </span>
+            {/* Small upward arrow (SVG icon) */}
+            <svg
+              className="w-3 h-3 text-teal-500"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M12 19V6M5 13l7-7 7 7" />
+            </svg>
           </div>
-          <div
-            className="pt-3  [@media(min-height:1800px)]:!pt-8 [@media(min-height:1200px)]:!pt-6 pl-6  [@media(min-height:1800px)]:!pl-16 
-                            [@media(min-height:1200px)]:!pl-12 [@media(min-height:950px)]:pl-8 font-medium text-gray-100 text-md  [@media(min-height:1800px)]:!text-4xl [@media(min-height:1200px)]:!text-3xl [@media(min-height:950px)]:text-xl"
-          >
-            Glasgow &nbsp;|&nbsp; Edinburgh &nbsp;|&nbsp; Scotland
+
+          {/* Middle Section: Navigation Links */}
+          <nav className="hidden space-x-6 text-gray-700 md:flex">
+            <a href="#" className="transition-colors hover:text-teal-500">
+              Removal Services
+            </a>
+            <a href="#" className="transition-colors hover:text-teal-500">
+              Book a Spot Now
+            </a>
+            <a href="#" className="transition-colors hover:text-teal-500">
+              Customer Protection
+            </a>
+            <a href="#" className="transition-colors hover:text-teal-500">
+              Removal Checklist & Guide
+            </a>
+          </nav>
+
+          {/* Right Section: Sign in */}
+          <div>
+            <a
+              href="#"
+              className="px-4 py-2 text-teal-500 transition-colors border border-teal-500 rounded hover:bg-teal-500 hover:text-white"
+            >
+              Contact Us Now at 07943059792{" "}
+            </a>
           </div>
         </div>
-        <nav>
-          <ul className="flex pr-10 [@media(min-height:1200px)]:!pr-18 [@media(min-height:950px)]:pr-16 pt-2 space-x-4 text-lg [@media(min-height:1200px)]:!text-4xl [@media(min-height:950px)]:text-2xl font-medium text-gray-100">
-            <li>
-              <a href="#faq" className="hover:text-blue-950">
-                (+44) 07943059792
-              </a>
-            </li>
-          </ul>
-        </nav>
       </div>
-    </div>
+    </header>
   );
-}
+};
 
-export default HeaderDesktop;
+export default Header;
