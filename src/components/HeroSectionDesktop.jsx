@@ -40,7 +40,7 @@ const HeroSectionDesktop = () => {
   ];
 
   return (
-    <section id="home" className="flex flex-col mb-10 text-blue-950">
+    <section id="home" className="flex flex-col mt-5 mb-10 text-blue-950">
       <div className="flex flex-row items-start w-full px-8 mx-auto xl:px-10 2xl:px-90 [@media(min-height:1200px)]:!px-28 [@media(min-height:1800px)]:!pt-42 [@media(min-height:1200px)]:!pt-26 [@media(min-height:800px)]:pt-5 [@media(min-height:850px)]:pt-10 [@media(min-height:950px)]:pt-14">
         {/* Left Column
         <div className="w-[calc(100vw-62vw-10vw)] ml-10 xl:ml-12 2xl:ml-14 bg-blue-950 pl-10 rounded-2xl px-12 mx-12">
@@ -89,7 +89,7 @@ const HeroSectionDesktop = () => {
                 {/* Link forced to the bottom */}
                 <a
                   href={photo.linkUrl}
-                  className="mt-auto font-semibold text-teal-600 hover:underline"
+                  className="mt-auto font-semibold text-indigo-600 hover:underline"
                 >
                   {photo.linkText}
                 </a>

@@ -7,13 +7,13 @@ const Header = () => {
       <div className="max-w-screen-xl px-4 mx-auto sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Left Section: Logo / Brand */}
-          <div className="flex items-center space-x-1.5">
-            <span className="text-xl font-semibold text-gray-900">
+          <div className="flex items-center space-x-2">
+            <span className="text-xl font-semibold text-gray-950">
               Welcome Removal
             </span>
             {/* Small upward arrow (SVG icon) */}
             <svg
-              className="w-4 h-4 text-teal-500"
+              className="w-4 h-4 text-blue-900"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -25,33 +25,32 @@ const Header = () => {
             </svg>
           </div>
 
-          {/* Middle Section: Navigation Links */}
-          <nav className="hidden space-x-6 text-gray-700 md:flex">
-            <a href="#" className="transition-colors hover:text-teal-500">
-              Removal Services
-            </a>
-            <a href="#" className="transition-colors hover:text-teal-500">
-              Book a Spot Now
-            </a>
-            <a href="#" className="transition-colors hover:text-teal-500">
-              Customer Protection
-            </a>
-            <a href="#" className="transition-colors hover:text-teal-500">
-              Removal Checklist & Guide
-            </a>
-          </nav>
-
           {/* Right Section: Sign in */}
           <div>
             <a
               href="#"
-              className="px-4 py-2 text-teal-500 transition-colors border border-teal-500 rounded hover:bg-teal-500 hover:text-white"
+              className="px-5 py-2.5 text-blue-900 transition-colors border border-blue-900 rounded hover:bg-teal-500 hover:text-white"
             >
               Contact Us Now at 07943059792{" "}
             </a>
           </div>
         </div>
       </div>
+      {/* Middle Section: Navigation Links */}
+      <nav className="justify-center py-5 space-x-8 font-semibold text-white bg-indigo-700 text-md md:flex">
+        <a href="#" className="transition-colors hover:text-teal-500">
+          Removal Services
+        </a>
+        <a href="#" className="transition-colors hover:text-teal-500">
+          Book a Spot Now
+        </a>
+        <a href="#" className="transition-colors hover:text-teal-500">
+          How Removal Works
+        </a>
+        <a href="#" className="transition-colors hover:text-teal-500">
+          Customer Protection
+        </a>
+      </nav>
     </header>
   );
 };

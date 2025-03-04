@@ -2,7 +2,7 @@ import { FaPhone, FaEnvelope, FaClock } from "react-icons/fa";
 
 const FooterDesktop = () => {
   return (
-    <footer className="pb-16 text-white bg-gray-900 pt-18">
+    <footer className="pb-16 text-white bg-gray-800 pt-18">
       <div className="grid max-w-screen-xl grid-cols-4 pb-10 mx-auto ">
         {/* Company Info */}
         <div>
