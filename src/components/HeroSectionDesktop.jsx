@@ -11,7 +11,7 @@ const HeroSectionDesktop = () => {
       title: "Residential Removal",
       text: "Move home furniture and dispose of unwanted items. We accept same day, short notice & long distance removal services. Call us now to secure a booking.",
       linkText: "Contact Team",
-      linkUrl: "#",
+      linkUrl: "#booking-form",
     },
     {
       imgSrc: business_removal_image,
@@ -19,7 +19,7 @@ const HeroSectionDesktop = () => {
       title: "Business Asset Relocations",
       text: "Help businesses relocate office equipment and inventory. Our removal service comes with an insurance guarantee to cover for any damages.",
       linkText: "Contact Team",
-      linkUrl: "#",
+      linkUrl: "#booking-form",
     },
     {
       imgSrc: booking_form_image,
@@ -27,7 +27,7 @@ const HeroSectionDesktop = () => {
       title: "Customer Protection",
       text: "Our professional removal team is trained to package and load your furniture and office equipment with care. We use lifting tools, traps, safety blankets and moving boxes while moving your items.",
       linkText: "Contact Team",
-      linkUrl: "#",
+      linkUrl: "#booking-form",
     },
     // {
     //   imgSrc: contact_us_image,
