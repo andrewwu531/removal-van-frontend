@@ -2,6 +2,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 120px; /* Adjust based on your header height */
 }
 
 html,

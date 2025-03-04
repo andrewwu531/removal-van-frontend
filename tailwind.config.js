@@ -4,7 +4,11 @@ export default {
     // any other paths if needed
   ],
   theme: {
-    extend: {},
+    extend: {
+      maxWidth: {
+        custom_lg: "1152px",
+      },
+    },
   },
   plugins: [],
 };

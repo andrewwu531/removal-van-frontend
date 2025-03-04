@@ -33,12 +33,12 @@ const FooterDesktop = () => {
             </li>
             <li>
               <a href="#" className="hover:text-teal-400">
-                Customer Protection
+                How Removal Works
               </a>
             </li>
             <li>
               <a href="#" className="hover:text-teal-400">
-                Removal Checklist & Guide
+                Customer Protection
               </a>
             </li>
           </ul>
