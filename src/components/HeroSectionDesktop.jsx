@@ -92,7 +92,7 @@ const HeroSectionDesktop = () => {
                 {/* Link forced to the bottom */}
                 <a
                   href={photo.linkUrl}
-                  className="mt-auto font-semibold text-indigo-600 hover:underline"
+                  className="mt-auto font-bold text-indigo-600 text-md hover:underline"
                 >
                   {photo.linkText}
                 </a>
