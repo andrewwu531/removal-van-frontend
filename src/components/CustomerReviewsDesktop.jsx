@@ -1,7 +1,7 @@
 import React from "react";
 
 const CustomerReviewsDesktop = () => (
-  <div className="pt-6 pl-2 pr-12">
+  <div className="pt-6 pl-2 pr-12 ">
     <p className="mt-16 mb-10 text-3xl font-semibold text-gray-700">
       Customer Reviews
     </p>
@@ -15,7 +15,7 @@ const CustomerReviewsDesktop = () => (
     <div className="flex justify-end mt-5 space-x-2 font-semibold text-gray-700 text-md">
       <span>Overall Rating</span> <span>⭐⭐⭐⭐⭐</span>
     </div>
-    <div className="relative max-w-lg p-6.5 mt-10 shadow-md py-7 bg-gray-50 rounded-2xl">
+    <div className="relative max-w-lg p-6.5 mt-16 shadow-md py-7 bg-gray-50 rounded-2xl">
       <p className="text-gray-700 text-md">
         "Welcome Removal was brilliant! They moved my furniture on the coldest
         days of the year and they are really cheerful and helpful. I felt really

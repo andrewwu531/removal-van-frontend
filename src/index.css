@@ -10,3 +10,9 @@ body {
   width: 100%;
   overflow-x: hidden;
 }
+
+.paypal-button-container,
+.paypal-button,
+.paypal-button iframe {
+  z-index: 1 !important;
+}

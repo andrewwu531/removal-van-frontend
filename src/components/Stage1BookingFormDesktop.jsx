@@ -14,10 +14,10 @@ const Stage1BookingFormDesktop = ({ bookingDetails, onNextStep }) => {
   };
 
   return (
-    <div className="font-sans" id="booking-form">
-      <div className="px-12 pt-10 mr-16 bg-white rounded-lg">
+    <div className="font-sans w-2xl" id="booking-form">
+      <div className="pt-8 mr-16 bg-white rounded-lg ">
         <form onSubmit={handleSubmit}>
-          <h2 className="mt-3 mb-6 text-2xl font-semibold text-gray-700">
+          <h2 className="mb-6 text-2xl font-semibold text-gray-700 ">
             Personal Details
           </h2>
 

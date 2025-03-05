@@ -2,7 +2,7 @@ import React from "react";
 
 const Header = () => {
   return (
-    <header className="fixed top-0 left-0 z-50 w-full p-2 bg-white border-gray-200 border-1 shadow-gray-100">
+    <header className="fixed top-0 left-0 w-full p-2 bg-white border-gray-200 z-[200] border-1 shadow-gray-100">
       {/* Use a container to keep the content centered */}
       <div className="max-w-screen-xl px-4 mx-auto sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">

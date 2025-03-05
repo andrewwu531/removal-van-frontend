@@ -153,18 +153,30 @@ const Stage2PaymentDesktop = ({ onPaymentSuccess, onPaymentError }) => {
 
   return (
     <PayPalScriptProvider options={initialOptions}>
-      <div className="relative bg-white rounded-lg p-36">
+      <div className="relative pt-16 bg-white rounded-lg w-lg">
         {/* Always render these elements, but use the invisible class to hide them when isPaying is true */}
         <div
           className={`mb-12 text-4xl font-semibold text-center ${isPaying ? "invisible" : ""}`}
         >
           Complete Payment
         </div>
-        {paymentError && (
-          <div className="mt-4 text-center text-red-600">
-            <p>{paymentError}</p>
+        {!isPaying && (
+          <div className="mb-3">
+            <PayPalButtons
+              createOrder={createOrder}
+              onApprove={onApprove}
+              onError={onError}
+              style={{
+                shape: "rect",
+                layout: "vertical",
+                color: "gold",
+                label: "pay",
+              }}
+            />
           </div>
         )}
+
+        {/* 
         <div className={`mb-3 ${isPaying ? "invisible" : ""}`}>
           <PayPalButtons
             createOrder={createOrder}
@@ -177,7 +189,7 @@ const Stage2PaymentDesktop = ({ onPaymentSuccess, onPaymentError }) => {
               label: "pay",
             }}
           />
-        </div>
+        </div> */}
 
         <PayPalCardFieldsProvider
           key={formKey}
@@ -217,8 +229,13 @@ const Stage2PaymentDesktop = ({ onPaymentSuccess, onPaymentError }) => {
 
         {/* Spinner overlay visible only when isPaying is true */}
         {isPaying && (
-          <div className="absolute inset-0 z-50 flex items-center justify-center bg-white bg-opacity-75">
+          <div className="absolute inset-0 z-30 flex items-center justify-center bg-white bg-opacity-75">
             <Spinner3 />
+          </div>
+        )}
+        {paymentError && (
+          <div className="mt-4 text-center text-red-600">
+            <p>{paymentError}</p>
           </div>
         )}
       </div>
@@ -227,6 +244,9 @@ const Stage2PaymentDesktop = ({ onPaymentSuccess, onPaymentError }) => {
 };
 
 Stage2PaymentDesktop.propTypes = {
+  isPaying: PropTypes.bool.isRequired,
+  setIsPaying: PropTypes.func.isRequired,
+  setPaymentError: PropTypes.func.isRequired,
   onPaymentSuccess: PropTypes.func.isRequired,
   onPaymentError: PropTypes.func.isRequired,
 };

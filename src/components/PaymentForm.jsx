@@ -281,7 +281,7 @@ export default function PaymentForm({ bookingDetails }) {
             </PayPalCardFieldsProvider>
 
             {isPaying && !paymentSuccess && (
-              <div className="absolute inset-0 z-50 flex items-center justify-center bg-white bg-opacity-75">
+              <div className="absolute inset-0 z-30 flex items-center justify-center bg-white bg-opacity-75">
                 <svg
                   className="w-10 h-10 text-green-500 animate-spin"
                   xmlns="http://www.w3.org/2000/svg"
