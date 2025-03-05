@@ -15,11 +15,12 @@ const Stage1BookingFormDesktop = ({ bookingDetails, onNextStep }) => {
 
   return (
     <div className="font-sans" id="booking-form">
-      <div className="px-12 pt-10 bg-white rounded-lg ">
+      <div className="px-12 pt-10 mr-16 bg-white rounded-lg">
         <form onSubmit={handleSubmit}>
           <h2 className="mt-3 mb-6 text-2xl font-semibold text-gray-700">
             Personal Details
           </h2>
+
           <div className="grid grid-cols-2 gap-4">
             <div className="mb-3">
               <label className="block font-medium text-gray-700 text-md">
@@ -104,7 +105,7 @@ const Stage1BookingFormDesktop = ({ bookingDetails, onNextStep }) => {
           <div className="mt-10 text-left">
             <button
               type="submit"
-              className="px-11 py-4.5 mt-5 font-semibold text-xl text-white bg-amber-500 rounded-lg  focus:outline-none hover:scale-105"
+              className="px-11 py-4.5 mt-5 font-semibold text-xl text-white bg-green-500 rounded-lg  focus:outline-none hover:scale-105"
             >
               Next Step
             </button>

@@ -15,6 +15,17 @@ const Stage2PaymentDesktop = ({ onPaymentSuccess, onPaymentError }) => {
   const [paymentError, setPaymentError] = useState("");
   const [formKey, setFormKey] = useState(0);
 
+  // Spinner 3: Bouncing dots spinner
+  const Spinner3 = () => (
+    <div className="flex flex-col items-center">
+      <div className="flex items-center justify-center space-x-2">
+        <div className="w-4 h-4 bg-indigo-500 rounded-full animate-bounce"></div>
+        <div className="w-4 h-4 delay-150 bg-indigo-500 rounded-full animate-bounce"></div>
+        <div className="w-4 h-4 delay-300 bg-indigo-500 rounded-full animate-bounce"></div>
+      </div>
+    </div>
+  );
+
   const paymentApiUrl = import.meta.env.VITE_PAYMENT_API_URL;
   const initialOptions = {
     "client-id": import.meta.env.VITE_PAYPAL_CLIENT_ID,
@@ -122,7 +133,7 @@ const Stage2PaymentDesktop = ({ onPaymentSuccess, onPaymentError }) => {
         return alert("The payment form is invalid");
       }
       setIsPaying(true);
-      // The loading overlay is triggered by isPaying
+      // Submit the form while the fields remain mounted but are visually hidden
       cardFieldsForm.submit({ billingAddress: {} }).catch((err) => {
         setIsPaying(false);
       });
@@ -132,7 +143,7 @@ const Stage2PaymentDesktop = ({ onPaymentSuccess, onPaymentError }) => {
       <div className="flex justify-center">
         <button
           onClick={handleClick}
-          className="px-12 py-3 mt-5 font-medium text-black bg-green-500 text-md rounded-xl hover:scale-105"
+          className="px-16 py-4.5 mt-7 font-medium text-black bg-green-500 rounded-lg text-xl hover:scale-105"
         >
           {isPaying ? "Processing..." : "Pay"}
         </button>
@@ -142,16 +153,19 @@ const Stage2PaymentDesktop = ({ onPaymentSuccess, onPaymentError }) => {
 
   return (
     <PayPalScriptProvider options={initialOptions}>
-      <div className="relative p-8 bg-white rounded-lg shadow">
-        <h1 className="mb-6 text-3xl font-semibold text-center">
-          Complete Your Payment
-        </h1>
+      <div className="relative bg-white rounded-lg p-36">
+        {/* Always render these elements, but use the invisible class to hide them when isPaying is true */}
+        <div
+          className={`mb-12 text-4xl font-semibold text-center ${isPaying ? "invisible" : ""}`}
+        >
+          Complete Payment
+        </div>
         {paymentError && (
           <div className="mt-4 text-center text-red-600">
             <p>{paymentError}</p>
           </div>
         )}
-        <div className="mb-3">
+        <div className={`mb-3 ${isPaying ? "invisible" : ""}`}>
           <PayPalButtons
             createOrder={createOrder}
             onApprove={onApprove}
@@ -164,6 +178,7 @@ const Stage2PaymentDesktop = ({ onPaymentSuccess, onPaymentError }) => {
             }}
           />
         </div>
+
         <PayPalCardFieldsProvider
           key={formKey}
           createOrder={createOrder}
@@ -178,18 +193,17 @@ const Stage2PaymentDesktop = ({ onPaymentSuccess, onPaymentError }) => {
           }}
           style={{
             input: {
-              fontSize: "1rem",
-              fontFamily: "monospace",
-              fontWeight: "300",
-              color: "#9ca3af",
+              padding: "1rem",
               border: "1px solid #d1d5db",
-              borderRadius: "0.375rem",
-              padding: "0.5rem",
+              borderRadius: "0.25rem",
+              outline: "none",
+              fontSize: "1rem",
+              fontFamily: "inherit",
             },
-            ".invalid": { color: "#a78bfa" },
           }}
         >
-          <div className="flex flex-col">
+          {/* Keep card fields mounted but hide them visually when isPaying is true */}
+          <div className={`flex flex-col ${isPaying ? "invisible" : ""}`}>
             <PayPalNumberField />
             <PayPalExpiryField />
             <PayPalCVVField />
@@ -200,28 +214,11 @@ const Stage2PaymentDesktop = ({ onPaymentSuccess, onPaymentError }) => {
             setPaymentError={setPaymentError}
           />
         </PayPalCardFieldsProvider>
+
+        {/* Spinner overlay visible only when isPaying is true */}
         {isPaying && (
           <div className="absolute inset-0 z-50 flex items-center justify-center bg-white bg-opacity-75">
-            <svg
-              className="w-10 h-10 text-green-500 animate-spin"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              ></circle>
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8v8H4z"
-              ></path>
-            </svg>
+            <Spinner3 />
           </div>
         )}
       </div>
@@ -230,7 +227,6 @@ const Stage2PaymentDesktop = ({ onPaymentSuccess, onPaymentError }) => {
 };
 
 Stage2PaymentDesktop.propTypes = {
-  bookingDetails: PropTypes.object.isRequired,
   onPaymentSuccess: PropTypes.func.isRequired,
   onPaymentError: PropTypes.func.isRequired,
 };

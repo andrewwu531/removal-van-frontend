@@ -9,7 +9,7 @@ const HeroSectionDesktop = () => {
       imgSrc: home_removal_image,
       alt: "Photo 1",
       title: "Residential Removal",
-      text: "Move home furniture and dispose of unwanted items. We accept same day, short notice & long distance removal services. Call us now to secure a booking.",
+      text: "Move home furniture and dispose of unwanted items. We accept same day, short notice & long distance removal services. Call us now for further inquiries.",
       linkText: "Contact Team",
       linkUrl: "#booking-form",
     },

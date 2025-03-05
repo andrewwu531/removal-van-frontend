@@ -2,7 +2,7 @@ import React from "react";
 
 const CustomerReviewsDesktop = () => (
   <div className="pt-6 pl-2 pr-12">
-    <p className="mt-8 mb-10 text-3xl font-semibold text-gray-700">
+    <p className="mt-16 mb-10 text-3xl font-semibold text-gray-700">
       Customer Reviews
     </p>
     <div className="relative max-w-lg p-6.5 shadow-md py-7 bg-gray-50 rounded-2xl">
