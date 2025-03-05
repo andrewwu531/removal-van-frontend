@@ -69,33 +69,33 @@ const HeroSectionDesktop = () => {
           </a>
         </div> */}
 
-        <div className="grid grid-cols-3 gap-7">
+        <div className="grid grid-cols-3 gap-6">
           {photos.map((photo, index) => (
             <div
               key={index}
-              className="flex flex-col overflow-hidden bg-white shadow-md rounded-2xl"
+              className="flex flex-col overflow-hidden bg-white rounded-lg shadow-md"
             >
               {/* Image */}
               <img
                 src={photo.imgSrc}
                 alt={photo.alt}
-                className="object-cover w-full h-48 rounded-2xl"
+                className="object-cover w-full rounded-md h-60"
               />
 
               {/* Card Content - Ensures content fills remaining space */}
-              <div className="px-7 pt-5 pb-5 flex flex-col flex-grow min-h-[255px]">
-                <h3 className="mb-2 text-xl font-semibold text-gray-800">
+              <div className="px-7 pt-6 pb-5 flex flex-col  flex-grow min-h-[220px]">
+                <h3 className="mb-4 text-xl font-semibold text-gray-800">
                   {photo.title}
                 </h3>
                 <p className="flex-grow text-gray-600">{photo.text}</p>
 
                 {/* Link forced to the bottom */}
-                <a
+                {/* <a
                   href={photo.linkUrl}
                   className="mt-auto font-bold text-indigo-600 text-md hover:underline"
                 >
                   {photo.linkText}
-                </a>
+                </a> */}
               </div>
             </div>
           ))}
