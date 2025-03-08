@@ -16,3 +16,12 @@ body {
 .paypal-button iframe {
   z-index: 1 !important;
 }
+
+@media (min-width: 2560px) {
+  .arrow-lg {
+    background-position: right 1rem center;
+    background-size: 1rem auto;
+    /* You can also adjust padding if needed */
+    padding-right: 1rem;
+  }
+}

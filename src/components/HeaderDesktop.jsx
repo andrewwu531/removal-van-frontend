@@ -8,7 +8,7 @@ const Header = () => {
         <div className="flex items-center justify-between h-16 min-[1920px]:h-20 min-[2560px]:h-24 min-[3840px]:h-40">
           {/* Left Section: Logo / Brand */}
           <div className="flex items-center space-x-3 min-[1920px]:space-x-4 min-[2560px]:space-x-5 min-[3840px]:space-x-8">
-            <span className="text-xl min-[1920px]:text-2xl min-[2560px]:text-3xl min-[3840px]:text-5xl font-semibold text-gray-950 ml-[3rem] min-[1120px]:ml-[4rem] min-[1380px]:ml-[5rem] min-[1920px]:ml-[7rem] min-[3840px]:ml-[10rem]">
+            <span className="text-xl -mt-1 min-[1920px]:text-2xl min-[2560px]:text-3xl min-[3840px]:text-5xl font-semibold text-gray-950 ml-[3rem] min-[1120px]:ml-[4rem] min-[1380px]:ml-[5rem] min-[1920px]:ml-[7rem] min-[3840px]:ml-[10rem]">
               Welcome Removal
             </span>
             {/* Small upward arrow (SVG icon) */}
@@ -58,7 +58,7 @@ const Header = () => {
               href="#"
               className="px-7 min-[1920px]:px-10 min-[2560px]:px-14 min-[3840px]:px-20 py-3.5 min-[1920px]:py-4.5 min-[2560px]:py-5.5 min-[3840px]:py-8 font-medium min-[1920px]:text-xl min-[2560px]:text-2xl min-[3840px]:text-4xl text-white transition-colors bg-indigo-600 rounded-lg min-[2560px]:rounded-xl  min-[3840px]:rounded-2xl hover:bg-indigo-700 hover:text-white"
             >
-              Contact &nbsp;07943059792
+              Contact 07943059792
             </a>
           </div>
         </div>
