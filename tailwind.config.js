@@ -19,6 +19,7 @@ export default {
       },
       maxWidth: {
         "screen-custom_lg": "1150px",
+        "7xl": "80rem", // Tailwind default for max-w-7xl is usually defined; adjust if needed
       },
     },
   },
