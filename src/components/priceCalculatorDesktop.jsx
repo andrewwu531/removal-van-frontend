@@ -60,7 +60,14 @@ const PriceCalculatorDesktop = () => {
         <select
           value={removalType}
           onChange={handleRemovalTypeChange}
-          className="w-full p-2 mb-4 border rounded-lg"
+          className="w-full p-2 pl-3.5 pr-2 mb-4 border rounded-lg focus:outline-none appearance-none"
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23333' stroke-width='2' fill='none'/%3E%3C/svg%3E\")",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "right 0.65rem center",
+            backgroundSize: "0.65em auto",
+          }}
         >
           <option value="home">Home Removal</option>
           <option value="business">Business Removal</option>
@@ -69,13 +76,20 @@ const PriceCalculatorDesktop = () => {
         {/* Dynamic Field: Number of Bedrooms OR Office Size */}
         <label className="block mb-1 font-semibold text-gray-700">
           {removalType === "home"
-            ? "Number of Bedrooms"
+            ? "Number of Applicable Bedrooms"
             : "Office Size (square foot)"}
         </label>
         <select
           value={optionValue}
           onChange={handleOptionValueChange}
-          className="w-full p-2 mb-4 border rounded-lg"
+          className="w-full p-2 pl-3.5 mb-4 border rounded-lg appearance-none focus:outline-none"
+          style={{
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23333' stroke-width='2' fill='none'/%3E%3C/svg%3E\")",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "right 0.65rem center",
+            backgroundSize: "0.65em auto",
+          }}
         >
           {removalType === "home" ? (
             <>
@@ -104,8 +118,10 @@ const PriceCalculatorDesktop = () => {
       <div className="relative z-10 w-full max-w-md mt-6 -ml-10 text-white bg-indigo-600 shadow-lg py-14 px-14 rounded-xl">
         <h3 className="text-xl font-bold">Estimated Removal Quote</h3>
         <p className="mt-4 text-3xl font-extrabold">£{basePrice}</p>
-        <p className="mt-2 text-lg">(Deposit: £{deposit})</p>
-        <div className="mt-8 text-md">
+        <p className="mt-3 text-md">
+          (Deposit: £{deposit}, with 2 men included)
+        </p>
+        <div className="mt-7 text-md">
           Feel free to contact us and provide your removal details: Name, Pickup
           & Drop-Off Location, Available Removal Dates, and Removal Descriptions
           for quote confirmation.

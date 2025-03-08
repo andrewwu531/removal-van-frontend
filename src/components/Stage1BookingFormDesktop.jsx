@@ -105,7 +105,7 @@ const Stage1BookingFormDesktop = ({ bookingDetails, onNextStep }) => {
           <div className="mt-10 text-left">
             <button
               type="submit"
-              className="px-11 py-4.5 mt-5 font-semibold text-xl text-white bg-green-500 rounded-lg  focus:outline-none hover:scale-105"
+              className="px-11 py-4.5 mt-5 font-semibold text-xl text-white bg-indigo-600 rounded-lg  focus:outline-none hover:scale-105"
             >
               Next Step
             </button>

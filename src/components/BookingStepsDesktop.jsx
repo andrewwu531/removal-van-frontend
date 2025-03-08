@@ -53,10 +53,7 @@ const BookingStepsDesktop = () => {
       <div className="flex justify-center text-4xl font-semibold pb-13">
         Five-Step Removal Process
       </div>
-      <div className="max-w-screen-xl px-4 mx-auto">
-        {/* <h2 className="mb-10 text-3xl font-bold text-center">
-          How to Book a Removal Service
-        </h2> */}
+      <div className="max-w-5xl px-4 mx-auto xl:max-w-6xl">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-5">
           {steps.map((step) => (
             <div

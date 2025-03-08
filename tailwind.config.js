@@ -18,7 +18,7 @@ export default {
         scale: "scaleAnimation 1.5s ease-in-out infinite",
       },
       maxWidth: {
-        custom_lg: "1152px",
+        "screen-custom_lg": "1150px",
       },
     },
   },
