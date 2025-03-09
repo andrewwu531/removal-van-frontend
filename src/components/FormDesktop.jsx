@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Stage1BookingFormDesktop from "./Stage1BookingFormDesktop";
 import Stage2PaymentDesktop from "./Stage2PaymentDesktop";
-import Stage3LoadingDesktop from "./Stage3LoadingDesktop";
 import Stage4ConfirmationDesktop from "./Stage4ConfirmationDesktop";
 import PaymentLayoutDesktop from "./PaymentLayoutDesktop";
 

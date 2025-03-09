@@ -17,6 +17,8 @@ function App() {
       <Form />
 
       <Footer />
+      <BookingSteps />
+      <PriceCalculatorDesktop />
     </div>
   );
 }

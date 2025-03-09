@@ -36,7 +36,7 @@ const HeroSectionDesktop = () => {
       id="removal-services"
       className="flex flex-col pb-10 min-[2560px]:mt-20 bg-white text-blue-950"
     >
-      <div className="flex flex-row items-start w-11/12 min-[1920px]:w-5/6 min-[2560px]:w-3/4 min-[3840px]:w-2/3 mx-auto">
+      <div className="flex flex-row items-start w-11/12 min-[1423px]:w-5/6 min-[2560px]:w-3/4 min-[3840px]:w-2/3 mx-auto">
         <div className="grid grid-cols-3 gap-4 min-[2560px]:gap-5">
           {photos.map((photo, index) => (
             <div
@@ -51,7 +51,7 @@ const HeroSectionDesktop = () => {
               />
 
               {/* Card Content - Ensures content fills remaining space */}
-              <div className="px-7 min-[1920px]:px-11 min-[3840px]:px-14 pt-6 min-[1920px]:pt-8 pb-5 min-[1920px]:pb-8 flex flex-col flex-grow min-h-[250px] min-[1920px]:min-h-[220px] min-[2560px]:min-h-[240px]">
+              <div className="px-7 min-[1920px]:px-9 min-[3840px]:px-14 pt-6 min-[1920px]:pt-8 pb-5 min-[1920px]:pb-8 flex flex-col flex-grow min-h-[250px] min-[1920px]:min-h-[220px] min-[2560px]:min-h-[240px]">
                 <h3 className="mb-4 min-[1920px]:mb-5 min-[3840px]:pt-2 text-xl min-[2560px]:text-2xl font-semibold text-gray-800">
                   {photo.title}
                 </h3>
