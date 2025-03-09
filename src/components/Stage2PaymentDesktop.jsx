@@ -143,7 +143,7 @@ const Stage2PaymentDesktop = ({ onPaymentSuccess, onPaymentError }) => {
       <div className="flex justify-center">
         <button
           onClick={handleClick}
-          className="px-16 py-4.5 mt-7 font-medium text-black bg-green-500 rounded-lg text-xl hover:scale-105"
+          className="px-16 py-4.5 mt-7 font-medium text-white bg-indigo-500 rounded-lg text-xl hover:scale-105"
         >
           {isPaying ? "Processing..." : "Pay"}
         </button>
@@ -161,7 +161,7 @@ const Stage2PaymentDesktop = ({ onPaymentSuccess, onPaymentError }) => {
           Complete Payment
         </div>
         {!isPaying && (
-          <div className="mb-3">
+          <div className="mx-1 mb-2">
             <PayPalButtons
               createOrder={createOrder}
               onApprove={onApprove}
@@ -169,27 +169,12 @@ const Stage2PaymentDesktop = ({ onPaymentSuccess, onPaymentError }) => {
               style={{
                 shape: "rect",
                 layout: "vertical",
-                color: "gold",
+                color: "black",
                 label: "pay",
               }}
             />
           </div>
         )}
-
-        {/* 
-        <div className={`mb-3 ${isPaying ? "invisible" : ""}`}>
-          <PayPalButtons
-            createOrder={createOrder}
-            onApprove={onApprove}
-            onError={onError}
-            style={{
-              shape: "rect",
-              layout: "vertical",
-              color: "gold",
-              label: "pay",
-            }}
-          />
-        </div> */}
 
         <PayPalCardFieldsProvider
           key={formKey}
@@ -205,8 +190,8 @@ const Stage2PaymentDesktop = ({ onPaymentSuccess, onPaymentError }) => {
           }}
           style={{
             input: {
-              padding: "1rem",
-              border: "1px solid #d1d5db",
+              padding: "0.9rem", // Reduced padding shrinks the input's internal height
+              border: "0.5px solid #9ca3af",
               borderRadius: "0.25rem",
               outline: "none",
               fontSize: "1rem",
@@ -215,7 +200,9 @@ const Stage2PaymentDesktop = ({ onPaymentSuccess, onPaymentError }) => {
           }}
         >
           {/* Keep card fields mounted but hide them visually when isPaying is true */}
-          <div className={`flex flex-col ${isPaying ? "invisible" : ""}`}>
+          <div
+            className={`flex flex-col space-y-[-3px] w-lg ${isPaying ? "invisible" : ""}`}
+          >
             <PayPalNumberField />
             <PayPalExpiryField />
             <PayPalCVVField />
@@ -234,7 +221,7 @@ const Stage2PaymentDesktop = ({ onPaymentSuccess, onPaymentError }) => {
           </div>
         )}
         {paymentError && (
-          <div className="mt-4 text-center text-red-600">
+          <div className="mx-8 mt-8 text-center text-red-600">
             <p>{paymentError}</p>
           </div>
         )}
