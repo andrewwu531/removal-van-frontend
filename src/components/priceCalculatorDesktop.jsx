@@ -46,10 +46,10 @@ const PriceCalculatorDesktop = () => {
   }
 
   return (
-    <div className="relative flex flex-row items-center justify-center p-6 mt-3 min-[1700px]:mt-7 min-[2560px]:mt-10 min-[3840px]:mt-14 mb-16 min-[1920px]:mb-6 bg-white">
+    <div className="relative flex flex-row items-center justify-center p-6 mt-3 min-[2000px]:mt-7 min-[2560px]:mt-10 min-[3840px]:mt-14 mb-16 min-[2200px]:mb-6 bg-white">
       {/* Left side: Form fields */}
-      <div className="w-full max-w-lg min-[1920px]:max-w-2xl min-[2560px]:max-w-3xl min-[3840px]:max-w-4xl py-16 min-[1920px]:pb-24 min-[2560px]:pb-28 min-[1920px]:pt-12  min-[2560px]:pt-18 min-[3840px]:pt-26 bg-white shadow-lg px-28 min-[1920px]:px-38 rounded-3xl">
-        <h2 className="mb-8 min-[1920px]:mb-10 min-[2560px]:mb-14 min-[3840px]:mb-16 text-2xl min-[1920px]:text-3xl  min-[2560px]:text-4xl font-semibold">
+      <div className="w-full max-w-lg min-[2200px]:max-w-2xl min-[2560px]:max-w-3xl min-[3840px]:max-w-4xl py-16 min-[2200px]:pb-24 min-[2560px]:pb-28 min-[2200px]:pt-12  min-[2560px]:pt-18 min-[3840px]:pt-26 bg-white shadow-lg px-28 min-[2200px]:px-38 rounded-3xl">
+        <h2 className="mb-8 min-[2200px]:mb-10 min-[2560px]:mb-14 min-[3840px]:mb-16 text-2xl min-[2200px]:text-3xl  min-[2560px]:text-4xl font-semibold">
           Removal Quote Calculator
         </h2>
 
@@ -60,7 +60,7 @@ const PriceCalculatorDesktop = () => {
         <select
           value={removalType}
           onChange={handleRemovalTypeChange}
-          className="w-full p-2 min-[1920px]:p-2.5  min-[2560px]:p-3.5 min-[3840px]:p-4 pl-3.5 min-[1920px]:pl-4  min-[2560px]:pl-5 min-[3840px]:pl-6 pr-2 mb-4  min-[2560px]:text-xl border rounded-lg focus:outline-none appearance-none arrow-lg"
+          className="w-full p-2 min-[2200px]:p-2.5  min-[2560px]:p-3.5 min-[3840px]:p-4 pl-3.5 min-[2200px]:pl-4  min-[2560px]:pl-5 min-[3840px]:pl-6 pr-2 mb-4  min-[2560px]:text-xl border rounded-lg focus:outline-none appearance-none arrow-lg"
           style={{
             backgroundImage:
               "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23333' stroke-width='2' fill='none'/%3E%3C/svg%3E\")",
@@ -86,7 +86,7 @@ const PriceCalculatorDesktop = () => {
         <select
           value={optionValue}
           onChange={handleOptionValueChange}
-          className="w-full p-2 min-[1920px]:p-2.5  min-[2560px]:p-3.5 pl-3.5 min-[1920px]:pl-4  min-[2560px]:pl-5 pr-2 mb-4   min-[2560px]:text-xl border rounded-lg appearance-none focus:outline-none arrow-lg"
+          className="w-full p-2 min-[2200px]:p-2.5  min-[2560px]:p-3.5 pl-3.5 min-[2200px]:pl-4  min-[2560px]:pl-5 pr-2 mb-4   min-[2560px]:text-xl border rounded-lg appearance-none focus:outline-none arrow-lg"
           style={{
             backgroundImage:
               "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23333' stroke-width='2' fill='none'/%3E%3C/svg%3E\")",
@@ -113,23 +113,23 @@ const PriceCalculatorDesktop = () => {
           )}
         </select>
 
-        <button className="w-full p-2 min-[1920px]:p-2.5 min-[2560px]:p-3  min-[3840px]:p-4 mt-4 min-[1920px]:mt-5 min-[2560px]:mt-10 min-[3840px]:mt-12 text-white min-[1920px]:text-lg min-[2560px]:text-xl min-[3840px]:text-2xl transition bg-indigo-600 rounded-lg hover:bg-blue-700 hover:scale-103">
+        <button className="w-full p-2 min-[2200px]:p-2.5 min-[2560px]:p-3  min-[3840px]:p-4 mt-4 min-[2200px]:mt-5 min-[2560px]:mt-10 min-[3840px]:mt-12 text-white min-[2200px]:text-lg min-[2560px]:text-xl min-[3840px]:text-2xl transition bg-indigo-600 rounded-lg hover:bg-blue-700 hover:scale-103">
           Next
         </button>
       </div>
 
       {/* Right side: Cost breakdown with overlap effect */}
-      <div className="relative z-10 w-full max-w-md min-[1920px]:max-w-lg min-[3840px]:max-w-2xl mt-6 min-[1920px]:-mt-2 -ml-10 min-[1920px]:-ml-16 text-white bg-indigo-600 shadow-lg py-14 min-[1920px]:py-17 min-[3840px]:py-20 px-14 min-[1920px]:px-18 min-[3840px]:px-22 rounded-xl">
-        <h3 className="text-xl min-[1920px]:text-2xl min-[3840px]:text-3xl font-bold">
+      <div className="relative z-10 w-full max-w-md min-[2200px]:max-w-lg min-[3840px]:max-w-2xl mt-6 min-[2200px]:-mt-2 -ml-10 min-[2200px]:-ml-16 text-white bg-indigo-600 shadow-lg py-14 min-[2200px]:py-17 min-[3840px]:py-20 px-14 min-[2200px]:px-18 min-[3840px]:px-22 rounded-xl">
+        <h3 className="text-xl min-[2200px]:text-2xl min-[3840px]:text-3xl font-bold">
           Estimated Removal Quote
         </h3>
-        <p className="mt-4 min-[1920px]:mt-6 min-[2560px]:mt-8 min-[3840px]:mt-9 text-3xl min-[1920px]:text-4xl font-extrabold">
+        <p className="mt-4 min-[2200px]:mt-6 min-[2560px]:mt-8 min-[3840px]:mt-9 text-3xl min-[2200px]:text-4xl font-extrabold">
           £{basePrice}
         </p>
-        <p className="mt-3 min-[1920px]:mt-5 min-[2560px]:mt-7 text-md min-[1920px]:text-lg min-[3840px]:text-xl">
+        <p className="mt-3 min-[2200px]:mt-5 min-[2560px]:mt-7 text-md min-[2200px]:text-lg min-[3840px]:text-xl">
           (Deposit: £{deposit}, with 2 men included)
         </p>
-        <div className="mt-7 text-md min-[1920px]:text-lg min-[3840px]:text-xl">
+        <div className="mt-7 text-md min-[2200px]:text-lg min-[3840px]:text-xl">
           Feel free to contact us and provide your removal details: Name, Pickup
           & Drop-Off Location, Available Removal Dates, and Removal Descriptions
           for quote confirmation.
