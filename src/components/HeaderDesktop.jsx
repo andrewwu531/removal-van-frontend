@@ -1,14 +1,12 @@
-import React from "react";
-
 const Header = () => {
   return (
     <header className="fixed top-0 left-0 w-full p-2 bg-white border-gray-200 z-[200] border shadow-gray-100">
       {/* Use a container to keep the content centered */}
       <div className="pt-2 mx-auto">
-        <div className="flex items-center justify-between h-16 min-[1920px]:h-20 min-[2560px]:h-24 min-[3840px]:h-40">
+        <div className="flex items-center justify-between h-16 min-[1920px]:h-18 min-[2560px]:h-24 min-[3840px]:h-40">
           {/* Left Section: Logo / Brand */}
-          <div className="flex items-center space-x-3 min-[1920px]:space-x-4 min-[2560px]:space-x-5 min-[3840px]:space-x-8">
-            <span className="text-xl -mt-1 min-[1920px]:text-2xl min-[2560px]:text-3xl min-[3840px]:text-5xl font-semibold text-gray-950 ml-[3rem] min-[1120px]:ml-[4rem] min-[1380px]:ml-[5rem] min-[1920px]:ml-[7rem] min-[3840px]:ml-[10rem]">
+          <div className="flex items-center space-x-3 min-[1920px]:space-x-3.5 min-[2560px]:space-x-5 min-[3840px]:space-x-8">
+            <span className="text-xl -mt-1 min-[2560px]:text-3xl min-[3840px]:text-5xl font-semibold text-gray-950 ml-[3rem] min-[1120px]:ml-[4rem] min-[1380px]:ml-[5rem] min-[1920px]:ml-[7rem] min-[3840px]:ml-[10rem]">
               Welcome Removal
             </span>
             {/* Small upward arrow (SVG icon) */}
@@ -25,7 +23,7 @@ const Header = () => {
             </svg>
           </div>
           {/* Middle Section: Navigation Links */}
-          <nav className="flex justify-center flex-1 py-5 text-gray-900 space-x-7 min-[1920px]:space-x-9 min-[2560px]:space-x-12 min-[3840px]:space-x-18 text-md min-[1920px]:text-xl min-[2560px]:text-2xl min-[3840px]:text-4xl">
+          <nav className="flex justify-center flex-1 py-5 text-gray-900 space-x-7 min-[1920px]:space-x-9 min-[2560px]:space-x-12 min-[3840px]:space-x-18 text-md min-[1920px]:text-lg min-[2560px]:text-2xl min-[3840px]:text-4xl">
             <a
               href="#removal-services"
               className="transition-colors hover:text-gray-500"
@@ -56,7 +54,7 @@ const Header = () => {
           <div className="mr-[3rem] min-[1300px]:mr-[4rem] min-[1380px]:mr-[5rem] min-[1920px]:mr-[7rem] min-[3840px]:mr-[10rem]">
             <a
               href="#"
-              className="px-7 min-[1920px]:px-10 min-[2560px]:px-14 min-[3840px]:px-20 py-3.5 min-[1920px]:py-4.5 min-[2560px]:py-5.5 min-[3840px]:py-8 font-medium min-[1920px]:text-xl min-[2560px]:text-2xl min-[3840px]:text-4xl text-white transition-colors bg-indigo-600 rounded-lg min-[2560px]:rounded-xl  min-[3840px]:rounded-2xl hover:bg-indigo-700 hover:text-white"
+              className="px-7 min-[1920px]:px-9 min-[2560px]:px-14 min-[3840px]:px-20 py-3.5 min-[1920px]:py-4 min-[2560px]:py-5.5 min-[3840px]:py-8 font-medium min-[1920px]:text-lg min-[2560px]:text-2xl min-[3840px]:text-4xl text-white transition-colors bg-indigo-600 rounded-lg min-[2560px]:rounded-xl  min-[3840px]:rounded-2xl hover:bg-indigo-700 hover:text-white"
             >
               Contact 07943059792
             </a>
