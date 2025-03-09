@@ -2,7 +2,7 @@ import React from "react";
 import {
   FaPhone,
   FaQuoteLeft,
-  FaLaptop,
+  FaTruck,
   FaCreditCard,
   FaEnvelopeOpen,
 } from "react-icons/fa";
@@ -14,56 +14,72 @@ const BookingStepsMobile = () => {
       number: 1,
       title: "Contact Us",
       description:
-        "Call or text us at 07943059792 and provide your details: Name, Pickup & Drop-Off Location, Available Removal Dates, and Removal Descriptions.",
-      icon: <FaPhone className="w-8 h-8 text-teal-600" />,
+        "Call or text us at 07943059792 and provide removal details: Name, Pickup & Drop-Off Location, Available Removal Dates, and Removal Descriptions.",
+      icon: (
+        <FaPhone className="w-5 h-5  min-[3840px]:w-10 min-[3840px]:h-10 text-indigo-600" />
+      ),
     },
     {
       number: 2,
       title: "Receive a Quote",
       description:
         "We will respond with a personalized quote based on your details.",
-      icon: <FaQuoteLeft className="w-8 h-8 text-teal-600" />,
+      icon: (
+        <FaQuoteLeft className="w-5 h-5  min-[3840px]:w-10 min-[3840px]:h-10 text-indigo-600" />
+      ),
     },
     {
       number: 3,
-      title: "Secure Your Booking",
-      description: "We ask you to secure your booking online via our website.",
-      icon: <FaLaptop className="w-8 h-8 text-teal-600" />,
+      title: "Secure Your Booking with a Deposit",
+      description:
+        "Secure your booking online via our website and pay a PalPay deposit payment. ",
+      icon: (
+        <FaCreditCard className="w-5 h-5 min-[3840px]:w-10 min-[3840px]:h-10 text-indigo-600" />
+      ),
     },
+
     {
       number: 4,
-      title: "Pay Deposit",
-      description:
-        "Make a PayPal deposit payment. The deposit is £60 for one bedroom, £100 for two bedrooms, or more for business removals.",
-      icon: <FaCreditCard className="w-8 h-8 text-teal-600" />,
-    },
-    {
-      number: 5,
       title: "Confirmation",
       description:
         "Receive an email confirmation and a follow-up text with your removal information.",
-      icon: <FaEnvelopeOpen className="w-8 h-8 text-teal-600" />,
+      icon: (
+        <FaEnvelopeOpen className="w-5 h-5  min-[3840px]:w-10 min-[3840px]:h-10 text-indigo-600" />
+      ),
+    },
+    {
+      number: 5,
+      title: "Final Payment & Service Delivery",
+      description:
+        "Pay the remaining removal payment to our team and we will deliver the removal service for you.",
+      icon: (
+        <FaTruck className="w-5 h-5 min-[3840px]:w-10 min-[3840px]:h-10 text-indigo-600" />
+      ), // Using a truck icon to represent service delivery
     },
   ];
 
   return (
-    <div className="py-8 bg-white">
-      <div className="max-w-screen-xl px-4 mx-auto">
-        <h2 className="mb-8 text-3xl font-bold text-center">
-          How to Book a Removal Service
-        </h2>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-5">
+    <div id="booking-steps" className="pt-20 bg-white">
+      {/* <div className="flex justify-center w-3/4 pb-6 mx-auto text-2xl font-semibold text-center ">
+        Five-Step Removal
+      </div> */}
+      <div className="w-4/5 px-4 pt-1 mx-auto">
+        <div className="grid grid-cols-1 gap-8 min-[1920px]:gap-12">
           {steps.map((step) => (
             <div
               key={step.number}
               className="flex flex-col items-center text-center"
             >
               {/* Circle diagram with a border */}
-              <div className="flex items-center justify-center w-16 h-16 mb-4 border-4 border-teal-500 rounded-full">
+              <div className="flex items-center justify-center w-14 h-14 min-[1920px]:w-15 min-[1920px]:h-15 min-[3840px]:h-30 min-[3840px]:w-30 mb-4 min-[1920px]:mb-5 min-[2560px]:mb-6 min-[3840px]:mb-9 border-4 min-[3840px]:border-7 border-indigo-600 rounded-full">
                 {step.icon}
               </div>
-              <h3 className="mb-2 text-xl font-semibold">{step.title}</h3>
-              <p className="text-sm text-gray-600">{step.description}</p>
+              <h3 className="mb-2 min-[1920px]:mb-3 min-[2560px]:mb-4 min-[3840px]:mb-5 text-xl min-[1920px]:text-2xl min-[2560px]:text-3xl min-[3840px]:text-4xl font-semibold">
+                {step.title}
+              </h3>
+              <p className="text-sm min-[1920px]:text-base min-[2560px]:text-xl min-[3840px]:text-2xl text-gray-600">
+                {step.description}
+              </p>
             </div>
           ))}
         </div>

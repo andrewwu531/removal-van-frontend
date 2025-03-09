@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const PriceCalculatorDesktop = () => {
+const PriceCalculatorMobile = () => {
   const [removalType, setRemovalType] = useState("home");
   const [optionValue, setOptionValue] = useState("1");
   const [removalLocation, setRemovalLocation] = useState("Glasgow"); // NEW: Added removal location state
@@ -60,21 +60,21 @@ const PriceCalculatorDesktop = () => {
   const totalPrice = basePrice + additionalCost;
 
   return (
-    <div className="relative flex flex-row items-center justify-center p-6 mt-3 min-[2000px]:mt-7 min-[2560px]:mt-10 min-[3840px]:mt-14 mb-16 min-[2200px]:mb-6 bg-white">
+    <div className="relative flex flex-col items-center justify-center p-6 mt-3 mb-16 bg-white">
       {/* Left side: Form fields */}
-      <div className="w-full max-w-lg min-[2200px]:max-w-2xl min-[2560px]:max-w-3xl min-[3840px]:max-w-4xl py-16 min-[2200px]:pb-24 min-[2560px]:pb-28 min-[2200px]:pt-12  min-[2560px]:pt-18 min-[3840px]:pt-26 bg-white shadow-lg px-28 min-[2200px]:px-38 rounded-3xl">
-        <h2 className="mb-8 min-[2200px]:mb-10 min-[2560px]:mb-14 min-[3840px]:mb-16 text-2xl min-[2200px]:text-3xl  min-[2560px]:text-4xl font-semibold">
+      <div className="flex flex-col justify-center w-11/12 py-16 mx-auto bg-white">
+        <h2 className="mb-8 text-2xl font-semibold text-center">
           Removal Quote Calculator
         </h2>
 
         {/* Removal Type */}
-        <label className="block mb-1  min-[2560px]:mb-1.5 min-[3840px]:mb-2 font-semibold  min-[2560px]:text-xl min-[3840px]:text-2xl text-gray-700">
+        <label className="block mb-1 font-semibold text-gray-700">
           Removal Type
         </label>
         <select
           value={removalType}
           onChange={handleRemovalTypeChange}
-          className="w-full p-2 min-[2200px]:p-2.5  min-[2560px]:p-3.5 min-[3840px]:p-4 pl-3.5 min-[2200px]:pl-4  min-[2560px]:pl-5 min-[3840px]:pl-6 pr-2 mb-4  min-[2560px]:text-xl border rounded-md min-[2560px]:rounded-lg focus:outline-none appearance-none arrow-lg"
+          className="w-full p-2  pl-3.5 pr-2 mb-4   border rounded-md focus:outline-none appearance-none arrow-lg"
           style={{
             backgroundImage:
               "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23333' stroke-width='2' fill='none'/%3E%3C/svg%3E\")",
@@ -83,16 +83,12 @@ const PriceCalculatorDesktop = () => {
             backgroundSize: "0.65rem auto",
           }}
         >
-          <option value="home" className=" min-[2560px]:text-xl">
-            Home Removal
-          </option>
-          <option value="business" className=" min-[2560px]:text-xl">
-            Business Removal
-          </option>
+          <option value="home">Home Removal</option>
+          <option value="business">Business Removal</option>
         </select>
 
         {/* Dynamic Field: Number of Bedrooms OR Office Size */}
-        <label className="block mb-1  min-[2560px]:mb-1.5 min-[3840px]:mb-2 min-[2560px]:text-xl min-[3840px]:text-2xl font-semibold text-gray-700">
+        <label className="block mb-1 font-semibold text-gray-700">
           {removalType === "home"
             ? "Number of Applicable Bedrooms"
             : "Office Size (square foot)"}
@@ -100,7 +96,7 @@ const PriceCalculatorDesktop = () => {
         <select
           value={optionValue}
           onChange={handleOptionValueChange}
-          className="w-full p-2 min-[2200px]:p-2.5  min-[2560px]:p-3.5 pl-3.5 min-[2200px]:pl-4  min-[2560px]:pl-5 pr-2 mb-4   min-[2560px]:text-xl border rounded-md min-[2560px]:rounded-lg appearance-none focus:outline-none arrow-lg"
+          className="w-full p-2 pl-3.5 pr-2 mb-4 border rounded-md appearance-none focus:outline-none arrow-lg"
           style={{
             backgroundImage:
               "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23333' stroke-width='2' fill='none'/%3E%3C/svg%3E\")",
@@ -128,13 +124,13 @@ const PriceCalculatorDesktop = () => {
         </select>
 
         {/* NEW: Removal Location Section */}
-        <label className="block mb-1 min-[2560px]:mb-1.5 min-[3840px]:mb-2 font-semibold min-[2560px]:text-xl min-[3840px]:text-2xl text-gray-700">
+        <label className="block mb-1 font-semibold text-gray-700">
           Removal Pickup Location
         </label>
         <select
           value={removalLocation}
           onChange={(e) => setRemovalLocation(e.target.value)}
-          className="w-full p-2 min-[2200px]:p-2.5 min-[2560px]:p-3.5 pl-3.5 min-[2200px]:pl-4 min-[2560px]:pl-5 pr-2 mb-4 min-[2560px]:text-xl border rounded-md min-[2560px]:rounded-lg appearance-none focus:outline-none arrow-lg"
+          className="w-full p-2 pl-3.5  pr-2 border rounded-md appearance-none focus:outline-none arrow-lg"
           style={{
             backgroundImage:
               "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23333' stroke-width='2' fill='none'/%3E%3C/svg%3E\")",
@@ -155,17 +151,13 @@ const PriceCalculatorDesktop = () => {
       </div>
 
       {/* Right side: Cost breakdown with overlap effect */}
-      <div className="relative z-10 w-full max-w-md min-[2200px]:max-w-lg min-[3840px]:max-w-2xl mt-6 min-[2200px]:-mt-2 -ml-10 min-[2200px]:-ml-16 text-white bg-indigo-600 shadow-lg py-14 min-[2200px]:py-17 min-[3840px]:py-20 px-14 min-[2200px]:px-18 min-[3840px]:px-22 rounded-xl">
-        <h3 className="text-xl min-[2200px]:text-2xl min-[3840px]:text-3xl font-bold">
-          Estimated Removal Quote
-        </h3>
-        <p className="mt-4 min-[2200px]:mt-6 min-[2560px]:mt-8 min-[3840px]:mt-9 text-3xl min-[2200px]:text-4xl font-extrabold">
-          £{totalPrice}
-        </p>
-        <p className="mt-3 min-[2200px]:mt-5 min-[2560px]:mt-7 text-md min-[2200px]:text-lg min-[3840px]:text-xl">
+      <div className="z-10 flex flex-col justify-center w-11/12 px-10 py-10 mx-auto text-white bg-indigo-600 shadow-lg rounded-xl">
+        <h3 className="text-xl font-bold">Estimated Removal Quote</h3>
+        <p className="mt-4 text-3xl font-extrabold">£{totalPrice}</p>
+        <p className="mt-3 text-md">
           (Deposit: £{deposit}, with 2 men included)
         </p>
-        <div className="mt-7 text-md min-[2200px]:text-lg min-[3840px]:text-xl">
+        <div className="mt-7 text-md">
           Feel free to contact us and provide your removal details: Name, Pickup
           & Drop-Off Location, Available Removal Dates, and Removal Descriptions
           for quote confirmation.
@@ -175,4 +167,4 @@ const PriceCalculatorDesktop = () => {
   );
 };
 
-export default PriceCalculatorDesktop;
+export default PriceCalculatorMobile;
