@@ -34,7 +34,7 @@ const HeroSectionDesktop = () => {
   return (
     <section
       id="removal-services"
-      className="flex flex-col pb-10 min-[2560px]:mt-20 bg-white text-blue-950"
+      className="min-[3840px]:scroll-mt-[100px] min-[2560px]:scroll-mt-[50px] flex flex-col pb-10 min-[2560px]:mt-20 bg-white text-blue-950"
     >
       <div className="flex flex-row items-start w-11/12 min-[1423px]:w-5/6 min-[2560px]:w-3/4 min-[3840px]:w-2/3 mx-auto">
         <div className="grid grid-cols-3 gap-4 min-[2560px]:gap-5">
@@ -47,7 +47,7 @@ const HeroSectionDesktop = () => {
               <img
                 src={photo.imgSrc}
                 alt={photo.alt}
-                className="object-cover w-full rounded-md h-60 min-[1920px]:h-70 min-[2560px]:h-80 min-[3840px]:h-90"
+                className="object-cover w-full rounded-md h-42 min-[1300px]:h-52 min-[1920px]:h-65 min-[2560px]:h-80 min-[3840px]:h-90"
               />
 
               {/* Card Content - Ensures content fills remaining space */}

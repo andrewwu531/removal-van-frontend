@@ -15,10 +15,7 @@ const Stage1BookingFormDesktop = ({ bookingDetails, onNextStep }) => {
   };
 
   return (
-    <div
-      className="w-5/6 min-[1423px]:w-4/5 min-[3840px]:w-5/6 font-sans"
-      id="booking-form"
-    >
+    <div className="w-5/6 min-[1423px]:w-4/5 min-[3840px]:w-5/6 font-sans">
       <div className="pt-2 min-[2560px]:pt-6 mr-4 bg-white rounded-lg">
         <form onSubmit={handleSubmit}>
           <h2 className="mb-6 min-[1423px]:mb-9 min-[1920px]:mb-10 text-2xl min-[2560px]:text-3xl font-semibold text-gray-700 ">

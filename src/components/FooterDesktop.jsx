@@ -3,41 +3,38 @@ import { FaPhone, FaEnvelope, FaClock } from "react-icons/fa";
 const FooterDesktop = () => {
   return (
     <footer className="pb-16 text-white bg-gray-800 pt-18">
-      <div className="grid max-w-screen-xl grid-cols-4 pb-10 mx-auto ">
-        {/* Company Info */}
+      <div className="grid w-11/12 grid-cols-3 pb-10 mx-auto justify-items-center">
+        {/* Company Info
         <div>
           <h2 className="mb-8 text-xl font-semibold">Welcome Removal</h2>
-          {/* <p className="mr-32 text-white ">
-            Reliable & Affordable Home & Business Removal Services Across the UK
-          </p> */}
-        </div>
+        </div> */}
 
         {/* Quick Links */}
         <div>
           <h3 className="mb-8 text-xl font-semibold">Quick Links</h3>
           <ul className="space-y-2">
             <li>
-              <a href="#" className="hover:text-teal-400">
+              <a href="#booking-steps" className="hover:text-indigo-500">
                 Home
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-teal-400">
+              <a href="#removal-services" className="hover:text-indigo-500">
                 Removal Services
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-teal-400">
+              <a href="#booking-form" className="hover:text-indigo-500">
                 Book a Spot Now
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-teal-400">
+              <a href="#booking-steps" className="hover:text-indigo-500">
                 How Removal Works
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-teal-400">
+              <a href="#removal-services" className="hover:text-indigo-500">
                 Customer Protection
               </a>
             </li>
@@ -49,27 +46,27 @@ const FooterDesktop = () => {
           <h3 className="mb-8 text-xl font-semibold">Our Services</h3>
           <ul className="space-y-2">
             <li>
-              <a href="#" className="hover:text-teal-400">
+              <a href="#removal-services" className="hover:text-indigo-500">
                 Residential Removals
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-teal-400">
+              <a href="#removal-services" className="hover:text-indigo-500">
                 Business Asset Relocations
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-teal-400">
+              <a href="#removal-services" className="hover:text-indigo-500">
                 Packing & Unpacking
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-teal-400">
+              <a href="#removal-services" className="hover:text-indigo-500">
                 Equipment Installation
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-teal-400">
+              <a href="#removal-services" className="hover:text-indigo-500">
                 Man and a Van Service
               </a>
             </li>
@@ -88,34 +85,6 @@ const FooterDesktop = () => {
           <p className="flex items-center">
             <FaClock className="mr-5" /> Mon-Sun: 8am-11pm
           </p>
-          {/* <p className="flex items-center">
-            <FaMapMarkerAlt className="mr-5" /> 123 Removal Street, London, UK
-          </p> */}
-          {/* <p className="pt-10 text-right">&copy; {new Date().getFullYear()}</p> */}
-          {/* <p>
-          <a href="#" className="hover:text-teal-400">
-            Privacy Policy
-          </a>{" "}
-          |
-          <a href="#" className="ml-2 hover:text-teal-400">
-            Terms & Conditions
-          </a>
-        </p> */}
-
-          {/* <div className="flex mt-12 space-x-4">
-            <a href="#" className="text-gray-400 hover:text-teal-400">
-              <FaFacebook size={20} />
-            </a>
-            <a href="#" className="text-gray-400 hover:text-teal-400">
-              <FaInstagram size={20} />
-            </a>
-            <a href="#" className="text-gray-400 hover:text-teal-400">
-              <FaTwitter size={20} />
-            </a>
-            <a href="#" className="text-gray-400 hover:text-teal-400">
-              <FaLinkedin size={20} />
-            </a>
-          </div> */}
         </div>
       </div>
     </footer>
