@@ -4,12 +4,12 @@ import { FaWhatsapp } from "react-icons/fa"; // Import WhatsApp icon from react-
 const ChatIcon = () => {
   const chatIconStyle = {
     position: "fixed",
-    top: "12px",
-    right: "12px",
+    bottom: "20px",
+    right: "20px",
     zIndex: 1000,
-    width: "33px",
-    height: "33px",
-    borderRadius: "25%",
+    width: "50px",
+    height: "50px",
+    borderRadius: "30%",
     backgroundColor: "#25D366", // Official WhatsApp green
     display: "flex",
     justifyContent: "center",
@@ -27,7 +27,7 @@ const ChatIcon = () => {
       rel="noopener noreferrer"
       style={chatIconStyle}
     >
-      <FaWhatsapp size={25} />
+      <FaWhatsapp size={32} />
     </a>
   );
 };

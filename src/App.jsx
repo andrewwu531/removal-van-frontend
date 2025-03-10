@@ -33,6 +33,7 @@ function App() {
       {screenSize < 1024 ? (
         <>
           <HeaderMobilev2 />
+          <div className="mt-12"></div>
           <PriceCalculatorMobilev2 />
           {/* <PriceCalculatorMobile /> */}
 

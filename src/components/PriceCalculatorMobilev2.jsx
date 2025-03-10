@@ -76,7 +76,7 @@ const BookingInterface = () => {
   };
 
   return (
-    <div className="flex flex-col items-center px-4 bg-gray-50 py-7">
+    <div className="flex flex-col items-center px-4 bg-white py-7">
       {/* Header / Title */}
       <div className="w-full max-w-md pl-3 mb-6 text-left">
         <h1 className="mb-1.5 text-2xl font-bold text-gray-900">
@@ -86,7 +86,7 @@ const BookingInterface = () => {
       </div>
 
       {/* Search Form */}
-      <div className="w-full max-w-md px-6 bg-white ">
+      <div className="w-full max-w-md px-6 bg-white">
         <form>
           <div className="grid grid-cols-1">
             {/* Removal Type */}
