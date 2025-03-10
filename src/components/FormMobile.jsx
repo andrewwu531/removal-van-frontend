@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Stage1BookingFormMobile from "./Stage1BookingformMobile";
+import Stage1BookingFormMobile from "./Stage1BookingFormMobile";
 import Stage2PaymentMobile from "./Stage2PaymentMobile";
 import Stage4ConfirmationMobile from "./Stage4ConfirmationMobile";
 import PaymentLayoutMobile from "./PaymentLayoutMobile";
