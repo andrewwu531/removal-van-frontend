@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import HeroSectionDesktop from "./HeroSectionDesktop";
-import HeroSectionMobile from "./HeroSectionMobile";
+// Remove the mobile import if it's no longer needed
+// import HeroSectionMobile from "./HeroSectionMobile";
 
 const HeroSection = () => {
   const [screenSize, setScreenSize] = useState(window.innerWidth);
@@ -14,19 +15,10 @@ const HeroSection = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  let ComponentToRender;
+  // If screenSize is less than 1024, nothing will be rendered.
+  const ComponentToRender = screenSize >= 1024 ? HeroSectionDesktop : null;
 
-  if (screenSize < 1024) {
-    ComponentToRender = HeroSectionMobile; // Mobile view
-  } else {
-    ComponentToRender = HeroSectionDesktop; // Full Desktop view
-  }
-
-  return (
-    <div>
-      <ComponentToRender />
-    </div>
-  );
+  return <div>{ComponentToRender && <ComponentToRender />}</div>;
 };
 
 export default HeroSection;

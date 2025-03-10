@@ -59,11 +59,18 @@ const BookingStepsMobile = () => {
   ];
 
   return (
-    <div id="booking-steps" className="pt-20 bg-white">
-      {/* <div className="flex justify-center w-3/4 pb-6 mx-auto text-2xl font-semibold text-center ">
+    <div
+      id="booking-steps"
+      className="flex flex-col justify-center w-11/12 pt-8 pb-12 mx-auto bg-indigo-100 mt-15 rounded-2xl"
+    >
+      <div className="flex justify-center w-3/4 pb-6 mx-auto text-2xl font-semibold text-center ">
         Five-Step Removal
+      </div>
+
+      {/* <div className="relative flex items-center justify-center w-11/12 mx-auto mb-6 text-white bg-indigo-600 rounded-lg py-7">
+        <h1 className="text-xl font-semibold">Five-Step Removal</h1>
       </div> */}
-      <div className="w-4/5 px-4 pt-1 mx-auto">
+      <div className="w-4/5 px-4 pt-3 mx-auto">
         <div className="grid grid-cols-1 gap-8 min-[1920px]:gap-12">
           {steps.map((step) => (
             <div
