@@ -10,7 +10,8 @@ import BookingStepsMobile from "./components/BookingStepsMobile";
 import HeroSectionMobile from "./components/HeroSectionMobile";
 import FormMobile from "./components/FormMobile";
 import FooterMobile from "./components/FooterMobile";
-import ChatIconMobile from "./components/ChatIconMobile";
+import IconWhatsAppMobile from "./components/IconWhatsAppMobile";
+import IconTextMobile from "./components/IconTextMobile";
 
 // Desktop Components
 import BookingStepsDesktop from "./components/BookingStepsDesktop";
@@ -41,7 +42,8 @@ function App() {
           {/* <HeroSectionMobile /> */}
           <FormMobile />
           <FooterMobile />
-          <ChatIconMobile />
+          <IconWhatsAppMobile />
+          <IconTextMobile />
         </>
       ) : (
         <>

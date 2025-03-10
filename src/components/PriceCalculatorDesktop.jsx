@@ -76,7 +76,7 @@ const PriceCalculatorDesktop = () => {
   };
 
   return (
-    <div className="relative flex flex-row items-center justify-center p-6 mt-3 min-[2000px]:mt-7 min-[2560px]:mt-10 min-[3840px]:mt-14 mb-16 min-[2200px]:mb-6 bg-white">
+    <div className="relative flex flex-row items-center justify-center p-6  min-[2000px]:mt-7 min-[2560px]:mt-10 min-[3840px]:mt-14 mb-16 min-[2200px]:mb-6 bg-white">
       {/* Left side: Form fields */}
       <div className="w-full max-w-lg min-[2200px]:max-w-2xl min-[2560px]:max-w-3xl min-[3840px]:max-w-4xl py-16 min-[2200px]:pb-24 min-[2560px]:pb-28 min-[2200px]:pt-12 min-[2560px]:pt-18 min-[3840px]:pt-26 bg-white shadow-lg px-28 min-[2200px]:px-38 rounded-3xl">
         <h2 className="mb-8 min-[2200px]:mb-10 min-[2560px]:mb-14 min-[3840px]:mb-16 text-2xl min-[2200px]:text-3xl min-[2560px]:text-4xl font-semibold">

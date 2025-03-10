@@ -1,6 +1,6 @@
 const Header = () => {
   return (
-    <header className="fixed top-0 left-0 w-full p-2 bg-white border-gray-200 z-[200] border shadow-gray-100">
+    <header className="w-full p-2 bg-white z-[200]  ">
       {/* Use a container to keep the content centered */}
       <div className="pt-2 mx-auto">
         <div className="flex items-center justify-between h-16 min-[2560px]:h-24 min-[3840px]:h-40">

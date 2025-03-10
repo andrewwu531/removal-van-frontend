@@ -5,7 +5,7 @@ const BookingHeader = () => {
   return (
     <header className="fixed top-0 left-0 w-full text-white bg-white border-b z-1000 border-b-gray-200">
       {/* Top Bar */}
-      <div className="flex items-center justify-center px-5 py-3">
+      <div className="flex items-center justify-start py-3 pl-7">
         {/* Left: Brand */}
         <div className="flex items-center space-x-2">
           <span className="text-lg font-semibold text-gray-950">
