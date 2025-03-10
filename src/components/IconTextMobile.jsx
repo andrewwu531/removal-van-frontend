@@ -1,12 +1,8 @@
 import React from "react";
-import { IoIosChatbubbles } from "react-icons/io"; // Import texting/chat bubble icon
+import { IoIosChatbubbles } from "react-icons/io"; // Texting icon
 
-const TextingIcon = () => {
+const IconTextMobile = () => {
   const textingIconStyle = {
-    position: "fixed",
-    top: "7px",
-    right: "7px",
-    zIndex: 1000,
     width: "40px",
     height: "40px",
     borderRadius: "30%",
@@ -16,7 +12,7 @@ const TextingIcon = () => {
     alignItems: "center",
     color: "white",
     textDecoration: "none",
-    // boxShadow: "2px 2px 5px rgba(0,0,0,0.3)",
+    boxShadow: "2px 2px 5px rgba(0,0,0,0.3)",
     cursor: "pointer",
   };
 
@@ -32,4 +28,4 @@ const TextingIcon = () => {
   );
 };
 
-export default TextingIcon;
+export default IconTextMobile;

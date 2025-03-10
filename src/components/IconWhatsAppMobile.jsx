@@ -1,12 +1,8 @@
 import React from "react";
-import { FaWhatsapp } from "react-icons/fa"; // Import WhatsApp icon from react-icons
+import { FaWhatsapp } from "react-icons/fa";
 
-const ChatIcon = () => {
+const IconWhatsAppMobile = () => {
   const chatIconStyle = {
-    position: "fixed",
-    top: "7px",
-    right: "52px",
-    zIndex: 1000,
     width: "40px",
     height: "40px",
     borderRadius: "30%",
@@ -16,7 +12,7 @@ const ChatIcon = () => {
     alignItems: "center",
     color: "white",
     textDecoration: "none",
-    // boxShadow: "2px 2px 5px rgba(0,0,0,0.3)",
+    boxShadow: "2px 2px 5px rgba(0,0,0,0.3)",
     cursor: "pointer",
   };
 
@@ -32,4 +28,4 @@ const ChatIcon = () => {
   );
 };
 
-export default ChatIcon;
+export default IconWhatsAppMobile;

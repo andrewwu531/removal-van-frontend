@@ -42,8 +42,6 @@ function App() {
           {/* <HeroSectionMobile /> */}
           <FormMobile />
           <FooterMobile />
-          <IconWhatsAppMobile />
-          <IconTextMobile />
         </>
       ) : (
         <>
