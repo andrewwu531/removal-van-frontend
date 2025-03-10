@@ -61,12 +61,12 @@ const BookingStepsDesktop = () => {
   return (
     <div
       id="booking-steps"
-      className="mt-3 pb-12 w-11/12 flex justify-center flex-col mx-auto rounded-xl bg-indigo-50 min-[1920px]:pt-16 min-[2560px]:pt-48 min-[3840px]:pt-72 min-[1920px]:mb-3"
+      className="mt-3 pb-12 w-11/12 flex justify-center flex-col mx-auto rounded-xl bg-indigo-50 pt-12 min-[1920px]:pt-16 min-[2560px]:pt-20 min-[3840px]:pt-28 min-[1920px]:mb-3  min-[2560px]:pb-20 min-[3840px]:pb-28"
     >
       <div className="flex justify-center text-4xl min-[1920px]:text-4xl min-[2560px]:text-5xl min-[3840px]:text-6xl font-semibold pb-18 xl:pb-15">
         Five-Step Removal Process
       </div>
-      <div className="w-4/5 xl:w-5/6 px-10 mx-auto pt-1 min-[2560px]:pt-3 min-[3840px]:pt-8">
+      <div className="w-11/12 px-10 mx-auto pt-1 min-[2560px]:pt-3 min-[3840px]:pt-8">
         <div className="grid grid-cols-5 gap-8 min-[1920px]:gap-12">
           {steps.map((step) => (
             <div
