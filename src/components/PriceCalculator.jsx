@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import PriceCalculatorDesktop from "./PriceCalculatorDesktop";
+import PriceCalculatorDesktop from "./PriceCalculatorDesktop1";
 import PriceCalculatorMobile from "./PriceCalculatorMobile";
 
 const PriceCalculator = () => {
