@@ -155,7 +155,7 @@ const Stage2PaymentMobile = ({ onPaymentSuccess, onPaymentError }) => {
 
   return (
     <PayPalScriptProvider options={initialOptions}>
-      <div className="relative flex flex-col justify-center pt-2 mx-auto bg-white rounded-lg">
+      <div className="relative flex flex-col justify-center w-5/6 pt-2 mx-auto bg-white rounded-lg">
         {/* Always render these elements, but use the invisible class to hide them when isPaying is true */}
         <div
           className={`mb-10 text-2xl font-semibold text-center ${isPaying ? "invisible" : ""}`}
@@ -173,6 +173,7 @@ const Stage2PaymentMobile = ({ onPaymentSuccess, onPaymentError }) => {
                 layout: "vertical",
                 color: "black",
                 label: "pay",
+                height: 55,
               }}
             />
           </div>

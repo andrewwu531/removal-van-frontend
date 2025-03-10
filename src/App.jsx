@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
-import Header from "./components/Header";
+import HeaderDesktop from "./components/HeaderDesktop";
+import HeaderMobilev2 from "./components/HeaderMobilev2";
 
 // Mobile Components
 import PriceCalculatorMobile from "./components/PriceCalculatorMobile";
+
+import PriceCalculatorMobilev2 from "./components/PriceCalculatorMobilev2";
 import BookingStepsMobile from "./components/BookingStepsMobile";
 import HeroSectionMobile from "./components/HeroSectionMobile";
 import FormMobile from "./components/FormMobile";
@@ -27,18 +30,21 @@ function App() {
 
   return (
     <div>
-      <Header />
       {screenSize < 1024 ? (
         <>
-          <PriceCalculatorMobile />
+          <HeaderMobilev2 />
+          <PriceCalculatorMobilev2 />
+          {/* <PriceCalculatorMobile /> */}
+
           <BookingStepsMobile />
-          <HeroSectionMobile />
+          {/* <HeroSectionMobile /> */}
           <FormMobile />
           <FooterMobile />
           <ChatIconMobile />
         </>
       ) : (
         <>
+          <HeaderDesktop />
           <BookingStepsDesktop />
           <PriceCalculatorDesktop />
           <HeroSectionDesktop />

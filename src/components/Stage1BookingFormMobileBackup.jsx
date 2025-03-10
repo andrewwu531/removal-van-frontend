@@ -18,13 +18,13 @@ const Stage1BookingFormMobile = ({ bookingDetails, onNextStep }) => {
     <div className="w-5/6 font-sans">
       <div className="bg-white rounded-lg ">
         <form onSubmit={handleSubmit}>
-          <h2 className="mb-6 text-xl font-semibold text-gray-700 ">
+          <h2 className="mb-8 text-xl font-semibold text-gray-700 ">
             Personal Details
           </h2>
 
           <div className="grid grid-cols-1">
             <div className="mb-3">
-              <label className="block font-semibold text-gray-700 text-md ">
+              <label className="block font-medium text-gray-700 text-md ">
                 Name
               </label>
               <input
@@ -36,7 +36,7 @@ const Stage1BookingFormMobile = ({ bookingDetails, onNextStep }) => {
               />
             </div>
             <div className="mb-3">
-              <label className="block font-semibold text-gray-700">
+              <label className="block font-medium text-gray-700 text-md">
                 Email Address
               </label>
               <input
@@ -49,7 +49,7 @@ const Stage1BookingFormMobile = ({ bookingDetails, onNextStep }) => {
             </div>
           </div>
           <div className="mb-3">
-            <label className="block font-semibold text-gray-700">
+            <label className="block font-medium text-gray-700 text-md">
               Telephone
             </label>
             <input
@@ -60,11 +60,11 @@ const Stage1BookingFormMobile = ({ bookingDetails, onNextStep }) => {
               className="block w-full p-3 mt-1 bg-white border border-gray-300 rounded focus:outline-none"
             />
           </div>
-          <h2 className="mt-10 mb-6 text-xl font-semibold text-gray-700">
+          <h2 className="mt-10 mb-8 text-xl font-semibold text-gray-700">
             Removal Information
           </h2>
           <div className="mb-3">
-            <label className="block font-semibold text-gray-700">
+            <label className="block font-medium text-gray-700 text-md">
               Pickup Location
             </label>
             <input
@@ -76,7 +76,7 @@ const Stage1BookingFormMobile = ({ bookingDetails, onNextStep }) => {
             />
           </div>
           <div className="mb-3">
-            <label className="block font-semibold text-gray-700">
+            <label className="block font-medium text-gray-700 text-md">
               Dropoff Location
             </label>
             <input
@@ -88,7 +88,7 @@ const Stage1BookingFormMobile = ({ bookingDetails, onNextStep }) => {
             />
           </div>
           <div className="mb-3">
-            <label className="block font-semibold text-gray-700">
+            <label className="block font-medium text-gray-700 text-md">
               Deposit Amount
             </label>
             <div className="relative">

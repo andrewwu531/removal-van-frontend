@@ -61,7 +61,7 @@ const BookingStepsMobile = () => {
   return (
     <div
       id="booking-steps"
-      className="flex flex-col justify-center w-11/12 pt-8 pb-12 mx-auto mt-8 bg-indigo-100 rounded-2xl"
+      className="flex flex-col justify-center w-11/12 pt-8 pb-12 mx-auto bg-indigo-100 rounded"
     >
       <div className="flex justify-center w-3/4 pb-6 mx-auto text-2xl font-semibold text-center ">
         Five-Step Removal

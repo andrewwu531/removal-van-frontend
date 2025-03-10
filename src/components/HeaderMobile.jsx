@@ -48,7 +48,7 @@ const HeaderMobile = () => {
         </div>
         {/* Conditionally render the nav section */}
         {isNavOpen && (
-          <nav className="flex flex-col items-center pt-5 mt-5 space-y-4 text-lg text-gray-900 mb-7">
+          <nav className="flex flex-col items-center pt-5 mt-5 mb-6 space-y-4 text-lg text-gray-900">
             <a
               href="#removal-services"
               className="py-0.5 transition-colors hover:text-gray-500"
