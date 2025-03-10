@@ -1,9 +1,16 @@
 import { useState } from "react";
+import {
+  FaHome,
+  FaBriefcase,
+  FaBed,
+  FaBuilding,
+  FaMapMarkerAlt,
+} from "react-icons/fa";
 
 const BookingInterface = () => {
   const [removalType, setRemovalType] = useState("home");
   const [optionValue, setOptionValue] = useState("1");
-  const [removalLocation, setRemovalLocation] = useState("Glasgow"); // NEW: Added removal location state
+  const [removalLocation, setRemovalLocation] = useState("Glasgow");
 
   const handleRemovalTypeChange = (event) => {
     const type = event.target.value;
@@ -46,7 +53,7 @@ const BookingInterface = () => {
     deposit = optionValue === "1000" ? 60 : 100;
   }
 
-  // NEW: Determine additional cost based on removal location
+  // Determine additional cost based on removal location
   let additionalCost = 0;
   if (removalLocation === "London") {
     additionalCost = 30;
@@ -58,6 +65,16 @@ const BookingInterface = () => {
     additionalCost = 15;
   }
   const totalPrice = basePrice + additionalCost;
+
+  // Common style for select background arrow
+  const selectStyle = {
+    backgroundImage:
+      "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23555' stroke-width='2' fill='none'/%3E%3C/svg%3E\")",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "right 0.65rem center",
+    backgroundSize: "0.65rem auto",
+  };
+
   return (
     <div className="flex flex-col items-center px-4 py-7 bg-gray-50">
       {/* Header / Title */}
@@ -72,105 +89,103 @@ const BookingInterface = () => {
       <div className="w-full max-w-md p-4 bg-white rounded-md shadow">
         <form>
           <div className="grid grid-cols-1">
-            {/* Check-in Date */}
+            {/* Removal Type */}
             <div>
               <label className="block mb-1.5 font-semibold text-gray-700">
                 Removal Type
               </label>
-              <select
-                value={removalType}
-                onChange={handleRemovalTypeChange}
-                className="w-full p-3  pl-3.5 pr-2 mb-4   border border-gray-300 rounded focus:outline-none appearance-none"
-                style={{
-                  backgroundImage:
-                    "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23555' stroke-width='2' fill='none'/%3E%3C/svg%3E\")",
-                  backgroundRepeat: "no-repeat",
-                  backgroundPosition: "right 0.65rem center",
-                  backgroundSize: "0.65rem auto",
-                }}
-              >
-                <option value="home">Home Removal</option>
-                <option value="business">Business Removal</option>
-              </select>
+              <div className="relative">
+                <div className="absolute inset-y-0 flex items-center pointer-events-none left-3 bottom-4">
+                  {removalType === "home" ? (
+                    <FaHome className="w-6 h-6 text-gray-400" />
+                  ) : (
+                    <FaBriefcase className="w-6 h-6 text-gray-400" />
+                  )}
+                </div>
+                <select
+                  value={removalType}
+                  onChange={handleRemovalTypeChange}
+                  className="w-full p-3 pl-12 pr-2 mb-4 border border-gray-300 rounded appearance-none focus:outline-none"
+                  style={selectStyle}
+                >
+                  <option value="home">Home Removal</option>
+                  <option value="business">Business Removal</option>
+                </select>
+              </div>
             </div>
 
-            {/* Check-out Date */}
+            {/* Bedrooms / Office Size */}
             <div>
-              {/* Dynamic Field: Number of Bedrooms OR Office Size */}
               <label className="block mb-1.5 font-semibold text-gray-700">
                 {removalType === "home"
                   ? "Number of Applicable Bedrooms"
                   : "Office Size (square foot)"}
               </label>
-              <select
-                value={optionValue}
-                onChange={handleOptionValueChange}
-                className="w-full p-3 pl-3.5 pr-2 mb-4 border border-gray-300 rounded appearance-none focus:outline-none arrow-lg"
-                style={{
-                  backgroundImage:
-                    "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23555' stroke-width='2' fill='none'/%3E%3C/svg%3E\")",
-                  backgroundRepeat: "no-repeat",
-                  backgroundPosition: "right 0.65rem center",
-                  backgroundSize: "0.65rem auto",
-                }}
-              >
-                {removalType === "home" ? (
-                  <>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                  </>
-                ) : (
-                  <>
-                    <option value="1000">1000 sf</option>
-                    <option value="2000">2000 sf</option>
-                    <option value="3000">3000 sf</option>
-                    <option value="4000">4000 sf</option>
-                  </>
-                )}
-              </select>
+              <div className="relative">
+                <div className="absolute inset-y-0 flex items-center pointer-events-none left-3 bottom-3">
+                  {removalType === "home" ? (
+                    <FaBed className="w-6 h-6 text-gray-400" />
+                  ) : (
+                    <FaBuilding className="w-6 h-6 text-gray-400" />
+                  )}
+                </div>
+                <select
+                  value={optionValue}
+                  onChange={handleOptionValueChange}
+                  className="w-full p-3 pl-12 pr-2 mb-4 border border-gray-300 rounded appearance-none focus:outline-none"
+                  style={selectStyle}
+                >
+                  {removalType === "home" ? (
+                    <>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                    </>
+                  ) : (
+                    <>
+                      <option value="1000">1000 sf</option>
+                      <option value="2000">2000 sf</option>
+                      <option value="3000">3000 sf</option>
+                      <option value="4000">4000 sf</option>
+                    </>
+                  )}
+                </select>
+              </div>
             </div>
 
-            {/* Check-out Date */}
+            {/* Removal Pickup Location */}
             <div>
               <label className="block mb-1.5 font-semibold text-gray-700">
                 Removal Pickup Location
               </label>
-              <select
-                value={removalLocation}
-                onChange={(e) => setRemovalLocation(e.target.value)}
-                className="w-full p-3 pl-3.5  pr-2 border border-gray-300 rounded appearance-none focus:outline-none arrow-lg"
-                style={{
-                  backgroundImage:
-                    "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23555' stroke-width='2' fill='none'/%3E%3C/svg%3E\")",
-                  backgroundRepeat: "no-repeat",
-                  backgroundPosition: "right 0.65rem center",
-                  backgroundSize: "0.65rem auto",
-                }}
-              >
-                <option value="Glasgow">Glasgow</option>
-                <option value="Edinburgh">Edinburgh</option>
-                <option value="London">London</option>
-                <option value="Manchester">Manchester</option>
-                <option value="Birmingham">Birmingham</option>
-                <option value="Sheffield">Sheffield</option>
-                <option value="Leeds">Leeds</option>
-                <option value="Liverpool">Liverpool</option>
-              </select>
-
-              {/* <button
-                type="submit"
-                className="w-full py-2 mt-6 font-semibold text-white bg-blue-600 rounded hover:bg-blue-700"
-              >
-                Search
-              </button> */}
+              <div className="relative">
+                <div className="absolute inset-y-0 flex items-center pointer-events-none left-3">
+                  <FaMapMarkerAlt className="w-5 h-5 text-gray-400" />
+                </div>
+                <select
+                  value={removalLocation}
+                  onChange={(e) => setRemovalLocation(e.target.value)}
+                  className="w-full p-3 pl-12 pr-2 border border-gray-300 rounded appearance-none focus:outline-none"
+                  style={selectStyle}
+                >
+                  <option value="Glasgow">Glasgow</option>
+                  <option value="Edinburgh">Edinburgh</option>
+                  <option value="London">London</option>
+                  <option value="Manchester">Manchester</option>
+                  <option value="Birmingham">Birmingham</option>
+                  <option value="Sheffield">Sheffield</option>
+                  <option value="Leeds">Leeds</option>
+                  <option value="Liverpool">Liverpool</option>
+                </select>
+              </div>
             </div>
           </div>
         </form>
       </div>
-      {/* Right side: Cost breakdown with overlap effect */}
+
+      {/* Right side: Cost breakdown */}
       <div className="z-10 flex flex-col justify-center w-11/12 px-10 py-10 mx-auto mt-8 text-white bg-blue-800 rounded-sm shadow-lg">
         <h3 className="text-xl font-bold">Estimated Removal Quote</h3>
         <p className="mt-4 text-3xl font-extrabold">£{totalPrice}</p>
