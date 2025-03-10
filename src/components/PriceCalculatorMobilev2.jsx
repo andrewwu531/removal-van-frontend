@@ -78,7 +78,7 @@ const BookingInterface = () => {
   return (
     <div className="flex flex-col items-center px-4 bg-white py-7">
       {/* Header / Title */}
-      <div className="w-full max-w-md pl-3 mb-6 text-left">
+      <div className="flex flex-col justify-center w-full pl-3 mx-auto mb-6 text-center">
         <h1 className="mb-1.5 text-2xl font-bold text-gray-900">
           Removal Quote Calculator
         </h1>
