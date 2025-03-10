@@ -10,9 +10,12 @@ const BookingHeader = () => {
         <div className="flex items-center">
           <img src={welcomeIcon} alt="Welcome Icon" className="w-10 h-10" />
         </div>
-        <div className="px-6 py-3 mx-3 font-semibold text-white bg-indigo-600 rounded-xl">
+        <a
+          href="sms:07943059791" // This will open the messaging app on supported devices
+          className="px-6 py-3 mx-3 font-semibold text-white bg-indigo-600 rounded-xl"
+        >
           Contact 07943 059792
-        </div>
+        </a>
       </div>
     </header>
   );
