@@ -48,7 +48,7 @@ const HeroSectionMobile = () => {
   return (
     <section
       id="removal-services"
-      className="scroll-mt-[160px] w-11/12 mx-auto mt-10 bg-white text-blue-950"
+      className="scroll-mt-[160px] w-11/12 mx-auto mt-14 bg-white text-blue-950"
     >
       <div className="overflow-hidden">
         {/* Scrollable container with no scrollbar */}
@@ -81,7 +81,7 @@ const HeroSectionMobile = () => {
         </div>
 
         {/* Dots indicator */}
-        <div className="flex justify-center mt-6">
+        <div className="flex justify-center mt-5">
           {photos.map((_, index) => (
             <div
               key={index}

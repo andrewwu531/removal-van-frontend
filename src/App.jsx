@@ -21,9 +21,9 @@ function App() {
   return (
     <div>
       <Header />
-      <BookingSteps />
-      {screenSize < 1024 ? <HeroSectionMobile /> : null}
 
+      {screenSize < 1024 ? <HeroSectionMobile /> : null}
+      <BookingSteps />
       <PriceCalculator />
       <HeroSection />
       <Form />
