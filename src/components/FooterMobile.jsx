@@ -1,17 +1,23 @@
-// src/components/Footer.jsx
-import React from "react";
+import { FaPhone, FaEnvelope, FaClock } from "react-icons/fa";
 
-const Footer = () => (
-  <footer className="text-gray-200 py-7 bg-blue-950">
-    <div className="container flex flex-row items-center justify-between mx-auto align-middle">
-      <div className="font-semibold text-white pl-7  [@media(max-width:330px)]:!pl-6 text-md">
-        welcome-removal@outlook.com
+const FooterDesktop = () => {
+  return (
+    <footer className="pb-16 text-white bg-gray-800 pt-14">
+      {/* Contact Information */}
+      <div className="flex flex-col justify-center w-2/3 mx-auto space-y-3">
+        <h3 className="mb-8 text-xl font-semibold">Contact Us</h3>
+        <p className="flex items-center">
+          <FaPhone className="mr-5" /> 07943 059792
+        </p>
+        <p className="flex items-center">
+          <FaEnvelope className="mr-5" /> welcome-removal@outlook.com
+        </p>
+        <p className="flex items-center">
+          <FaClock className="mr-5" /> Mon-Sun: 8am-11pm
+        </p>
       </div>
-      <div className="font-semibold pr-7 [@media(max-width:330px)]:!pr-3 text-md">
-        © {new Date().getFullYear()}
-      </div>
-    </div>
-  </footer>
-);
+    </footer>
+  );
+};
 
-export default Footer;
+export default FooterDesktop;

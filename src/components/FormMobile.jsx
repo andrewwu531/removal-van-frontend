@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Stage1BookingFormDesktop from "./Stage1BookingFormDesktop";
-import Stage2PaymentDesktop from "./Stage2PaymentDesktop";
-import Stage4ConfirmationDesktop from "./Stage4ConfirmationDesktop";
-import PaymentLayoutDesktop from "./PaymentLayoutDesktop";
+import Stage1BookingFormMobile from "./Stage1BookingFormMobile";
+import Stage2PaymentMobile from "./Stage2PaymentMobile";
+import Stage4ConfirmationMobile from "./Stage4ConfirmationMobile";
+import PaymentLayoutMobile from "./PaymentLayoutMobile";
 
 const PaymentFlow = () => {
   const [stage, setStage] = useState(1);
@@ -40,21 +40,21 @@ const PaymentFlow = () => {
     switch (stage) {
       case 1:
         return (
-          <Stage1BookingFormDesktop
+          <Stage1BookingFormMobile
             bookingDetails={bookingDetails}
             onNextStep={handleBookingSubmit}
           />
         );
       case 2:
         return (
-          <Stage2PaymentDesktop
+          <Stage2PaymentMobile
             onPaymentSuccess={handlePaymentSuccess}
             onPaymentError={handlePaymentError}
           />
         );
       case 3:
         return (
-          <Stage4ConfirmationDesktop
+          <Stage4ConfirmationMobile
             bookingDetails={bookingDetails}
             transactionDetails={transactionDetails}
           />
@@ -64,7 +64,7 @@ const PaymentFlow = () => {
     }
   };
 
-  return <PaymentLayoutDesktop>{renderStage()}</PaymentLayoutDesktop>;
+  return <PaymentLayoutMobile>{renderStage()}</PaymentLayoutMobile>;
 };
 
 export default PaymentFlow;

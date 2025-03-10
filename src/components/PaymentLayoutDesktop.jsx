@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 
 import CustomerReviewsDesktop from "./CustomerReviewsDesktop";
 
-const PaymentLayout = ({ children }) => (
+const PaymentLayoutDesktop = ({ children }) => (
   <div
     id="booking-form"
     className="min-[2560px]:scroll-mt-[50px] min-[3840px]:scroll-mt-[100px] w-11/12 min-[1423px]:w-5/6 mx-auto mt-10 mb-32"
@@ -17,8 +17,8 @@ const PaymentLayout = ({ children }) => (
   </div>
 );
 
-PaymentLayout.propTypes = {
+PaymentLayoutDesktop.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export default PaymentLayout;
+export default PaymentLayoutDesktop;
