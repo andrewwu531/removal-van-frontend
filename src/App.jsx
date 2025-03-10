@@ -1,17 +1,12 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import HeaderDesktop from "./components/HeaderDesktop";
 import HeaderMobilev2 from "./components/HeaderMobilev2";
 
 // Mobile Components
-import PriceCalculatorMobile from "./components/PriceCalculatorMobile";
-
 import PriceCalculatorMobilev2 from "./components/PriceCalculatorMobilev2";
 import BookingStepsMobile from "./components/BookingStepsMobile";
-import HeroSectionMobile from "./components/HeroSectionMobile";
 import FormMobile from "./components/FormMobile";
 import FooterMobile from "./components/FooterMobile";
-import IconWhatsAppMobile from "./components/IconWhatsAppMobile";
-import IconTextMobile from "./components/IconTextMobile";
 
 // Desktop Components
 import BookingStepsDesktop from "./components/BookingStepsDesktop";

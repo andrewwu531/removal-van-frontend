@@ -76,7 +76,7 @@ const BookingInterface = () => {
   };
 
   return (
-    <div className="flex flex-col items-center px-4 mt-20 bg-white py-7">
+    <div className="flex flex-col items-center px-4 bg-white mt-18 py-7">
       {/* Header / Title */}
       <div className="flex flex-col justify-center w-full pl-3 mx-auto mb-6 text-center">
         <h1 className="mb-1.5 text-2xl font-bold text-gray-900">

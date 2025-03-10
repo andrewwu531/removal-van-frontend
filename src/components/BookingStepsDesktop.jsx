@@ -63,7 +63,7 @@ const BookingStepsDesktop = () => {
       id="booking-steps"
       className="mt-3 pb-12 w-11/12 flex justify-center flex-col mx-auto rounded-xl bg-indigo-50 pt-12 min-[1920px]:pt-16 min-[2560px]:pt-20 min-[3840px]:pt-28 min-[1920px]:mb-3  min-[2560px]:pb-20 min-[3840px]:pb-28"
     >
-      <div className="flex justify-center text-4xl min-[1920px]:text-4xl min-[2560px]:text-5xl min-[3840px]:text-6xl font-semibold pb-18 xl:pb-15">
+      <div className="flex justify-center text-3xl min-[1920px]:text-4xl min-[2560px]:text-5xl min-[3840px]:text-6xl font-semibold pb-13 min-[2560px]:pb-18">
         Five-Step Removal Process
       </div>
       <div className="w-11/12 px-10 mx-auto pt-1 min-[2560px]:pt-3 min-[3840px]:pt-8">
