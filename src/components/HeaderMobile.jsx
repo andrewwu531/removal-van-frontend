@@ -8,7 +8,7 @@ const HeaderMobile = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 w-full bg-white border-b border-b-gray-200 z-[200] shadow-b-gray-100">
+    <header className="fixed top-0 left-0 w-full bg-white z-[200]">
       {/* Container with w-11/12 to provide spacing on the x-axis */}
       <div className="flex flex-col justify-center w-5/6 mx-auto space-y-1">
         <div className="flex items-center justify-between pt-2 h-11">
@@ -48,28 +48,28 @@ const HeaderMobile = () => {
         </div>
         {/* Conditionally render the nav section */}
         {isNavOpen && (
-          <nav className="flex flex-col items-center pt-5 pb-1 mt-5 mb-8 space-y-4 text-gray-900 bg-gray-100 from-neutral-300">
+          <nav className="flex flex-col items-center pt-5 mt-5 space-y-4 text-lg text-gray-900 mb-7">
             <a
               href="#removal-services"
-              className="transition-colors hover:text-gray-500"
+              className="py-0.5 transition-colors hover:text-gray-500"
             >
               Removal Services
             </a>
             <a
               href="#booking-form"
-              className="transition-colors hover:text-gray-500"
+              className="py-0.5 transition-colors hover:text-gray-500"
             >
               Book a Spot Now
             </a>
             <a
               href="#booking-steps"
-              className="transition-colors hover:text-gray-500"
+              className="py-0.5 transition-colors hover:text-gray-500"
             >
               How Removal Works
             </a>
             <a
               href="#removal-services"
-              className="transition-colors hover:text-gray-500 hidden min-[1256px]:inline"
+              className="tra0.5sition-colors py-2 hover:text-gray-500 hidden min-[1256px]:inline"
             >
               Customer Protection
             </a>

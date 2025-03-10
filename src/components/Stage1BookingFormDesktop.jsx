@@ -96,7 +96,14 @@ const Stage1BookingFormDesktop = ({ bookingDetails, onNextStep }) => {
                 name="DepositAmount"
                 value={formData.DepositAmount}
                 onChange={handleChange}
-                className="block p-3 min-[2560px]:p-4 mt-1 bg-white border border-gray-300 rounded w-35 min-[2560px]:w-40 focus:outline-none"
+                style={{
+                  backgroundImage:
+                    "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='7.5' viewBox='0 0 14 8'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23555' stroke-width='2' fill='none'/%3E%3C/svg%3E\")",
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "right 0.65rem center",
+                  backgroundSize: "0.65rem auto",
+                }}
+                className="block p-3 pl-4 min-[2560px]:p-4 mt-1 bg-white border border-gray-300 rounded w-35 min-[2560px]:w-40 focus:outline-none appearance-none"
               >
                 <option>£60</option>
                 <option>£100</option>

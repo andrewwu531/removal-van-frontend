@@ -74,10 +74,10 @@ const PriceCalculatorDesktop = () => {
         <select
           value={removalType}
           onChange={handleRemovalTypeChange}
-          className="w-full p-2 min-[2200px]:p-2.5  min-[2560px]:p-3.5 min-[3840px]:p-4 pl-3.5 min-[2200px]:pl-4  min-[2560px]:pl-5 min-[3840px]:pl-6 pr-2 mb-4  min-[2560px]:text-xl border rounded-md min-[2560px]:rounded-lg focus:outline-none appearance-none arrow-lg"
+          className="w-full p-2 min-[2200px]:p-2.5  min-[2560px]:p-3.5 min-[3840px]:p-4 pl-3.5 min-[2200px]:pl-4  min-[2560px]:pl-5 min-[3840px]:pl-6 pr-2 mb-4  min-[2560px]:text-xl border border-gray-400 rounded-md min-[2560px]:rounded-lg focus:outline-none appearance-none arrow-lg"
           style={{
             backgroundImage:
-              "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23333' stroke-width='2' fill='none'/%3E%3C/svg%3E\")",
+              "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='7.5' viewBox='0 0 14 8'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23555' stroke-width='2' fill='none'/%3E%3C/svg%3E\")",
             backgroundRepeat: "no-repeat",
             backgroundPosition: "right 0.65rem center",
             backgroundSize: "0.65rem auto",
@@ -100,10 +100,10 @@ const PriceCalculatorDesktop = () => {
         <select
           value={optionValue}
           onChange={handleOptionValueChange}
-          className="w-full p-2 min-[2200px]:p-2.5  min-[2560px]:p-3.5 pl-3.5 min-[2200px]:pl-4  min-[2560px]:pl-5 pr-2 mb-4   min-[2560px]:text-xl border rounded-md min-[2560px]:rounded-lg appearance-none focus:outline-none arrow-lg"
+          className="w-full p-2 min-[2200px]:p-2.5  min-[2560px]:p-3.5 pl-3.5 min-[2200px]:pl-4  min-[2560px]:pl-5 pr-2 mb-4   min-[2560px]:text-xl border border-gray-400 rounded-md min-[2560px]:rounded-lg appearance-none focus:outline-none arrow-lg"
           style={{
             backgroundImage:
-              "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23333' stroke-width='2' fill='none'/%3E%3C/svg%3E\")",
+              "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='7.5' viewBox='0 0 14 8'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23555' stroke-width='2' fill='none'/%3E%3C/svg%3E\")",
             backgroundRepeat: "no-repeat",
             backgroundPosition: "right 0.65rem center",
             backgroundSize: "0.65rem auto",
@@ -134,10 +134,10 @@ const PriceCalculatorDesktop = () => {
         <select
           value={removalLocation}
           onChange={(e) => setRemovalLocation(e.target.value)}
-          className="w-full p-2 min-[2200px]:p-2.5 min-[2560px]:p-3.5 pl-3.5 min-[2200px]:pl-4 min-[2560px]:pl-5 pr-2 mb-4 min-[2560px]:text-xl border rounded-md min-[2560px]:rounded-lg appearance-none focus:outline-none arrow-lg"
+          className="w-full p-2 min-[2200px]:p-2.5 min-[2560px]:p-3.5 pl-3.5 min-[2200px]:pl-4 min-[2560px]:pl-5 pr-2 mb-4 min-[2560px]:text-xl border border-gray-400 rounded-md min-[2560px]:rounded-lg appearance-none focus:outline-none arrow-lg"
           style={{
             backgroundImage:
-              "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23333' stroke-width='2' fill='none'/%3E%3C/svg%3E\")",
+              "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='7.5' viewBox='0 0 14 8'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23555' stroke-width='2' fill='none'/%3E%3C/svg%3E\")",
             backgroundRepeat: "no-repeat",
             backgroundPosition: "right 0.65rem center",
             backgroundSize: "0.65rem auto",

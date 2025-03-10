@@ -69,16 +69,16 @@ const PriceCalculatorMobile = () => {
 
         <div className="flex flex-col justify-center w-5/6 mx-auto">
           {/* Removal Type */}
-          <label className="block mt-5 mb-1 font-semibold text-gray-700">
+          <label className="block mt-5 mb-1.5 font-semibold text-gray-700">
             Removal Type
           </label>
           <select
             value={removalType}
             onChange={handleRemovalTypeChange}
-            className="w-full p-3  pl-3.5 pr-2 mb-4   border border-gray-500 rounded-md focus:outline-none appearance-none"
+            className="w-full p-3  pl-3.5 pr-2 mb-4   border border-gray-300 rounded focus:outline-none appearance-none"
             style={{
               backgroundImage:
-                "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23333' stroke-width='2' fill='none'/%3E%3C/svg%3E\")",
+                "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23555' stroke-width='2' fill='none'/%3E%3C/svg%3E\")",
               backgroundRepeat: "no-repeat",
               backgroundPosition: "right 0.65rem center",
               backgroundSize: "0.65rem auto",
@@ -89,7 +89,7 @@ const PriceCalculatorMobile = () => {
           </select>
 
           {/* Dynamic Field: Number of Bedrooms OR Office Size */}
-          <label className="block mb-1 font-semibold text-gray-700">
+          <label className="block mb-1.5 font-semibold text-gray-700">
             {removalType === "home"
               ? "Number of Applicable Bedrooms"
               : "Office Size (square foot)"}
@@ -97,10 +97,10 @@ const PriceCalculatorMobile = () => {
           <select
             value={optionValue}
             onChange={handleOptionValueChange}
-            className="w-full p-3 pl-3.5 pr-2 mb-4 border border-gray-500 rounded-md appearance-none focus:outline-none arrow-lg"
+            className="w-full p-3 pl-3.5 pr-2 mb-4 border border-gray-300 rounded appearance-none focus:outline-none arrow-lg"
             style={{
               backgroundImage:
-                "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23333' stroke-width='2' fill='none'/%3E%3C/svg%3E\")",
+                "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23555' stroke-width='2' fill='none'/%3E%3C/svg%3E\")",
               backgroundRepeat: "no-repeat",
               backgroundPosition: "right 0.65rem center",
               backgroundSize: "0.65rem auto",
@@ -125,16 +125,16 @@ const PriceCalculatorMobile = () => {
           </select>
 
           {/* NEW: Removal Location Section */}
-          <label className="block mb-1 font-semibold text-gray-700">
+          <label className="block mb-1.5 font-semibold text-gray-700">
             Removal Pickup Location
           </label>
           <select
             value={removalLocation}
             onChange={(e) => setRemovalLocation(e.target.value)}
-            className="w-full p-3 pl-3.5  pr-2 border border-gray-500 rounded-md appearance-none focus:outline-none arrow-lg"
+            className="w-full p-3 pl-3.5  pr-2 border border-gray-300 rounded appearance-none focus:outline-none arrow-lg"
             style={{
               backgroundImage:
-                "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23333' stroke-width='2' fill='none'/%3E%3C/svg%3E\")",
+                "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23555' stroke-width='2' fill='none'/%3E%3C/svg%3E\")",
               backgroundRepeat: "no-repeat",
               backgroundPosition: "right 0.65rem center",
               backgroundSize: "0.65rem auto",

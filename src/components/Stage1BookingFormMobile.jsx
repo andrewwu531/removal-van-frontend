@@ -96,7 +96,14 @@ const Stage1BookingFormMobile = ({ bookingDetails, onNextStep }) => {
                 name="DepositAmount"
                 value={formData.DepositAmount}
                 onChange={handleChange}
-                className="block w-full p-3 mt-1 bg-white border border-gray-300 rounded focus:outline-none"
+                className="w-full p-3 mt-1 mb-4 border border-gray-300 rounded appearance-none focus:outline-none"
+                style={{
+                  backgroundImage:
+                    "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23333' stroke-width='2' fill='none'/%3E%3C/svg%3E\")",
+                  backgroundRepeat: "no-repeat",
+                  backgroundPosition: "right 0.65rem center",
+                  backgroundSize: "0.65rem auto",
+                }}
               >
                 <option>£60</option>
                 <option>£100</option>

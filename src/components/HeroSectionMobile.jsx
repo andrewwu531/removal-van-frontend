@@ -48,7 +48,7 @@ const HeroSectionMobile = () => {
   return (
     <section
       id="removal-services"
-      className="w-11/12 mx-auto mt-10 bg-white text-blue-950"
+      className="scroll-mt-[160px] w-11/12 mx-auto mt-10 bg-white text-blue-950"
     >
       <div className="overflow-hidden">
         {/* Scrollable container with no scrollbar */}
