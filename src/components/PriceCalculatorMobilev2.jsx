@@ -62,10 +62,10 @@ const BookingInterface = () => {
     <div className="flex flex-col items-center px-4 py-7 bg-gray-50">
       {/* Header / Title */}
       <div className="w-full max-w-md pl-3 mb-6 text-left">
-        <h1 className="mb-2 text-2xl font-bold text-gray-800">
+        <h1 className="mb-2 text-2xl font-bold text-gray-900">
           Removal Quote Calculator
         </h1>
-        <p className="text-gray-500">Search removal prices within the UK</p>
+        <p className="text-gray-700">Search removal prices within the UK</p>
       </div>
 
       {/* Search Form */}
@@ -171,7 +171,7 @@ const BookingInterface = () => {
         </form>
       </div>
       {/* Right side: Cost breakdown with overlap effect */}
-      <div className="z-10 flex flex-col justify-center w-11/12 px-10 py-10 mx-auto mt-8 text-white bg-indigo-600 rounded-sm shadow-lg">
+      <div className="z-10 flex flex-col justify-center w-11/12 px-10 py-10 mx-auto mt-8 text-white bg-blue-800 rounded-sm shadow-lg">
         <h3 className="text-xl font-bold">Estimated Removal Quote</h3>
         <p className="mt-4 text-3xl font-extrabold">£{totalPrice}</p>
         <p className="mt-3 text-md">

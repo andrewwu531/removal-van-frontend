@@ -2,7 +2,7 @@ import React from "react";
 
 const BookingHeader = () => {
   return (
-    <header className="text-white bg-indigo-600">
+    <header className="text-white bg-blue-800">
       {/* Top Bar */}
       <div className="flex items-center justify-between px-5 py-4">
         {/* Left: Brand */}
@@ -30,7 +30,7 @@ const BookingHeader = () => {
       </div>
 
       {/* Bottom Nav (Stays / Flights / Flight + Hotel) */}
-      <nav className="flex items-center justify-start px-4 pb-4 space-x-4 bg-indigo-600">
+      <nav className="flex items-center justify-start px-4 pb-4 space-x-4 bg-blue-800">
         {/* Flights */}
         <button className="flex items-center space-x-2 text-white hover:text-gray-200 focus:outline-none">
           {/* Plane icon */}
