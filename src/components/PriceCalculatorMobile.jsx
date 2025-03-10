@@ -3,7 +3,7 @@ import { useState } from "react";
 const PriceCalculatorMobile = () => {
   const [removalType, setRemovalType] = useState("home");
   const [optionValue, setOptionValue] = useState("1");
-  const [removalLocation, setRemovalLocation] = useState("Glasgow"); // NEW: Added removal location state
+  const [removalLocation, setRemovalLocation] = useState("Edinburgh"); // NEW: Added removal location state
 
   const handleRemovalTypeChange = (event) => {
     const type = event.target.value;
