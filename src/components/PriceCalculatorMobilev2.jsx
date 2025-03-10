@@ -76,17 +76,17 @@ const BookingInterface = () => {
   };
 
   return (
-    <div className="flex flex-col items-center px-4 py-7 bg-gray-50">
+    <div className="flex flex-col items-center px-4 bg-gray-50 py-7">
       {/* Header / Title */}
       <div className="w-full max-w-md pl-3 mb-6 text-left">
-        <h1 className="mb-2 text-2xl font-bold text-gray-900">
+        <h1 className="mb-1.5 text-2xl font-bold text-gray-900">
           Removal Quote Calculator
         </h1>
         <p className="text-gray-700">Search removal prices within the UK</p>
       </div>
 
       {/* Search Form */}
-      <div className="w-full max-w-md p-4 bg-white rounded-md shadow">
+      <div className="w-full max-w-md px-6 bg-white ">
         <form>
           <div className="grid grid-cols-1">
             {/* Removal Type */}
@@ -95,7 +95,7 @@ const BookingInterface = () => {
                 Removal Type
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 flex items-center pointer-events-none left-3 bottom-4">
+                <div className="absolute inset-y-0 flex items-center pointer-events-none left-3 bottom-3">
                   {removalType === "home" ? (
                     <FaHome className="w-6 h-6 text-gray-400" />
                   ) : (
@@ -186,7 +186,7 @@ const BookingInterface = () => {
       </div>
 
       {/* Right side: Cost breakdown */}
-      <div className="z-10 flex flex-col justify-center w-11/12 px-10 py-10 mx-auto mt-8 text-white bg-blue-800 rounded-sm shadow-lg">
+      <div className="z-10 flex flex-col justify-center w-11/12 px-10 py-10 mx-auto mt-8 text-white bg-indigo-600 shadow-lg rounded-2xl">
         <h3 className="text-xl font-bold">Estimated Removal Quote</h3>
         <p className="mt-4 text-3xl font-extrabold">£{totalPrice}</p>
         <p className="mt-3 text-md">

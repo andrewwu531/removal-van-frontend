@@ -3,7 +3,7 @@ const Header = () => {
     <header className="fixed top-0 left-0 w-full p-2 bg-white border-gray-200 z-[200] border shadow-gray-100">
       {/* Use a container to keep the content centered */}
       <div className="pt-2 mx-auto">
-        <div className="flex items-center justify-between h-16 min-[1920px]:h-18 min-[2560px]:h-24 min-[3840px]:h-40">
+        <div className="flex items-center justify-between h-16 min-[2560px]:h-24 min-[3840px]:h-40">
           {/* Left Section: Logo / Brand */}
           <div className="flex items-center space-x-3 min-[1920px]:space-x-3.5 min-[2560px]:space-x-5 min-[3840px]:space-x-8">
             <span className="text-xl -mt-1 min-[2560px]:text-3xl min-[3840px]:text-5xl font-semibold text-gray-950 ml-[3rem] min-[1120px]:ml-[4rem] min-[1380px]:ml-[5rem] min-[1920px]:ml-[7rem] min-[3840px]:ml-[10rem]">
