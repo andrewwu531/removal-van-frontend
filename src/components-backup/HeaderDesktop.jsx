@@ -11,9 +11,9 @@ const Header = () => {
             <img
               src={welcomeIcon}
               alt="Welcome Icon"
-              className="w-8 h-8 min-[1920px]:w-10 min-[1920px]:h-10 min-[2560px]:w-12 min-[2560px]:h-12 min-[3840px]:w-16 min-[3840px]:h-16"
+              className="w-9 h-9 min-[1920px]:w-10 min-[1920px]:h-10 min-[2560px]:w-12 min-[2560px]:h-12 min-[3840px]:w-16 min-[3840px]:h-16"
             />
-            <span className="text-lg min-[1920px]:text-xl min-[2560px]:text-3xl min-[3840px]:text-5xl font-semibold text-gray-950">
+            <span className="text-lg min-[1920px]:text-xl min-[2560px]:text-3xl min-[3840px]:text-5xl font-semibold text-gray-700">
               Welcome Removal
             </span>
             {/* Small upward arrow (SVG icon) could be added here if needed */}
@@ -51,7 +51,7 @@ const Header = () => {
               href="#"
               className="px-7 min-[1920px]:px-9 min-[2560px]:px-14 min-[3840px]:px-20 py-3.5 min-[1920px]:py-4 min-[2560px]:py-5.5 min-[3840px]:py-8 font-medium min-[1920px]:text-lg min-[2560px]:text-2xl min-[3840px]:text-4xl text-white transition-colors bg-indigo-600 rounded-lg min-[2560px]:rounded-xl  min-[3840px]:rounded-2xl hover:bg-indigo-700 hover:text-white"
             >
-              Contact 07943059792
+              Contact 07943 059792
             </a>
           </div>
         </div>
