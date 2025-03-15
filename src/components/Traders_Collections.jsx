@@ -17,10 +17,7 @@ export default function Traders_Collections({ traders }) {
       </div>
       <div className="grid justify-center grid-cols-3 gap-6">
         {traders.map((trader) => (
-          <div
-            key={trader.id}
-            className="w-full overflow-hidden transition-shadow duration-300 bg-white rounded-xl"
-          >
+          <div key={trader.id} className="w-full bg-white rounded-2xl">
             {/* Image Container with Gradient Overlay and Name */}
             <div className="relative w-full overflow-hidden h-80">
               {trader.main_photo ? (
@@ -28,19 +25,12 @@ export default function Traders_Collections({ traders }) {
                   <img
                     src={getImageUrl(trader.main_photo)}
                     alt={trader.name}
-                    className="object-cover w-full h-full rounded-lg"
+                    className="object-cover w-full h-full rounded-2xl"
                   />
-                  {/* Gradient Overlay */}
-                  <div
-                    className="absolute bottom-0 left-0 w-full h-[20%] rounded-lg"
-                    style={{
-                      background:
-                        "linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0) 100%)",
-                    }}
-                  />
+
                   {/* Name Overlay */}
                   <div className="absolute left-0 top-2">
-                    <span className="px-6 py-3 font-semibold text-white bg-black rounded-md text-md">
+                    <span className="px-6 py-3 font-semibold text-white bg-black rounded-xl text-md">
                       {trader.name}
                     </span>
                   </div>
