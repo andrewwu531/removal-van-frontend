@@ -14,6 +14,7 @@ import { GiMechanicGarage } from "react-icons/gi";
 import { AiOutlineSetting } from "react-icons/ai";
 
 import { FaTools } from "react-icons/fa";
+import PropTypes from "prop-types";
 
 const services = [
   {
@@ -58,22 +59,35 @@ const services = [
   },
 ];
 
-const ServiceBarDesktop = () => {
+const ServiceBarDesktop = ({ currentService, onServiceSelect }) => {
   return (
-    <div className="flex justify-center py-4 space-x-10 bg-white shadow-md">
+    <div className="flex justify-center py-4 space-x-10 bg-white shadow-xs">
       {services.map((service, index) => (
         <div
           key={index}
-          className="flex flex-col items-center cursor-pointer hover:text-black"
+          className={`flex flex-col items-center cursor-pointer hover:text-black transition-colors duration-200
+            ${
+              currentService === service.name
+                ? "text-red-500"
+                : "text-gray-700 hover:text-gray-900"
+            }`}
+          onClick={() => onServiceSelect(service.name)}
         >
           {service.icon}
-          <span className="mt-1 text-sm font-medium text-gray-700">
-            {service.name}
-          </span>
+          <span className="mt-1 text-sm font-medium">{service.name}</span>
         </div>
       ))}
     </div>
   );
+};
+
+ServiceBarDesktop.propTypes = {
+  currentService: PropTypes.string,
+  onServiceSelect: PropTypes.func.isRequired,
+};
+
+ServiceBarDesktop.defaultProps = {
+  currentService: "Removal",
 };
 
 export default ServiceBarDesktop;
