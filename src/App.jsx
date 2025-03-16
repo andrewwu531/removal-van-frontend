@@ -33,23 +33,6 @@ function App() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  useEffect(() => {
-    // Check if we have a selected service or location from navigation
-    if (location.state?.selectedService || location.state?.selectedLocation) {
-      const newService = location.state?.selectedService || currentService;
-      const newLocation = location.state?.selectedLocation || currentLocation;
-
-      setCurrentService(newService);
-      setCurrentLocation(newLocation);
-
-      // Fetch traders with both service and location
-      fetchTraders({
-        service: newService,
-        location: newLocation,
-      });
-    }
-  }, [location]);
-
   const handleSearch = (searchParams) => {
     setCurrentService(searchParams.service);
     setCurrentLocation(searchParams.location);
@@ -97,7 +80,6 @@ function App() {
       console.error("Error fetching traders:", error);
     }
   };
-
   return (
     <div className="min-h-screen">
       {screenSize < 1024 ? (
