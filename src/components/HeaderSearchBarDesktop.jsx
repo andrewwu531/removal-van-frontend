@@ -39,11 +39,14 @@ export default function HeaderDesktop({
   const [service, setService] = useState(currentService || "");
   const [showLocationDropdown, setShowLocationDropdown] = useState(false);
   const [showServiceDropdown, setShowServiceDropdown] = useState(false);
+  const [showEnquiryModal, setShowEnquiryModal] = useState(false);
 
   const locationDropdownRef = useRef(null);
   const serviceDropdownRef = useRef(null);
   const locationInputRef = useRef(null);
   const serviceInputRef = useRef(null);
+  const enquiryCardRef = useRef(null);
+  const enquiryButtonRef = useRef(null);
 
   const navigate = useNavigate();
   const routerLocation = useLocation();
@@ -67,6 +70,14 @@ export default function HeaderDesktop({
         ) {
           setShowServiceDropdown(false);
         }
+      }
+
+      if (
+        enquiryCardRef.current &&
+        !enquiryCardRef.current.contains(event.target) &&
+        !enquiryButtonRef.current.contains(event.target)
+      ) {
+        setShowEnquiryModal(false);
       }
     };
 
@@ -136,9 +147,35 @@ export default function HeaderDesktop({
     onSearch({ service, location });
   };
 
+  const handleLogoClick = () => {
+    setLocation("");
+    setService("Removal");
+
+    navigate("/", {
+      state: {
+        selectedService: "Removal",
+        selectedLocation: "",
+      },
+    });
+
+    onSearch({
+      service: "Removal",
+      location: "",
+    });
+  };
+
+  const handleEnquiryClick = () => {
+    setShowEnquiryModal(!showEnquiryModal);
+  };
+
   return (
     <div className="flex flex-col items-center pb-5 pt-7 z-100">
-      <img src={logo} alt="logo" className="absolute w-10 h-10 top-6 left-8" />
+      <img
+        src={logo}
+        alt="logo"
+        className="absolute w-10 h-10 cursor-pointer top-6 left-8"
+        onClick={handleLogoClick}
+      />
       <div className="flex items-center w-full max-w-2xl px-4 py-2 bg-white rounded-full shadow-md">
         <div className="relative flex-1">
           <input
@@ -208,9 +245,38 @@ export default function HeaderDesktop({
         </button>
       </div>
       {/* General Enquiry Button */}
-      <button className="absolute right-10 px-6.5 py-3 text-white font-semibold transition-colors bg-red-500 rounded-full  hover:scale-103">
+      <button
+        ref={enquiryButtonRef}
+        className="absolute right-10 px-6.5 py-3 text-white font-semibold transition-colors bg-red-500 rounded-full hover:scale-103"
+        onClick={handleEnquiryClick}
+      >
         General Enquiry
       </button>
+
+      {/* Enquiry Card */}
+      {showEnquiryModal && (
+        <div
+          ref={enquiryCardRef}
+          className="absolute z-50 bg-white border border-gray-200 rounded-lg shadow-lg py-9 px-9 top-20 right-10 w-90"
+        >
+          <button
+            className="absolute text-gray-500 top-2 right-2 hover:text-gray-700"
+            onClick={() => setShowEnquiryModal(false)}
+          >
+            ✕
+          </button>
+          <h2 className="mb-4 text-xl font-bold text-gray-800">Contact Us</h2>
+          <p className="mb-5 text-gray-600">
+            For general enquiries, please contact us by text or phone call at:
+          </p>
+          <div className="mb-5 text-xl font-semibold text-center text-red-400">
+            07943 059 792
+          </div>
+          <p className="text-sm text-left text-gray-500">
+            * Our team is available Monday to Sunday from 9am - 8pm.
+          </p>
+        </div>
+      )}
     </div>
   );
 }
