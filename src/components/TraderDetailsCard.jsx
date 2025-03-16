@@ -39,12 +39,10 @@ export default function TraderDetailsCard({ trader }) {
         {/* Pricing */}
         <div className="mb-6">
           <h3 className="mb-2 text-lg font-semibold">Pricing</h3>
-          <ul className="pl-5 list-disc">
-            <li>Starting from: £{trader.from_price}</li>
-            <li>Package A: £{trader.price_a}</li>
-            <li>Package B: £{trader.price_b}</li>
-            <li>Package C: £{trader.price_c}</li>
-          </ul>
+          {/* <li>Starting from: £{trader.from_price}</li> */}
+          <div className="whitespace-pre-line">
+            {trader.pricing_descriptions}
+          </div>
         </div>
 
         {/* Available Locations */}
@@ -64,9 +62,7 @@ TraderDetailsCard.propTypes = {
     main_photo: PropTypes.string.isRequired,
     removal_type: PropTypes.string.isRequired,
     from_price: PropTypes.number.isRequired,
-    price_a: PropTypes.number.isRequired,
-    price_b: PropTypes.number.isRequired,
-    price_c: PropTypes.number.isRequired,
+    pricing_descriptions: PropTypes.string,
     qualifications: PropTypes.string.isRequired,
     service_descriptions: PropTypes.string.isRequired,
     available_locations: PropTypes.arrayOf(PropTypes.string).isRequired,
