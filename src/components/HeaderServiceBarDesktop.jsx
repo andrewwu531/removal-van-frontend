@@ -20,14 +20,14 @@ const services = [
   {
     name: "Removal",
     icon: <TbTruckDelivery size={30} className="text-gray-600" />,
-    paddingTop: "-pt-0.5",
+    paddingTop: "-pt-1",
     marginX: "-mr-2",
   },
   {
     name: "House Renovation",
     icon: <MdOutlineBuild size={26} className="text-gray-600" />,
-    paddingTop: "pt-0.5",
-    marginX: "mr-3.5",
+    paddingTop: "pt-1",
+    marginX: "mr-4.5",
   },
   {
     name: "Carpet & Flooring",
@@ -39,37 +39,37 @@ const services = [
     name: "Painting",
     icon: <MdOutlineFormatPaint size={25} className="text-gray-600" />,
     paddingTop: "pt-1",
-    marginX: "-mr-5.5",
+    marginX: "-mr-4.5",
   },
   {
     name: "Damage Repair",
     icon: <AiOutlineSetting size={25} className="text-gray-800 stroke-4" />,
     paddingTop: "pt-1",
-    marginX: "-mr-0.5",
+    marginX: "mr-0.5",
   },
   {
     name: "Electricity & Gas",
     icon: <HiOutlineLightBulb size={28} className="text-gray-600 stroke-2" />,
     paddingTop: "pt-0",
-    marginX: "-mr-4",
+    marginX: "-mr-3",
   },
   {
     name: "Locksmith",
     icon: <PiLockKey size={25} className="text-gray-700 stroke-4" />,
     paddingTop: "pt-1",
-    marginX: "-mr-7",
+    marginX: "-mr-6",
   },
   {
     name: "Solar Panels",
     icon: <MdOutlineWbSunny size={26} className="text-gray-800" />,
     paddingTop: "pt-1",
-    marginX: "-mr-1",
+    marginX: "mr-0",
   },
   {
     name: "Window & Heating",
     icon: <MdOutlineWindow size={25} className="text-gray-800" />,
     paddingTop: "pt-1.5",
-    marginX: "-mr-5",
+    marginX: "-mr-4",
   },
   {
     name: "Car",
@@ -84,7 +84,7 @@ const ServiceBarDesktop = ({ currentService, onServiceSelect }) => {
       {services.map((service, index) => (
         <div
           key={index}
-          className={`flex flex-col items-center justify-center cursor-pointer hover:text-black transition-colors duration-200
+          className={`flex flex-col opacity-90 items-center justify-center ml-2 cursor-pointer hover:text-black transition-colors duration-200
             ${service.paddingTop}
             ${service.marginX}
             ${

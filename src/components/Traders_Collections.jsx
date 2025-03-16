@@ -1,7 +1,24 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
-export default function Traders_Collections({ traders }) {
+// Add a mapping object for custom service titles
+const serviceDisplayTitles = {
+  Removal: "Removal Services",
+  "House Renovation": "Home Renovation",
+  "Carpet & Flooring": "Carpet & Flooring",
+  Painting: "Painting Services",
+  "Damage Repair": "Damage Repair",
+  "Electricity & Gas": "Electrical & Gas Services",
+  "Lock Smith": "Locksmith",
+  "Solar Panels": "Solar Installation",
+  "Window & Heating": "Window & HVAC Specialists",
+  Car: "Automotive Services",
+};
+
+export default function Traders_Collections({ traders, currentService }) {
+  const navigate = useNavigate();
+
   // Function to get the complete image URL
   const getImageUrl = (photoPath) => {
     if (!photoPath) return null;
@@ -10,16 +27,29 @@ export default function Traders_Collections({ traders }) {
     return `${import.meta.env.VITE_API_URL}${photoPath}`;
   };
 
+  // Get the custom title based on currentService, fallback to currentService if no custom title exists
+  const getServiceTitle = (service) => {
+    return serviceDisplayTitles[service] || `${service} Services`;
+  };
+
+  const handleTraderClick = (traderId) => {
+    navigate(`/${traderId}`);
+  };
+
   return (
-    <div className="container max-w-6xl px-4 py-8 mx-auto">
+    <div className="container justify-center px-12 py-8 mx-auto max-w-5/6">
       <div className="px-2 mb-8 text-3xl font-semibold text-gray-900">
-        Removal Services
+        {getServiceTitle(currentService)}
       </div>
-      <div className="grid justify-center grid-cols-3 gap-6">
+      <div className="grid justify-center grid-cols-4 gap-6">
         {traders.map((trader) => (
-          <div key={trader.id} className="w-full bg-white rounded-2xl">
+          <div
+            key={trader.id}
+            className="flex flex-col w-full pb-10 transition-shadow bg-white cursor-pointer rounded-2xl hover:shadow-lg"
+            onClick={() => handleTraderClick(trader.id)}
+          >
             {/* Image Container with Gradient Overlay and Name */}
-            <div className="relative w-full overflow-hidden h-80">
+            <div className="relative w-full overflow-hidden aspect-square">
               {trader.main_photo ? (
                 <>
                   <img
@@ -29,7 +59,7 @@ export default function Traders_Collections({ traders }) {
                   />
 
                   {/* Name Overlay */}
-                  <div className="absolute left-0 top-2">
+                  <div className="absolute left-0 top-2.5">
                     <span className="px-6 py-3 font-semibold text-white bg-black rounded-xl text-md">
                       {trader.name}
                     </span>
@@ -43,22 +73,27 @@ export default function Traders_Collections({ traders }) {
             </div>
 
             {/* Trader Information */}
-            <div className="p-4">
+            <div className="flex flex-col flex-grow px-2.5 pt-4">
               {/* Title */}
-              <p className="mb-8 font-semibold text-gray-900 text-md">
+              <link
+                href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap"
+                rel="stylesheet"
+              />
+
+              <p className="mb-2 text-lg font-semibold text-gray-700">
                 {trader.title}
               </p>
 
-              <div className="flex flex-row justify-between">
+              {/* Push the location and price to the bottom */}
+              <div className="flex items-end justify-between mt-auto">
                 {/* Available Locations */}
-                <div className="flex flex-row text-sm">
-                  <p className="mb-4 text-gray-800">Locations:</p>
-                  <p className="text-gray-800 line-clamp-2">
-                    &nbsp;{trader.available_locations.join(", ")}
+                <div className="flex-1 mr-4">
+                  <p className="text-sm text-gray-800 line-clamp-2">
+                    {trader.available_locations.join(", ")}
                   </p>
                 </div>
                 {/* Price */}
-                <p className="mb-2 text-sm text-gray-800">
+                <p className="text-sm text-gray-800 underline whitespace-nowrap">
                   From £{trader.from_price}
                 </p>
               </div>
@@ -81,4 +116,9 @@ Traders_Collections.propTypes = {
       available_locations: PropTypes.arrayOf(PropTypes.string).isRequired,
     })
   ).isRequired,
+  currentService: PropTypes.string.isRequired,
+};
+
+Traders_Collections.defaultProps = {
+  currentService: "Removal",
 };

@@ -1,14 +1,27 @@
+import { Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
+import Traders_Collections from "./components/Traders_Collections";
+import TraderDetails from "./components/TraderDetails";
 import HeaderSearchBarDesktop from "./components/HeaderSearchBarDesktop";
 import HeaderServiceBarDesktop from "./components/HeaderServiceBarDesktop";
-import Traders_Collections from "./components/Traders_Collections";
 import Footer from "./components-backup/FooterDesktop";
 
 function App() {
-  const [screenSize, setScreenSize] = useState(window.innerWidth);
   const [traders, setTraders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [screenSize, setScreenSize] = useState(window.innerWidth);
   const [currentService, setCurrentService] = useState("Removal");
-  const [currentLocation, setCurrentLocation] = useState(null);
+  const [currentLocation, setCurrentLocation] = useState("");
+
+  // Handle screen resize
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenSize(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     // Initial load with default values
@@ -68,29 +81,62 @@ function App() {
   };
 
   return (
-    <div>
+    <div className="min-h-screen">
       {screenSize < 1024 ? (
-        <>
-          <div>mobile</div>
-        </>
+        <Routes>
+          <Route path="/" element={<div>mobile</div>} />
+          <Route path="/:traderId" element={<TraderDetails />} />
+        </Routes>
       ) : (
-        <>
-          <div className="fixed top-0 left-0 w-full bg-white z-100 ">
-            <HeaderSearchBarDesktop
-              onSearch={handleSearch}
-              currentService={currentService}
-              currentLocation={currentLocation}
-            />
-            <HeaderServiceBarDesktop
-              currentService={currentService}
-              onServiceSelect={handleServiceSelect}
-            />
-          </div>
-          <div className="mt-48">
-            <Traders_Collections traders={traders} />
-          </div>
-          <Footer />
-        </>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <div className="fixed top-0 left-0 w-full bg-white z-100">
+                  <HeaderSearchBarDesktop
+                    onSearch={handleSearch}
+                    currentService={currentService}
+                    currentLocation={currentLocation}
+                  />
+                  <HeaderServiceBarDesktop
+                    currentService={currentService}
+                    onServiceSelect={handleServiceSelect}
+                  />
+                </div>
+                <div className="mt-48">
+                  <Traders_Collections
+                    traders={traders}
+                    currentService={currentService}
+                  />
+                </div>
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            path="/:traderId"
+            element={
+              <>
+                <div className="fixed top-0 left-0 w-full bg-white z-100">
+                  <HeaderSearchBarDesktop
+                    onSearch={handleSearch}
+                    currentService={currentService}
+                    currentLocation={currentLocation}
+                  />
+                  <HeaderServiceBarDesktop
+                    currentService={currentService}
+                    onServiceSelect={handleServiceSelect}
+                  />
+                </div>
+                <div className="mt-48">
+                  <TraderDetails />
+                </div>
+                <Footer />
+              </>
+            }
+          />
+        </Routes>
       )}
     </div>
   );

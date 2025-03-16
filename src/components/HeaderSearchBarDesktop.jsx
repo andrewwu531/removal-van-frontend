@@ -169,6 +169,10 @@ export default function HeaderDesktop({
           <FaSearch />
         </button>
       </div>
+      {/* General Enquiry Button */}
+      <button className="absolute right-10 px-6.5 py-3 text-white font-semibold transition-colors bg-red-500 rounded-full  hover:scale-103">
+        General Enquiry
+      </button>
     </div>
   );
 }
