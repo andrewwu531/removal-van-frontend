@@ -4,7 +4,7 @@ import Traders_Collections from "./components/Traders_Collections";
 import TraderDetails from "./components/TraderDetails";
 import HeaderSearchBarDesktop from "./components/HeaderSearchBarDesktop";
 import HeaderServiceBarDesktop from "./components/HeaderServiceBarDesktop";
-import Footer from "./components-backup/FooterDesktop";
+import FooterDesktop from "./components/FooterDesktop";
 
 function App() {
   const [traders, setTraders] = useState([]);
@@ -128,7 +128,7 @@ function App() {
                     currentService={currentService}
                   />
                 </div>
-                <Footer />
+                <FooterDesktop />
               </>
             }
           />
@@ -150,7 +150,7 @@ function App() {
                 <div className="mt-48">
                   <TraderDetails />
                 </div>
-                <Footer />
+                <FooterDesktop />
               </>
             }
           />
