@@ -9,8 +9,7 @@ const PaymentFlow = () => {
     FullName: "",
     Email: "",
     Telephone: "",
-    PickupLocation: "",
-    DropoffLocation: "",
+    Date: "",
     DepositAmount: "£60",
   });
   const [transactionDetails, setTransactionDetails] = useState(null);

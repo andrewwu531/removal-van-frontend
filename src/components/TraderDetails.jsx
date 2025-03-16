@@ -55,8 +55,8 @@ export default function TraderDetails() {
     );
 
   return (
-    <div className="container px-4 py-8 mx-auto">
-      <div className="grid grid-cols-5 gap-8 max-w-[1800px] mx-auto">
+    <div className="container px-4 py-8 mx-auto max-w-12/13">
+      <div className="grid grid-cols-5 mx-auto gap-7 max-w-4/5">
         {/* Left side: Trader Details Card */}
         <TraderDetailsCard trader={trader} />
 
