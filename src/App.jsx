@@ -81,7 +81,7 @@ function App() {
     }
   };
   return (
-    <div className="min-h-screen">
+    <div>
       {screenSize < 1024 ? (
         <Routes>
           <Route path="/" element={<div>mobile</div>} />
