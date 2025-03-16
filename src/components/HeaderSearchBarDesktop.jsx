@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { FaSearch } from "react-icons/fa";
 import PropTypes from "prop-types";
+import { useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 
 const locations = [
@@ -44,6 +45,10 @@ export default function HeaderDesktop({
   const locationInputRef = useRef(null);
   const serviceInputRef = useRef(null);
 
+  const navigate = useNavigate();
+  const routerLocation = useLocation();
+  const isTraderDetailsPage = routerLocation.pathname.match(/^\/\d+$/);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (locationDropdownRef.current && locationInputRef.current) {
@@ -83,8 +88,18 @@ export default function HeaderDesktop({
   const handleLocationSelect = (selectedLocation) => {
     setLocation(selectedLocation);
     setShowLocationDropdown(false);
+
+    if (isTraderDetailsPage) {
+      navigate("/", {
+        state: {
+          selectedService: service,
+          selectedLocation: selectedLocation,
+        },
+      });
+    }
+
     onSearch({
-      service: currentService,
+      service: service,
       location: selectedLocation,
     });
   };
@@ -92,10 +107,33 @@ export default function HeaderDesktop({
   const handleServiceSelect = (selectedService) => {
     setService(selectedService);
     setShowServiceDropdown(false);
+
+    if (isTraderDetailsPage) {
+      navigate("/", {
+        state: {
+          selectedService: selectedService,
+          selectedLocation: location,
+        },
+      });
+    }
+
     onSearch({
       service: selectedService,
       location: location,
     });
+  };
+
+  const handleSearchClick = () => {
+    if (isTraderDetailsPage) {
+      navigate("/", {
+        state: {
+          selectedService: service,
+          selectedLocation: location,
+        },
+      });
+    }
+
+    onSearch({ service, location });
   };
 
   return (
@@ -164,7 +202,7 @@ export default function HeaderDesktop({
 
         <button
           className="p-3 ml-2 text-white transition-colors bg-red-500 rounded-full hover:bg-red-600"
-          onClick={() => onSearch({ service, location })}
+          onClick={handleSearchClick}
         >
           <FaSearch />
         </button>

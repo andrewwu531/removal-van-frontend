@@ -34,9 +34,19 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // Check if we have a selected service from navigation
-    if (location.state?.selectedService) {
-      setCurrentService(location.state.selectedService);
+    // Check if we have a selected service or location from navigation
+    if (location.state?.selectedService || location.state?.selectedLocation) {
+      const newService = location.state?.selectedService || currentService;
+      const newLocation = location.state?.selectedLocation || currentLocation;
+
+      setCurrentService(newService);
+      setCurrentLocation(newLocation);
+
+      // Fetch traders with both service and location
+      fetchTraders({
+        service: newService,
+        location: newLocation,
+      });
     }
   }, [location]);
 
