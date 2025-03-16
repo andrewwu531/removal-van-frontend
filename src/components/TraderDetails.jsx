@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import FormDesktop from "./FormDesktop";
 import TraderDetailsCard from "./TraderDetailsCard";
+import TraderFivePhotos from "./TraderFivePhotos";
 
 export default function TraderDetails() {
   const { traderId } = useParams();
@@ -55,13 +56,14 @@ export default function TraderDetails() {
     );
 
   return (
-    <div className="container px-4 py-8 mx-auto max-w-12/13">
-      <div className="grid grid-cols-5 mx-auto gap-7 max-w-4/5">
+    <div className="container px-4 pt-3 pb-10 mx-auto max-w-12/13">
+      <TraderFivePhotos trader={trader} />
+      <div className="grid grid-cols-5 gap-3 mx-auto max-w-4/5">
         {/* Left side: Trader Details Card */}
         <TraderDetailsCard trader={trader} />
 
         {/* Right side: Booking Form */}
-        <div className="col-span-2 p-6 bg-white rounded-lg shadow-lg">
+        <div className="col-span-2 px-3 bg-white rounded-lg shadow-lg pb-18">
           <FormDesktop />
         </div>
       </div>
