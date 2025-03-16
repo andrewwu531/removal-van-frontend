@@ -59,7 +59,7 @@ export default function Traders_Collections({ traders, currentService }) {
           {traders.map((trader) => (
             <div
               key={trader.id}
-              className="flex flex-col w-full pb-10 transition-shadow bg-white cursor-pointer rounded-2xl hover:shadow-lg"
+              className="flex flex-col w-full pb-10 overflow-hidden transition-shadow bg-white cursor-pointer rounded-2xl hover:shadow-lg"
               onClick={() => handleTraderClick(trader.id)}
             >
               {/* Image Container with Gradient Overlay and Name */}
@@ -69,11 +69,11 @@ export default function Traders_Collections({ traders, currentService }) {
                     <img
                       src={getImageUrl(trader.main_photo)}
                       alt={trader.name}
-                      className="object-cover w-full h-full rounded-2xl"
+                      className="object-cover w-full h-full transition-transform duration-300 ease-in-out rounded-2xl hover:scale-102"
                     />
 
                     {/* Name Overlay */}
-                    <div className="absolute left-0 top-2.5">
+                    <div className="absolute left-0 top-2.5 z-10">
                       <span className="px-6 py-3 font-semibold text-white bg-black rounded-xl text-md">
                         {trader.name}
                       </span>
