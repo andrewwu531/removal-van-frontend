@@ -1,10 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import FormDesktop from "./FormDesktop";
+import TraderDetailsCard from "./TraderDetailsCard";
 
 export default function TraderDetails() {
   const { traderId } = useParams();
   const [trader, setTrader] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const initialBookingDetails = {
+    FullName: "",
+    Email: "",
+    Telephone: "",
+    PickupLocation: "",
+    DropoffLocation: "",
+    DepositAmount: "£60",
+  };
+
+  const handleNextStep = (formData) => {
+    console.log("Form data:", formData);
+    // Handle the form submission here
+  };
 
   useEffect(() => {
     const fetchTraderDetails = async () => {
@@ -24,60 +40,29 @@ export default function TraderDetails() {
     fetchTraderDetails();
   }, [traderId]);
 
-  if (loading) return <div>Loading...</div>;
-  if (!trader) return <div>Trader not found</div>;
+  if (loading)
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-xl font-semibold">Loading...</div>
+      </div>
+    );
+
+  if (!trader)
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-xl font-semibold">Trader not found</div>
+      </div>
+    );
 
   return (
     <div className="container px-4 py-8 mx-auto">
-      <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg">
-        {/* Header Section */}
-        <div className="relative h-96">
-          <img
-            src={`${import.meta.env.VITE_API_URL}${trader.main_photo}`}
-            alt={trader.name}
-            className="object-cover w-full h-full rounded-t-lg"
-          />
-        </div>
+      <div className="grid grid-cols-5 gap-8 max-w-[1800px] mx-auto">
+        {/* Left side: Trader Details Card */}
+        <TraderDetailsCard trader={trader} />
 
-        {/* Content Section */}
-        <div className="p-8">
-          <h1 className="mb-2 text-3xl font-bold">{trader.name}</h1>
-          <h2 className="mb-4 text-xl text-gray-600">{trader.title}</h2>
-
-          {/* Service Type */}
-          <div className="mb-6">
-            <h3 className="mb-2 text-lg font-semibold">Service Type</h3>
-            <p>{trader.removal_type}</p>
-          </div>
-
-          {/* Pricing */}
-          <div className="mb-6">
-            <h3 className="mb-2 text-lg font-semibold">Pricing</h3>
-            <ul className="pl-5 list-disc">
-              <li>Starting from: £{trader.from_price}</li>
-              <li>Package A: £{trader.price_a}</li>
-              <li>Package B: £{trader.price_b}</li>
-              <li>Package C: £{trader.price_c}</li>
-            </ul>
-          </div>
-
-          {/* Qualifications */}
-          <div className="mb-6">
-            <h3 className="mb-2 text-lg font-semibold">Qualifications</h3>
-            <p>{trader.qualifications}</p>
-          </div>
-
-          {/* Service Descriptions */}
-          <div className="mb-6">
-            <h3 className="mb-2 text-lg font-semibold">Service Description</h3>
-            <p>{trader.service_descriptions}</p>
-          </div>
-
-          {/* Available Locations */}
-          <div>
-            <h3 className="mb-2 text-lg font-semibold">Available Locations</h3>
-            <p>{trader.available_locations.join(", ")}</p>
-          </div>
+        {/* Right side: Booking Form */}
+        <div className="col-span-2 p-6 bg-white rounded-lg shadow-lg">
+          <FormDesktop />
         </div>
       </div>
     </div>
