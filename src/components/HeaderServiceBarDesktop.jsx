@@ -15,6 +15,7 @@ import { AiOutlineSetting } from "react-icons/ai";
 
 import { FaTools } from "react-icons/fa";
 import PropTypes from "prop-types";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const services = [
   {
@@ -79,6 +80,19 @@ const services = [
 ];
 
 const ServiceBarDesktop = ({ currentService, onServiceSelect }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isTraderDetailsPage = location.pathname.match(/^\/\d+$/); // Checks if we're on a trader details page
+
+  const handleServiceClick = (serviceName) => {
+    if (isTraderDetailsPage) {
+      // If we're on a trader details page, navigate to home with the new service
+      navigate("/", { state: { selectedService: serviceName } });
+    }
+    // Always update the current service
+    onServiceSelect(serviceName);
+  };
+
   return (
     <div className="flex items-center justify-center pb-2 bg-white shadow-xs">
       {services.map((service, index) => (
@@ -93,7 +107,7 @@ const ServiceBarDesktop = ({ currentService, onServiceSelect }) => {
                 : "text-gray-700 hover:text-gray-900"
             }
             h-20 w-32 text-center`}
-          onClick={() => onServiceSelect(service.name)}
+          onClick={() => handleServiceClick(service.name)}
         >
           {service.icon}
           <span className="mt-2 text-sm font-medium line-clamp-2">

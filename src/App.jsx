@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Traders_Collections from "./components/Traders_Collections";
 import TraderDetails from "./components/TraderDetails";
@@ -12,6 +12,7 @@ function App() {
   const [screenSize, setScreenSize] = useState(window.innerWidth);
   const [currentService, setCurrentService] = useState("Removal");
   const [currentLocation, setCurrentLocation] = useState("");
+  const location = useLocation();
 
   // Handle screen resize
   useEffect(() => {
@@ -31,6 +32,13 @@ function App() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  useEffect(() => {
+    // Check if we have a selected service from navigation
+    if (location.state?.selectedService) {
+      setCurrentService(location.state.selectedService);
+    }
+  }, [location]);
 
   const handleSearch = (searchParams) => {
     setCurrentService(searchParams.service);
