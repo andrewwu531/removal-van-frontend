@@ -22,55 +22,49 @@ const services = [
     name: "Removal",
     icon: <TbTruckDelivery size={30} className="text-gray-600" />,
     paddingTop: "-pt-1",
-    marginX: "-mr-2",
+    marginX: "-mr-8 min-[1256px]:-mr-7 min-[1423px]:-mr-6",
   },
   {
     name: "House Renovation",
     icon: <MdOutlineBuild size={26} className="text-gray-600" />,
     paddingTop: "pt-1",
-    marginX: "mr-4.5",
+    marginX: "-mr-2 min-[1256px]:-mr-1.5 min-[1423px]:-mr-0.5",
   },
   {
     name: "Carpet & Flooring",
     icon: <TbRollerSkating size={29} className="text-gray-600" />,
     paddingTop: "pt-0",
-    marginX: "-mr-3.5",
+    marginX: "-mr-8.5 min-[1256px]:-mr-8 min-[1423px]:-mr-7",
   },
   {
     name: "Painting",
     icon: <MdOutlineFormatPaint size={25} className="text-gray-600" />,
-    paddingTop: "pt-1",
-    marginX: "-mr-4.5",
-  },
-  {
-    name: "Damage Repair",
-    icon: <AiOutlineSetting size={25} className="text-gray-800 stroke-4" />,
-    paddingTop: "pt-1",
-    marginX: "mr-0.5",
+    paddingTop: "pt-1 min-[1256px]:pt-2 min-[1423px]:pt-1.5",
+    marginX: "-mr-9.5 min-[1256px]:-mr-9 min-[1423px]:-mr-8",
   },
   {
     name: "Electricity & Gas",
     icon: <HiOutlineLightBulb size={28} className="text-gray-600 stroke-2" />,
-    paddingTop: "pt-0",
-    marginX: "-mr-3",
+    paddingTop: "pt-0 min-[1256px]:pt-1",
+    marginX: "-mr-5 min-[1256px]:-mr-4 min-[1423px]:-mr-3",
   },
   {
-    name: "Locksmith",
+    name: "Door Installation",
     icon: <PiLockKey size={25} className="text-gray-700 stroke-4" />,
-    paddingTop: "pt-1",
-    marginX: "-mr-6",
+    paddingTop: "pt-1 min-[1256px]:pt-2 min-[1423px]:pt-1.5",
+    marginX: "-mr-7 min-[1256px]:-mr-6.5  min-[1423px]:-mr-5.5",
   },
   {
     name: "Solar Panels",
     icon: <MdOutlineWbSunny size={26} className="text-gray-800" />,
-    paddingTop: "pt-1",
-    marginX: "mr-0",
+    paddingTop: "pt-1 min-[1256px]:pt-2 min-[1423px]:pt-1.5",
+    marginX: "-mr-5 min-[1256px]:-mr-4.5 min-[1423px]:-mr-3.5",
   },
   {
     name: "Window & Heating",
     icon: <MdOutlineWindow size={25} className="text-gray-800" />,
     paddingTop: "pt-1.5",
-    marginX: "-mr-4",
+    marginX: "-mr-9 min-[1423px]:-mr-8",
   },
   {
     name: "Car",
@@ -94,7 +88,7 @@ const ServiceBarDesktop = ({ currentService, onServiceSelect }) => {
   };
 
   return (
-    <div className="flex items-center justify-center pb-2 bg-white shadow-xs">
+    <div className="flex items-center justify-center pb-1 mt-3 bg-white shadow-xs">
       {services.map((service, index) => (
         <div
           key={index}
@@ -106,11 +100,11 @@ const ServiceBarDesktop = ({ currentService, onServiceSelect }) => {
                 ? "text-red-500"
                 : "text-gray-700 hover:text-gray-900"
             }
-            h-20 w-32 text-center`}
+            h-20 w-32 text-center scale-90 min-[1423px]:scale-95`}
           onClick={() => handleServiceClick(service.name)}
         >
           {service.icon}
-          <span className="mt-2 text-sm font-medium line-clamp-2">
+          <span className="mt-2 min-[1423px]:mt-1.5 text-sm font-medium line-clamp-2">
             {service.name}
           </span>
         </div>

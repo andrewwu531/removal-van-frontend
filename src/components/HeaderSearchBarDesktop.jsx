@@ -169,14 +169,14 @@ export default function HeaderDesktop({
   };
 
   return (
-    <div className="flex flex-col items-center pb-5 pt-7 z-100">
+    <div className="flex flex-col items-center pt-5 z-100">
       <img
         src={logo}
         alt="logo"
-        className="absolute w-10 h-10 cursor-pointer top-6 left-8"
+        className="absolute w-8 h-8 cursor-pointer top-8 left-10"
         onClick={handleLogoClick}
       />
-      <div className="flex items-center w-full max-w-2xl px-4 py-2 bg-white rounded-full shadow-md">
+      <div className="flex items-center w-full max-w-lg min-[1339px]:max-w-xl px-4 py-2 bg-white rounded-full shadow-md mr-7">
         <div className="relative flex-1">
           <input
             ref={locationInputRef}
@@ -247,7 +247,7 @@ export default function HeaderDesktop({
       {/* General Enquiry Button */}
       <button
         ref={enquiryButtonRef}
-        className="absolute right-10 px-6.5 py-3 text-white font-semibold transition-colors bg-red-500 rounded-full hover:scale-103"
+        className="absolute right-10 mt-1.5 px-6.5 py-3 text-base text-white font-semibold transition-colors bg-red-500 rounded-full hover:scale-103"
         onClick={handleEnquiryClick}
       >
         General Enquiry
