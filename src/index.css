@@ -44,11 +44,11 @@ body {
   border-radius: 0.5rem;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   background-color: white;
-  padding: 1rem;
+  padding: 0.6rem;
 }
 
 .react-datepicker__month-container {
-  padding: 0.1rem;
+  padding: 0.2rem;
 }
 
 .react-datepicker__header {
@@ -56,13 +56,15 @@ body {
   border-bottom: 1px solid #e5e7eb;
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
-  padding: 1.25rem 1rem 1rem;
+  padding: 1.25rem 0.75rem 1rem;
 }
 
 .react-datepicker__current-month {
-  font-weight: 600;
+  font-weight: 500;
   color: #374151;
   padding-bottom: 1rem;
+  position: relative;
+  top: -0.75rem;
 }
 
 .react-datepicker__day-name {
@@ -104,27 +106,29 @@ body {
 }
 
 .react-datepicker__navigation {
-  top: 1rem;
+  top: 0.75rem;
+  height: 1.5rem;
+  width: 1.5rem;
 }
 
 .react-datepicker__navigation-icon::before {
   border-color: #4b5563;
   border-style: solid;
-  border-width: 1px 1px 0 0; /* This creates the arrow shape */
+  border-width: 1px 1px 0 0;
   content: "";
   display: block;
-  height: px;
-  position: absolute;
-  top: 6px;
+  height: 7px;
   width: 7px;
+  position: absolute;
+  top: 16px;
 }
 
 .react-datepicker__navigation-icon--previous::before {
   transform: rotate(-135deg);
-  right: -7px;
+  right: -12px;
 }
 
 .react-datepicker__navigation-icon--next::before {
   transform: rotate(45deg);
-  left: -7px;
+  left: -12px;
 }
