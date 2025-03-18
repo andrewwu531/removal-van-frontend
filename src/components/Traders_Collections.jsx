@@ -37,8 +37,8 @@ export default function Traders_Collections({ traders, currentService }) {
   };
 
   return (
-    <div className="container justify-center px-12 py-8 mx-auto max-w-5/6">
-      <div className="px-2 mb-8 text-3xl font-semibold text-gray-900">
+    <div className="container justify-center px-12 py-8 mx-auto max-w-19/20 min-[1339px]:max-w-11/12">
+      <div className="px-2 text-[27px] min-[1339px]:text-3xl font-semibold text-gray-900 mb-7 min-[1339px]:mb-9">
         {getServiceTitle(currentService)}
       </div>
 
@@ -55,7 +55,7 @@ export default function Traders_Collections({ traders, currentService }) {
           </div>
         </div>
       ) : (
-        <div className="grid justify-center grid-cols-4 gap-6">
+        <div className="grid justify-center grid-cols-4 gap-5">
           {traders.map((trader) => (
             <div
               key={trader.id}
@@ -74,7 +74,7 @@ export default function Traders_Collections({ traders, currentService }) {
 
                     {/* Name Overlay */}
                     <div className="absolute left-0 top-2.5 z-10">
-                      <span className="px-6 py-3 font-semibold text-white bg-black rounded-xl text-md">
+                      <span className="px-6 py-3 font-semibold text-white bg-black rounded-xl text-[15px] min-[1256px]:text-base">
                         {trader.name}
                       </span>
                     </div>

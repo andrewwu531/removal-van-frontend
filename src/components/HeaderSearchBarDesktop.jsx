@@ -173,7 +173,7 @@ export default function HeaderDesktop({
       <img
         src={logo}
         alt="logo"
-        className="absolute w-8 h-8 cursor-pointer top-8 left-10"
+        className="absolute w-9 h-9 min-[1339px]:w-10 min-[1339px]:h-10 cursor-pointer top-7 min-[1339px]:top-7 min-[1920px]:top-6 left-10 min-[1920px]:left-11"
         onClick={handleLogoClick}
       />
       <div className="flex items-center w-full max-w-lg min-[1339px]:max-w-xl px-4 py-2 bg-white rounded-full shadow-md mr-7">
@@ -247,7 +247,7 @@ export default function HeaderDesktop({
       {/* General Enquiry Button */}
       <button
         ref={enquiryButtonRef}
-        className="absolute right-10 mt-1.5 px-6.5 py-3 text-base text-white font-semibold transition-colors bg-red-500 rounded-full hover:scale-103"
+        className="absolute right-10 mt-1 px-6.5 py-3 text-base text-white font-semibold transition-colors bg-red-500 rounded-full hover:scale-103"
         onClick={handleEnquiryClick}
       >
         General Enquiry

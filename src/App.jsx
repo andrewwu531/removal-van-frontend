@@ -104,7 +104,7 @@ function App() {
                     onServiceSelect={handleServiceSelect}
                   />
                 </div>
-                <div className="mt-48">
+                <div className="mt-41 min-[1339px]:mt-43">
                   <Traders_Collections
                     traders={traders}
                     currentService={currentService}
@@ -129,7 +129,7 @@ function App() {
                     onServiceSelect={handleServiceSelect}
                   />
                 </div>
-                <div className="mt-48">
+                <div className="mt-24">
                   <TraderDetails />
                 </div>
                 <FooterDesktop />
