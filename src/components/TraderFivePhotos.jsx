@@ -9,13 +9,13 @@ const TraderFivePhotos = ({ trader }) => {
   };
 
   return (
-    <div className="grid w-2/3 grid-cols-2 gap-2 p-4 mx-auto h-[50vh]">
+    <div className="grid max-w-13/20 min-[1423px]:max-w-3/4 grid-cols-2 gap-2 p-4 mx-auto h-[50vh]">
       {/* Large photo on the left */}
       <div className="h-full row-span-2">
         <img
           src={getImageUrl(trader.photo1)}
           alt={`${trader.name} photo 1`}
-          className="object-cover w-full h-full rounded-lg max-h-[calc(50vh-2rem)]"
+          className="object-cover w-full h-full rounded-l-xl rounded-r-lg max-h-[calc(50vh-2rem)]"
         />
       </div>
 
@@ -33,7 +33,7 @@ const TraderFivePhotos = ({ trader }) => {
           <img
             src={getImageUrl(trader.photo3)}
             alt={`${trader.name} photo 3`}
-            className="object-cover w-full h-full rounded-lg"
+            className="object-cover w-full h-full rounded-lg rounded-tr-xl"
           />
         </div>
         {/* Bottom row */}
@@ -48,7 +48,7 @@ const TraderFivePhotos = ({ trader }) => {
           <img
             src={getImageUrl(trader.photo5)}
             alt={`${trader.name} photo 5`}
-            className="object-cover w-full h-full rounded-lg"
+            className="object-cover w-full h-full rounded-lg rounded-br-xl"
           />
         </div>
       </div>

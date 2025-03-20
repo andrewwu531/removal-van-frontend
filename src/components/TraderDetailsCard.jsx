@@ -7,7 +7,7 @@ export default function TraderDetailsCard({ trader }) {
       {/* Header Section */}
 
       {/* Content Section */}
-      <div className="pt-16 px-26">
+      <div className="pt-14 px-26">
         <h1 className="mb-2 text-3xl font-bold">{trader.name}</h1>
         <h2 className="text-xl text-gray-600 ">{trader.title}</h2>
 

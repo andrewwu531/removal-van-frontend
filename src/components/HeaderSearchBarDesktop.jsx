@@ -169,14 +169,14 @@ export default function HeaderDesktop({
   };
 
   return (
-    <div className="flex flex-col items-center pt-5 z-100">
+    <div className="flex flex-col items-center pt-5 min-[1920px]:pt-6 z-100">
       <img
         src={logo}
         alt="logo"
-        className="absolute w-9 h-9 min-[1339px]:w-10 min-[1339px]:h-10 cursor-pointer top-7 min-[1339px]:top-7 min-[1920px]:top-6 left-10 min-[1920px]:left-11"
+        className="absolute w-9 h-9 min-[1339px]:w-10 min-[1339px]:h-10 min-[1920px]:w-11 min-[1920px]:h-11 cursor-pointer top-7 min-[1339px]:top-7 left-10 min-[1920px]:left-11"
         onClick={handleLogoClick}
       />
-      <div className="flex items-center w-full max-w-lg min-[1339px]:max-w-xl px-4 py-2 bg-white rounded-full shadow-md mr-7">
+      <div className="flex items-center w-full max-w-lg min-[1339px]:max-w-xl min-[1920px]:max-w-2xl px-4 min-[1920px]:px-5 py-2 min-[1920px]:py-3 bg-white rounded-full shadow-md mr-7">
         <div className="relative flex-1">
           <input
             ref={locationInputRef}
@@ -247,7 +247,7 @@ export default function HeaderDesktop({
       {/* General Enquiry Button */}
       <button
         ref={enquiryButtonRef}
-        className="absolute right-10 mt-1 px-6.5 py-3 text-base text-white font-semibold transition-colors bg-red-500 rounded-full hover:scale-103"
+        className="absolute right-10 mt-1 min-[1920px]:mt-1.5 px-6.5 min-[1920px]:px-8 py-3 min-[1920px]:py-3.5 text-base min-[1920px]:text-lg text-white font-semibold transition-colors bg-red-500 rounded-full hover:scale-103"
         onClick={handleEnquiryClick}
       >
         General Enquiry
