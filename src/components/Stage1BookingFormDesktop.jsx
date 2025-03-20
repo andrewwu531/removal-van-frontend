@@ -42,7 +42,7 @@ const Stage1BookingFormDesktop = ({ bookingDetails, onNextStep }) => {
         ref={ref}
         value={value}
         readOnly
-        className="block w-full p-3 min-[2560px]:p-4 mt-1 bg-white border border-gray-300 rounded focus:outline-none pl-10"
+        className="block w-full p-3.5 min-[2560px]:p-4 mt-1 bg-white border border-gray-300 rounded focus:outline-none pl-10 text-sm placeholder:text-base"
         placeholder="DD/MM/YYYY"
       />
     </div>
@@ -128,7 +128,7 @@ const Stage1BookingFormDesktop = ({ bookingDetails, onNextStep }) => {
                     backgroundPosition: "right 0.65rem center",
                     backgroundSize: "0.65rem auto",
                   }}
-                  className="block p-3 pl-4 min-[2560px]:p-4 mt-1 bg-white border border-gray-300 rounded w-35 min-[2560px]:w-40 focus:outline-none appearance-none"
+                  className="block p-3 pl-4 min-[2560px]:p-4 mt-1 bg-white border border-gray-300 rounded w-35 min-[2560px]:w-40 focus:outline-none appearance-none text-[15px]"
                 >
                   <option>£60</option>
                   <option>£100</option>

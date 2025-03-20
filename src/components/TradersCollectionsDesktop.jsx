@@ -74,7 +74,7 @@ export default function Traders_Collections({ traders, currentService }) {
 
                     {/* Name Overlay */}
                     <div className="absolute left-0 min-[1920px]:-left-0.5 top-2.5 min-[1920px]:top-3.5 z-10">
-                      <span className="px-6 min-[1920px]:px-7 py-3 min-[1920px]:py-4 font-semibold text-white bg-black rounded-xl text-[15px] min-[1256px]:text-base min-[1920px]:text-[17px]">
+                      <span className="px-6 min-[1920px]:px-6.5 py-3 min-[1920px]:py-3.5 font-semibold text-white bg-black rounded-xl text-[15px] min-[1256px]:text-base min-[1920px]:text-[17px]">
                         {trader.name}
                       </span>
                     </div>
