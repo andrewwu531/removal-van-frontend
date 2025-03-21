@@ -56,14 +56,16 @@ export default function TraderDetails() {
     );
 
   return (
-    <div className="container px-4 pt-20 pb-20 mx-auto">
+    <div className="container pt-20 pb-20 mx-auto">
       <TraderFivePhotosDesktop trader={trader} />
-      <div className="grid grid-cols-5 gap-3 mx-auto max-w-17/20 min-[1423px]:max-w-11/12">
-        {/* Left side: Trader Details Card */}
-        <TraderDetailsCardDesktop trader={trader} />
+      <div className="flex flex-col min-[1339px]:flex-row gap-6 max-w-[95%] min-[1423px]:max-w-[90%] min-[1920px]:max-w-[85%] mx-auto">
+        {/* TraderDetailsCard */}
+        <div className="w-full min-[1339px]:w-[60%]">
+          <TraderDetailsCardDesktop trader={trader} />
+        </div>
 
-        {/* Right side: Booking Form */}
-        <div className="col-span-2 px-3 bg-white rounded-lg shadow-lg pb-18">
+        {/* BookingForm */}
+        <div className="w-full min-[1339px]:w-[40%]">
           <FormDesktop />
         </div>
       </div>
