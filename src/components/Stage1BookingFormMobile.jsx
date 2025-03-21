@@ -52,7 +52,7 @@ const Stage1BookingFormDesktop = ({ bookingDetails, onNextStep }) => {
   CustomInput.displayName = "CustomInput";
 
   return (
-    <div className="w-5/6 mx-auto mt-12 font-sans">
+    <div className="w-7/8 min-[1339px]:w-5/6 mx-auto mt-12 font-sans">
       <div className="pt-2 min-[2560px]:pt-6 mr-4 bg-white rounded-lg">
         <form onSubmit={handleSubmit}>
           <h2 className="mb-10  text-2xl min-[2560px]:text-3xl font-semibold text-gray-700 ">

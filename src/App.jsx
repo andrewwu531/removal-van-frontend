@@ -180,9 +180,10 @@ function App() {
                     onServiceSelect={handleServiceSelect}
                   />
                 </div>
-                <div className="mt-24">
+                <div className="mt-24 max-w-[100%] min-[1423px]:max-w-[90%] min-[1920px]:max-w-[85%] mx-auto">
                   <TraderDetailsDesktop />
                 </div>
+                <FooterDesktop />
                 <FooterDesktop />
               </>
             }
