@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-import { apiService } from "../services/apiService";
 
 // Add a mapping object for custom service titles
 const serviceDisplayTitles = {
@@ -19,20 +18,6 @@ const serviceDisplayTitles = {
 
 export default function Traders_Collections({ traders, currentService }) {
   const navigate = useNavigate();
-  const [tradersState, setTradersState] = useState([]);
-
-  const fetchTraders = async () => {
-    try {
-      const traders = await apiService.getTraders();
-      setTradersState(traders);
-    } catch (error) {
-      console.error("Error fetching traders:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchTraders();
-  }, []);
 
   // Function to get the complete image URL
   const getImageUrl = (photoPath) => {
@@ -57,7 +42,7 @@ export default function Traders_Collections({ traders, currentService }) {
         {getServiceTitle(currentService)}
       </div>
 
-      {tradersState.length === 0 ? (
+      {traders.length === 0 ? (
         <div className="flex flex-col items-center justify-center pt-20 text-center pb-35">
           <div className="mb-5 text-2xl font-semibold text-gray-700">
             No providers available yet
@@ -71,7 +56,7 @@ export default function Traders_Collections({ traders, currentService }) {
         </div>
       ) : (
         <div className="grid justify-center grid-cols-4 gap-5">
-          {tradersState.map((trader) => (
+          {traders.map((trader) => (
             <div
               key={trader.id}
               className="flex flex-col w-full pb-10 overflow-hidden transition-shadow bg-white cursor-pointer rounded-2xl hover:shadow-lg"
@@ -144,6 +129,7 @@ Traders_Collections.propTypes = {
       from_price: PropTypes.number.isRequired,
       main_photo: PropTypes.string,
       available_locations: PropTypes.arrayOf(PropTypes.string).isRequired,
+      service_type: PropTypes.string.isRequired,
     })
   ).isRequired,
   currentService: PropTypes.string.isRequired,
