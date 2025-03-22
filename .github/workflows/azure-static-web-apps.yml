@@ -44,11 +44,22 @@ jobs:
           echo "Environment file created"
           cat .env.production
 
+      - name: Set Build Directory
+        id: build_dir
+        run: |
+          if [ -d "dist" ]; then
+            echo "dir=dist" >> $GITHUB_OUTPUT
+          else
+            echo "dir=build" >> $GITHUB_OUTPUT
+          fi
+
       - name: Build
         run: |
           npm run build
           echo "Build completed"
-          ls -la dist/
+          BUILD_DIR=$([ -d "dist" ] && echo "dist" || echo "build")
+          echo "Build directory is: $BUILD_DIR"
+          ls -la $BUILD_DIR/
         env:
           VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
           VITE_PAYMENT_API_URL: ${{ secrets.VITE_PAYMENT_API_URL }}
@@ -61,8 +72,9 @@ jobs:
         run: |
           echo "Current directory contents:"
           ls -la
-          echo "Dist directory contents:"
-          ls -la dist/ || echo "dist directory not found"
+          echo "Build directory contents:"
+          BUILD_DIR=$([ -d "dist" ] && echo "dist" || echo "build")
+          ls -la $BUILD_DIR/
 
       - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
@@ -70,10 +82,10 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: "/" # Change this to root directory
-          output_location: "dist" # Change this to where the build output is
-          skip_app_build: false # Change to false to let Azure build
-          app_build_command: "npm run build" # Specify the build command
+          app_location: "/"
+          output_location: "build"
+          skip_app_build: false
+          app_build_command: "npm run build"
         env:
           VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
           VITE_PAYMENT_API_URL: ${{ secrets.VITE_PAYMENT_API_URL }}
