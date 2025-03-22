@@ -184,7 +184,6 @@ function App() {
                   <TraderDetailsDesktop />
                 </div>
                 <FooterDesktop />
-                <FooterDesktop />
               </>
             }
           />
