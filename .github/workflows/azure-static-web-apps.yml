@@ -57,9 +57,7 @@ jobs:
         run: |
           npm run build
           echo "Build completed"
-          BUILD_DIR=$([ -d "dist" ] && echo "dist" || echo "build")
-          echo "Build directory is: $BUILD_DIR"
-          ls -la $BUILD_DIR/
+          ls -la dist/
         env:
           VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
           VITE_PAYMENT_API_URL: ${{ secrets.VITE_PAYMENT_API_URL }}
@@ -72,9 +70,8 @@ jobs:
         run: |
           echo "Current directory contents:"
           ls -la
-          echo "Build directory contents:"
-          BUILD_DIR=$([ -d "dist" ] && echo "dist" || echo "build")
-          ls -la $BUILD_DIR/
+          echo "Dist directory contents:"
+          ls -la dist/
 
       - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
@@ -83,7 +80,7 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "/"
-          output_location: "build"
+          output_location: "dist"
           skip_app_build: false
           app_build_command: "npm run build"
         env:
