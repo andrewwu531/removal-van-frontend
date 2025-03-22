@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import FormDesktop from "./FormDesktop";
 import TraderDetailsCardDesktop from "./TraderDetailsCardDesktop";
 import TraderFivePhotosDesktop from "./TraderFivePhotosDesktop";
+import { apiService } from "../services/apiService";
 
 export default function TraderDetails() {
   const { traderId } = useParams();
@@ -23,21 +24,18 @@ export default function TraderDetails() {
     // Handle the form submission here
   };
 
-  useEffect(() => {
-    const fetchTraderDetails = async () => {
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/backend/trader/${traderId}/`
-        );
-        const data = await response.json();
-        setTrader(data);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching trader details:", error);
-        setLoading(false);
-      }
-    };
+  const fetchTraderDetails = async () => {
+    try {
+      const trader = await apiService.getTraderById(traderId);
+      setTrader(trader);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching trader details:", error);
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchTraderDetails();
   }, [traderId]);
 
