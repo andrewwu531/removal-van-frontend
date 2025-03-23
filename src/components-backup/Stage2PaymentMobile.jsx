@@ -37,7 +37,7 @@ const Stage2PaymentMobile = ({ onPaymentSuccess, onPaymentError }) => {
   async function createOrder() {
     try {
       setPaymentError("");
-      const response = await fetch(`${paymentApiUrl}/api/orders`, {
+      const response = await fetch(`${paymentApiUrl}/api/backend/orders`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -63,7 +63,7 @@ const Stage2PaymentMobile = ({ onPaymentSuccess, onPaymentError }) => {
   async function onApprove(data, actions) {
     try {
       const response = await fetch(
-        `${paymentApiUrl}/api/orders/${data.orderID}/capture`,
+        `${paymentApiUrl}/api/backend/orders/${data.orderID}/capture`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

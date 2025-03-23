@@ -63,7 +63,7 @@ const Stage2PaymentDesktop = ({ onPaymentSuccess, onPaymentError }) => {
   async function onApprove(data, actions) {
     try {
       const response = await fetch(
-        `${paymentApiUrl}/api/orders/${data.orderID}/capture`,
+        `${paymentApiUrl}/api/backend/orders/${data.orderID}/capture`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
