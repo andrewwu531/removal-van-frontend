@@ -59,7 +59,7 @@ export const apiService = {
   },
 
   async getTraderById(id) {
-    const response = await this.fetchWithHeaders(`/api/backend/trader/${id}/`);
+    const response = await this.fetchWithHeaders(`/api/backend/traders/${id}/`);
     return response.json();
   },
 

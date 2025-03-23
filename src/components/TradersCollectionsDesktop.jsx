@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import ImageWithFallback from "./ImageWithFallback";
 
 // Add a mapping object for custom service titles
 const serviceDisplayTitles = {
@@ -19,12 +20,11 @@ const serviceDisplayTitles = {
 export default function Traders_Collections({ traders, currentService }) {
   const navigate = useNavigate();
 
-  // Function to get the complete image URL
+  // Update getImageUrl to handle Azure URLs
   const getImageUrl = (photoPath) => {
-    if (!photoPath) return null;
-    // Remove any leading slash from photoPath to avoid double slashes
-
-    return `${photoPath}`;
+    if (!photoPath) return "/fallback-image.png"; // Add a fallback image
+    // Azure URLs will come directly from the backend, no need to modify
+    return photoPath;
   };
 
   // Get the custom title based on currentService, fallback to currentService if no custom title exists
@@ -64,26 +64,18 @@ export default function Traders_Collections({ traders, currentService }) {
             >
               {/* Image Container with Gradient Overlay and Name */}
               <div className="relative w-full overflow-hidden aspect-square">
-                {trader.main_photo ? (
-                  <>
-                    <img
-                      src={getImageUrl(trader.main_photo)}
-                      alt={trader.name}
-                      className="object-cover w-full h-full transition-transform duration-300 ease-in-out rounded-2xl hover:scale-102"
-                    />
+                <ImageWithFallback
+                  src={getImageUrl(trader.main_photo)}
+                  alt={trader.name}
+                  className="object-cover w-full h-full transition-transform duration-300 ease-in-out rounded-2xl hover:scale-102"
+                />
 
-                    {/* Name Overlay */}
-                    <div className="absolute left-0 min-[1920px]:-left-0.5 top-2.5 min-[1920px]:top-3.5 z-10">
-                      <span className="px-6 min-[1920px]:px-6.5 py-3 min-[1920px]:py-3.5 font-semibold text-white bg-black rounded-xl text-[15px] min-[1256px]:text-base min-[1920px]:text-[17px]">
-                        {trader.name}
-                      </span>
-                    </div>
-                  </>
-                ) : (
-                  <div className="flex items-center justify-center w-full h-full">
-                    <span className="text-gray-400">No image available</span>
-                  </div>
-                )}
+                {/* Name Overlay */}
+                <div className="absolute left-0 min-[1920px]:-left-0.5 top-2.5 min-[1920px]:top-3.5 z-10">
+                  <span className="px-6 min-[1920px]:px-6.5 py-3 min-[1920px]:py-3.5 font-semibold text-white bg-black rounded-xl text-[15px] min-[1256px]:text-base min-[1920px]:text-[17px]">
+                    {trader.name}
+                  </span>
+                </div>
               </div>
 
               {/* Trader Information */}

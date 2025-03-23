@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 const TraderFivePhotos = ({ trader }) => {
   // Function to get the complete image URL
   const getImageUrl = (photoPath) => {
-    if (!photoPath) return null;
+    if (!photoPath) return "/fallback-image.png";
     return `${import.meta.env.VITE_API_URL}${photoPath}`;
   };
 
