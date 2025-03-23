@@ -52,6 +52,10 @@ function App() {
 
   const fetchTraders = async (searchParams) => {
     try {
+      console.log(
+        "Fetching from:",
+        `${import.meta.env.VITE_API_URL}/api/backend/traders`
+      );
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/backend/traders`,
         {
@@ -66,10 +70,15 @@ function App() {
       );
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorText = await response.text();
+        console.error("Server response:", errorText);
+        throw new Error(
+          `HTTP error! status: ${response.status}, message: ${errorText}`
+        );
       }
 
       const data = await response.json();
+      console.log("Received data:", data);
 
       // Filter traders based on service type and location
       let filteredTraders = data.filter(
@@ -81,7 +90,6 @@ function App() {
           trader.available_locations.includes(searchParams.location)
         );
       }
-      console.log("Filtered traders: ", filteredTraders);
       setTraders(filteredTraders);
     } catch (error) {
       console.error("Error fetching traders:", error);

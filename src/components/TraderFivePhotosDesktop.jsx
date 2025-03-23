@@ -5,15 +5,22 @@ import ImageWithFallback from "./ImageWithFallback";
 const TraderFivePhotos = ({ trader }) => {
   const getImageUrl = (photoUrl) => {
     if (!photoUrl) return "/fallback-image.png";
+
+    // If it's already a full Azure URL, return it
     if (photoUrl.startsWith("https://")) return photoUrl;
+
+    // If it's a relative path, construct the Azure URL
     if (photoUrl.startsWith("/media/")) {
-      const fixedPath = photoUrl.replace(
-        "/media/traders/traders/",
-        "/media/traders/"
-      );
-      return `${import.meta.env.VITE_AZURE_STORAGE_URL}${fixedPath}`;
+      // Remove any duplicate 'traders' in the path
+      const cleanPath = photoUrl
+        .replace("/media/traders/traders/", "/traders/")
+        .replace("/media/traders/", "/traders/");
+
+      return `${import.meta.env.VITE_AZURE_STORAGE_URL}${cleanPath}`;
     }
-    return "/fallback-image.png";
+
+    // If it's just a filename, construct the full path
+    return `${import.meta.env.VITE_AZURE_STORAGE_URL}/traders/${photoUrl}`;
   };
 
   // Debug logging with more detail

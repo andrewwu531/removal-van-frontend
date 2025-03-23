@@ -22,9 +22,23 @@ export default function Traders_Collections({ traders, currentService }) {
 
   // Update getImageUrl to handle Azure URLs
   const getImageUrl = (photoPath) => {
-    if (!photoPath) return "/fallback-image.png"; // Add a fallback image
-    // Azure URLs will come directly from the backend, no need to modify
-    return photoPath;
+    if (!photoPath) return "/fallback-image.png";
+
+    // If it's already a full Azure URL, return it
+    if (photoPath.startsWith("https://")) return photoPath;
+
+    // If it's a relative path, construct the Azure URL
+    if (photoPath.startsWith("/media/")) {
+      // Remove any duplicate 'traders' in the path
+      const cleanPath = photoPath
+        .replace("/media/traders/traders/", "/traders/")
+        .replace("/media/traders/", "/traders/");
+
+      return `${import.meta.env.VITE_AZURE_STORAGE_URL}${cleanPath}`;
+    }
+
+    // If it's just a filename, construct the full path
+    return `${import.meta.env.VITE_AZURE_STORAGE_URL}/traders/${photoPath}`;
   };
 
   // Get the custom title based on currentService, fallback to currentService if no custom title exists
