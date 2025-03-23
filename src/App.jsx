@@ -66,6 +66,7 @@ function App() {
             "X-API-Key": import.meta.env.VITE_API_KEY,
           },
           mode: "cors",
+          credentials: "omit",
         }
       );
 
