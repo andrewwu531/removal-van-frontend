@@ -12,6 +12,8 @@ import HeaderSearchBarMobile from "./components/HeaderSearchBarMobile";
 import HeaderServiceBarMobile from "./components/HeaderServiceBarMobile";
 import FooterMobile from "./components/FooterMobile";
 
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+
 function App() {
   const [traders, setTraders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -19,6 +21,8 @@ function App() {
   const [currentService, setCurrentService] = useState("Removal");
   const [currentLocation, setCurrentLocation] = useState("");
   const location = useLocation();
+  const [paypalConfig, setPaypalConfig] = useState(null);
+  const [error, setError] = useState(null);
 
   // Handle screen resize
   useEffect(() => {
@@ -37,6 +41,46 @@ function App() {
     const handleResize = () => setScreenSize(window.innerWidth);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    // Fetch client token when component mounts
+    const fetchClientToken = async () => {
+      try {
+        console.log("Fetching client token...");
+        const response = await fetch(
+          "http://localhost:3000/api/paypal/generate-client-token",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log("PayPal configuration received:", data);
+
+        setPaypalConfig({
+          "client-id": import.meta.env.VITE_PAYPAL_CLIENT_ID,
+          "data-client-token": data.clientToken,
+          "data-payment-method-token": data.paymentMethodToken,
+          currency: "GBP",
+          intent: "capture",
+          components: "buttons",
+          "disable-funding": "paylater,venmo",
+          "merchant-id": "QNBAVMJUUYKP8",
+        });
+      } catch (error) {
+        console.error("Error fetching PayPal configuration:", error);
+      }
+    };
+
+    fetchClientToken();
   }, []);
 
   const handleSearch = (searchParams) => {
@@ -96,110 +140,142 @@ function App() {
       console.error("Error fetching traders:", error);
     }
   };
+
+  // Show loading state
+  if (!paypalConfig) {
+    return <div>Loading payment system...</div>;
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <div className="p-4 text-red-500">
+        Error loading payment system: {error}
+        <button
+          onClick={() => window.location.reload()}
+          className="px-4 py-2 ml-4 text-white bg-blue-500 rounded"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
+
+  const initialOptions = {
+    "client-id": import.meta.env.VITE_PAYPAL_CLIENT_ID,
+    currency: "GBP",
+    intent: "capture",
+    components: "buttons",
+    "merchant-id": "QNBAVMJUUYKP8",
+    "disable-funding": "paylater,venmo",
+  };
+
   return (
-    <div>
-      {screenSize < 1024 ? (
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <div className="fixed top-0 left-0 w-full bg-white z-100">
-                  <HeaderSearchBarMobile
-                    onSearch={handleSearch}
-                    currentService={currentService}
-                    currentLocation={currentLocation}
-                  />
-                  <HeaderServiceBarMobile
-                    currentService={currentService}
-                    onServiceSelect={handleServiceSelect}
-                  />
-                </div>
-                <div className="mt-41 min-[1339px]:mt-43 min-[1920px]:mt-48">
-                  <TradersCollectionsMobile
-                    traders={traders}
-                    currentService={currentService}
-                  />
-                </div>
-                <FooterMobile />
-              </>
-            }
-          />
-          <Route
-            path="/:traderId"
-            element={
-              <>
-                <div className="fixed top-0 left-0 w-full bg-white z-100">
-                  <HeaderSearchBarMobile
-                    onSearch={handleSearch}
-                    currentService={currentService}
-                    currentLocation={currentLocation}
-                  />
-                  <HeaderServiceBarMobile
-                    currentService={currentService}
-                    onServiceSelect={handleServiceSelect}
-                  />
-                </div>
-                <div className="mt-24">
-                  <TraderDetailsMobile />
-                </div>
-                <FooterMobile />
-              </>
-            }
-          />
-        </Routes>
-      ) : (
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <div className="fixed top-0 left-0 w-full bg-white z-100">
-                  <HeaderSearchBarDesktop
-                    onSearch={handleSearch}
-                    currentService={currentService}
-                    currentLocation={currentLocation}
-                  />
-                  <HeaderServiceBarDesktop
-                    currentService={currentService}
-                    onServiceSelect={handleServiceSelect}
-                  />
-                </div>
-                <div className="mt-41 min-[1339px]:mt-43 min-[1920px]:mt-48">
-                  <TradersCollectionsDesktop
-                    traders={traders}
-                    currentService={currentService}
-                  />
-                </div>
-                <FooterDesktop />
-              </>
-            }
-          />
-          <Route
-            path="/:traderId"
-            element={
-              <>
-                <div className="fixed top-0 left-0 w-full bg-white z-100">
-                  <HeaderSearchBarDesktop
-                    onSearch={handleSearch}
-                    currentService={currentService}
-                    currentLocation={currentLocation}
-                  />
-                  <HeaderServiceBarDesktop
-                    currentService={currentService}
-                    onServiceSelect={handleServiceSelect}
-                  />
-                </div>
-                <div className="mt-24 max-w-[100%] min-[1423px]:max-w-[90%] min-[1920px]:max-w-[85%] mx-auto">
-                  <TraderDetailsDesktop />
-                </div>
-                <FooterDesktop />
-              </>
-            }
-          />
-        </Routes>
-      )}
-    </div>
+    <PayPalScriptProvider options={initialOptions}>
+      <div>
+        {screenSize < 1024 ? (
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  <div className="fixed top-0 left-0 w-full bg-white z-100">
+                    <HeaderSearchBarMobile
+                      onSearch={handleSearch}
+                      currentService={currentService}
+                      currentLocation={currentLocation}
+                    />
+                    <HeaderServiceBarMobile
+                      currentService={currentService}
+                      onServiceSelect={handleServiceSelect}
+                    />
+                  </div>
+                  <div className="mt-41 min-[1339px]:mt-43 min-[1920px]:mt-48">
+                    <TradersCollectionsMobile
+                      traders={traders}
+                      currentService={currentService}
+                    />
+                  </div>
+                  <FooterMobile />
+                </>
+              }
+            />
+            <Route
+              path="/:traderId"
+              element={
+                <>
+                  <div className="fixed top-0 left-0 w-full bg-white z-100">
+                    <HeaderSearchBarMobile
+                      onSearch={handleSearch}
+                      currentService={currentService}
+                      currentLocation={currentLocation}
+                    />
+                    <HeaderServiceBarMobile
+                      currentService={currentService}
+                      onServiceSelect={handleServiceSelect}
+                    />
+                  </div>
+                  <div className="mt-24">
+                    <TraderDetailsMobile />
+                  </div>
+                  <FooterMobile />
+                </>
+              }
+            />
+          </Routes>
+        ) : (
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  <div className="fixed top-0 left-0 w-full bg-white z-100">
+                    <HeaderSearchBarDesktop
+                      onSearch={handleSearch}
+                      currentService={currentService}
+                      currentLocation={currentLocation}
+                    />
+                    <HeaderServiceBarDesktop
+                      currentService={currentService}
+                      onServiceSelect={handleServiceSelect}
+                    />
+                  </div>
+                  <div className="mt-41 min-[1339px]:mt-43 min-[1920px]:mt-48">
+                    <TradersCollectionsDesktop
+                      traders={traders}
+                      currentService={currentService}
+                    />
+                  </div>
+                  <FooterDesktop />
+                </>
+              }
+            />
+            <Route
+              path="/:traderId"
+              element={
+                <>
+                  <div className="fixed top-0 left-0 w-full bg-white z-100">
+                    <HeaderSearchBarDesktop
+                      onSearch={handleSearch}
+                      currentService={currentService}
+                      currentLocation={currentLocation}
+                    />
+                    <HeaderServiceBarDesktop
+                      currentService={currentService}
+                      onServiceSelect={handleServiceSelect}
+                    />
+                  </div>
+                  <div className="mt-24 max-w-[100%] min-[1423px]:max-w-[90%] min-[1920px]:max-w-[85%] mx-auto">
+                    <TraderDetailsDesktop />
+                  </div>
+                  <FooterDesktop />
+                </>
+              }
+            />
+          </Routes>
+        )}
+      </div>
+    </PayPalScriptProvider>
   );
 }
 
