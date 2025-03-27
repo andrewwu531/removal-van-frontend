@@ -126,11 +126,10 @@ function App() {
     "client-id": import.meta.env.VITE_PAYPAL_CLIENT_ID,
     currency: "GBP",
     intent: "capture",
-    components: "buttons",
-    ...(import.meta.env.MODE === "development" && {
-      "enable-funding": "card",
-      "data-client-token": clientToken,
-    }),
+    components: "buttons,hosted-fields",
+    "data-client-token": clientToken,
+    "enable-funding": "card",
+    "disable-funding": "paylater,venmo",
   };
 
   if (loading) {
