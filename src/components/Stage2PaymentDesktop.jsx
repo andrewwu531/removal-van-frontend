@@ -61,24 +61,7 @@ export default function Stage2PaymentDesktop({
     setError("");
 
     try {
-      // Validate card details
-      const formattedCardNumber = cardNumber.replace(/\s/g, "");
-      const formattedExpiry = convertExpiryDateFormat(expiryDate);
-
-      if (formattedCardNumber.length !== 16) {
-        throw new Error("Invalid card number");
-      }
-
-      if (!formattedExpiry.match(/^\d{4}-\d{2}$/)) {
-        throw new Error("Invalid expiry date format");
-      }
-
-      if (cvv.length < 3) {
-        throw new Error("Invalid CVV");
-      }
-
       // Create order
-      console.log("Creating order...");
       const orderResponse = await fetch(`${paymentApiUrl}/api/orders`, {
         method: "POST",
         headers: {
@@ -88,7 +71,6 @@ export default function Stage2PaymentDesktop({
 
       if (!orderResponse.ok) {
         const errorData = await orderResponse.json();
-        console.error("Order creation error:", errorData);
         throw new Error(errorData.error || "Failed to create order");
       }
 
@@ -96,7 +78,6 @@ export default function Stage2PaymentDesktop({
       console.log("Order created:", orderData);
 
       // Process payment
-      console.log("Processing payment for order:", orderData.id);
       const paymentResponse = await fetch(`${paymentApiUrl}/api/process-card`, {
         method: "POST",
         headers: {
@@ -105,8 +86,8 @@ export default function Stage2PaymentDesktop({
         body: JSON.stringify({
           orderId: orderData.id,
           cardDetails: {
-            number: formattedCardNumber,
-            expiry: formattedExpiry,
+            number: cardNumber.replace(/\s/g, ""),
+            expiry: convertExpiryDateFormat(expiryDate),
             cvv: cvv,
           },
         }),
@@ -114,8 +95,13 @@ export default function Stage2PaymentDesktop({
 
       const paymentData = await paymentResponse.json();
 
+      if (paymentData.status === "3DS_REQUIRED") {
+        // Redirect to 3DS verification
+        window.location.href = paymentData.redirectUrl;
+        return;
+      }
+
       if (!paymentResponse.ok) {
-        console.error("Payment processing error:", paymentData);
         throw new Error(
           paymentData.error || "Payment failed. Please check your card details."
         );

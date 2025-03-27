@@ -13,6 +13,8 @@ import HeaderServiceBarMobile from "./components/HeaderServiceBarMobile";
 import FooterMobile from "./components/FooterMobile";
 
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import PaymentSuccess from "./components/PaymentSuccess";
+import PaymentError from "./components/PaymentError";
 
 function App() {
   const [traders, setTraders] = useState([]);
@@ -220,6 +222,9 @@ function App() {
                   </>
                 }
               />
+              <Route path="/payment/success" element={<PaymentSuccess />} />
+              <Route path="/payment/error" element={<PaymentError />} />
+              <Route path="/payment/cancel" element={<PaymentError />} />
             </Routes>
           ) : (
             <Routes>
@@ -270,6 +275,9 @@ function App() {
                   </>
                 }
               />
+              <Route path="/payment/success" element={<PaymentSuccess />} />
+              <Route path="/payment/error" element={<PaymentError />} />
+              <Route path="/payment/cancel" element={<PaymentError />} />
             </Routes>
           )}
         </div>
