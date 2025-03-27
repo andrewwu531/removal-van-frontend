@@ -88,14 +88,15 @@ export default function Stage2PaymentDesktop({
 
       if (!orderResponse.ok) {
         const errorData = await orderResponse.json();
+        console.error("Order creation error:", errorData);
         throw new Error(errorData.error || "Failed to create order");
       }
 
       const orderData = await orderResponse.json();
-      console.log("Order created:", orderData.id);
+      console.log("Order created:", orderData);
 
       // Process payment
-      console.log("Processing payment...");
+      console.log("Processing payment for order:", orderData.id);
       const paymentResponse = await fetch(`${paymentApiUrl}/api/process-card`, {
         method: "POST",
         headers: {
@@ -114,6 +115,7 @@ export default function Stage2PaymentDesktop({
       const paymentData = await paymentResponse.json();
 
       if (!paymentResponse.ok) {
+        console.error("Payment processing error:", paymentData);
         throw new Error(
           paymentData.error || "Payment failed. Please check your card details."
         );
