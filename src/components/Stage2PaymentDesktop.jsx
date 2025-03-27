@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePayPalScriptReducer } from "@paypal/react-paypal-js";
 
 export default function Stage2PaymentDesktop({
@@ -11,6 +11,13 @@ export default function Stage2PaymentDesktop({
   const [expiryDate, setExpiryDate] = useState("");
   const [cvv, setCvv] = useState("");
   const [{ isResolved }] = usePayPalScriptReducer();
+
+  // Get the payment API URL from environment variables
+  const paymentApiUrl = import.meta.env.VITE_PAYMENT_API_URL;
+
+  useEffect(() => {
+    console.log("Payment API URL:", paymentApiUrl);
+  }, [paymentApiUrl]);
 
   if (!isResolved) {
     return <div>Loading payment fields...</div>;
@@ -54,8 +61,10 @@ export default function Stage2PaymentDesktop({
     setError("");
 
     try {
+      console.log("Creating order using API:", `${paymentApiUrl}/api/orders`);
+
       // Create order first
-      const orderResponse = await fetch("http://localhost:3000/api/orders", {
+      const orderResponse = await fetch(`${paymentApiUrl}/api/orders`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -70,23 +79,20 @@ export default function Stage2PaymentDesktop({
       const orderData = await orderResponse.json();
 
       // Process the payment
-      const paymentResponse = await fetch(
-        "http://localhost:3000/api/process-card",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
+      const paymentResponse = await fetch(`${paymentApiUrl}/api/process-card`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          orderId: orderData.id,
+          cardDetails: {
+            number: cardNumber.replace(/\s/g, ""),
+            expiry: convertExpiryDateFormat(expiryDate),
+            cvv: cvv,
           },
-          body: JSON.stringify({
-            orderId: orderData.id,
-            cardDetails: {
-              number: cardNumber.replace(/\s/g, ""),
-              expiry: convertExpiryDateFormat(expiryDate),
-              cvv: cvv,
-            },
-          }),
-        }
-      );
+        }),
+      });
 
       if (!paymentResponse.ok) {
         const errorData = await paymentResponse.json();
@@ -97,7 +103,11 @@ export default function Stage2PaymentDesktop({
       console.log("Payment successful:", paymentData);
       onPaymentSuccess(paymentData);
     } catch (error) {
-      console.error("Payment error:", error);
+      console.error("Detailed payment error:", {
+        message: error.message,
+        stack: error.stack,
+        apiUrl: paymentApiUrl,
+      });
       setError(error.message || "Payment failed");
       onPaymentError();
     } finally {
