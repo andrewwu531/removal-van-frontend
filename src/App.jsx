@@ -21,8 +21,7 @@ function App() {
   const [currentService, setCurrentService] = useState("Removal");
   const [currentLocation, setCurrentLocation] = useState("");
   const location = useLocation();
-  const [paypalConfig, setPaypalConfig] = useState(null);
-  const [error, setError] = useState(null);
+  const [clientToken, setClientToken] = useState(null);
 
   // Handle screen resize
   useEffect(() => {
@@ -44,39 +43,13 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // Fetch client token when component mounts
     const fetchClientToken = async () => {
       try {
-        console.log("Fetching client token...");
-        const response = await fetch(
-          "http://localhost:3000/api/paypal/generate-client-token",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
+        const response = await fetch("http://localhost:3000/api/client-token");
         const data = await response.json();
-        console.log("PayPal configuration received:", data);
-
-        setPaypalConfig({
-          "client-id": import.meta.env.VITE_PAYPAL_CLIENT_ID,
-          "data-client-token": data.clientToken,
-          "data-payment-method-token": data.paymentMethodToken,
-          currency: "GBP",
-          intent: "capture",
-          components: "buttons",
-          "disable-funding": "paylater,venmo",
-          "merchant-id": "QNBAVMJUUYKP8",
-        });
+        setClientToken(data.clientToken);
       } catch (error) {
-        console.error("Error fetching PayPal configuration:", error);
+        console.error("Error fetching client token:", error);
       }
     };
 
@@ -141,34 +114,16 @@ function App() {
     }
   };
 
-  // Show loading state
-  if (!paypalConfig) {
-    return <div>Loading payment system...</div>;
-  }
-
-  // Show error state
-  if (error) {
-    return (
-      <div className="p-4 text-red-500">
-        Error loading payment system: {error}
-        <button
-          onClick={() => window.location.reload()}
-          className="px-4 py-2 ml-4 text-white bg-blue-500 rounded"
-        >
-          Retry
-        </button>
-      </div>
-    );
-  }
-
   const initialOptions = {
     "client-id": import.meta.env.VITE_PAYPAL_CLIENT_ID,
     currency: "GBP",
     intent: "capture",
     components: "buttons",
-    "merchant-id": "QNBAVMJUUYKP8",
-    "disable-funding": "paylater,venmo",
   };
+
+  if (!clientToken) {
+    return <div>Loading payment system...</div>;
+  }
 
   return (
     <PayPalScriptProvider options={initialOptions}>

@@ -1,63 +1,105 @@
 import { useState } from "react";
-import { PayPalButtons } from "@paypal/react-paypal-js";
+import { usePayPalScriptReducer } from "@paypal/react-paypal-js";
 
-export default function Stage2PaymentDesktop() {
+export default function Stage2PaymentDesktop({
+  onPaymentSuccess,
+  onPaymentError,
+}) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [cardNumber, setCardNumber] = useState("");
+  const [expiryDate, setExpiryDate] = useState("");
+  const [cvv, setCvv] = useState("");
+  const [{ isResolved }] = usePayPalScriptReducer();
 
-  const createOrder = async () => {
+  if (!isResolved) {
+    return <div>Loading payment fields...</div>;
+  }
+
+  const formatCardNumber = (value) => {
+    const v = value.replace(/\s+/g, "").replace(/[^0-9]/gi, "");
+    const matches = v.match(/\d{4,16}/g);
+    const match = (matches && matches[0]) || "";
+    const parts = [];
+
+    for (let i = 0, len = match.length; i < len; i += 4) {
+      parts.push(match.substring(i, i + 4));
+    }
+
+    if (parts.length) {
+      return parts.join(" ");
+    } else {
+      return value;
+    }
+  };
+
+  const formatExpiryDate = (value) => {
+    const v = value.replace(/\s+/g, "").replace(/[^0-9]/gi, "");
+    if (v.length >= 2) {
+      return `${v.substring(0, 2)}/${v.substring(2, 4)}`;
+    }
+    return v;
+  };
+
+  // Convert MM/YY to YYYY-MM format for PayPal
+  const convertExpiryDateFormat = (mmyy) => {
+    if (!mmyy || mmyy.length !== 5) return "";
+    const [month, year] = mmyy.split("/");
+    return `20${year}-${month}`;
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    setError("");
+
     try {
-      setLoading(true);
-      const response = await fetch("http://localhost:3000/api/orders", {
+      // Create order first
+      const orderResponse = await fetch("http://localhost:3000/api/orders", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to create order");
+      if (!orderResponse.ok) {
+        const errorData = await orderResponse.json();
+        throw new Error(errorData.error || "Failed to create order");
       }
 
-      const data = await response.json();
-      console.log("Order created:", data);
-      return data.id;
-    } catch (error) {
-      console.error("Error creating order:", error);
-      setError(error.message);
-      throw error;
-    } finally {
-      setLoading(false);
-    }
-  };
+      const orderData = await orderResponse.json();
 
-  const onApprove = async (data) => {
-    try {
-      setLoading(true);
-      console.log("Capturing order:", data.orderID);
-
-      const response = await fetch(
-        `http://localhost:3000/api/orders/${data.orderID}/capture`,
+      // Process the payment
+      const paymentResponse = await fetch(
+        "http://localhost:3000/api/process-card",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
+          body: JSON.stringify({
+            orderId: orderData.id,
+            cardDetails: {
+              number: cardNumber.replace(/\s/g, ""),
+              expiry: convertExpiryDateFormat(expiryDate),
+              cvv: cvv,
+            },
+          }),
         }
       );
 
-      if (!response.ok) {
-        throw new Error("Failed to capture order");
+      if (!paymentResponse.ok) {
+        const errorData = await paymentResponse.json();
+        throw new Error(errorData.error || "Payment failed");
       }
 
-      const orderData = await response.json();
-      console.log("Payment successful:", orderData);
-
-      // Handle success - you can redirect to a success page or update UI
-      // window.location.href = '/payment-success';
+      const paymentData = await paymentResponse.json();
+      console.log("Payment successful:", paymentData);
+      onPaymentSuccess(paymentData);
     } catch (error) {
-      console.error("Error capturing order:", error);
-      setError("Failed to capture payment. Please try again.");
+      console.error("Payment error:", error);
+      setError(error.message || "Payment failed");
+      onPaymentError();
     } finally {
       setLoading(false);
     }
@@ -75,24 +117,62 @@ export default function Stage2PaymentDesktop() {
         </div>
       )}
 
-      <PayPalButtons
-        createOrder={createOrder}
-        onApprove={onApprove}
-        onError={(err) => {
-          console.error("PayPal error:", err);
-          setError("PayPal payment failed. Please try again.");
-        }}
-        onCancel={() => {
-          console.log("Payment cancelled");
-          setError("Payment was cancelled. Please try again.");
-        }}
-        style={{
-          layout: "vertical",
-          color: "gold",
-          shape: "rect",
-          label: "pay",
-        }}
-      />
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="space-y-2">
+          <label className="block text-sm font-medium text-gray-700">
+            Card Number
+          </label>
+          <input
+            type="text"
+            value={cardNumber}
+            onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
+            placeholder="4111 1111 1111 1111"
+            className="w-full p-2 border rounded"
+            maxLength="19"
+            required
+          />
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">
+              Expiry Date
+            </label>
+            <input
+              type="text"
+              value={expiryDate}
+              onChange={(e) => setExpiryDate(formatExpiryDate(e.target.value))}
+              placeholder="MM/YY"
+              className="w-full p-2 border rounded"
+              maxLength="5"
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">
+              CVV
+            </label>
+            <input
+              type="text"
+              value={cvv}
+              onChange={(e) => setCvv(e.target.value.replace(/\D/g, ""))}
+              placeholder="123"
+              className="w-full p-2 border rounded"
+              maxLength="4"
+              required
+            />
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700 disabled:opacity-50"
+        >
+          {loading ? "Processing..." : "Pay Now"}
+        </button>
+      </form>
     </div>
   );
 }
