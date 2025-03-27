@@ -61,11 +61,23 @@ export default function Stage2PaymentDesktop({
     setError("");
 
     try {
-      // Validate card details before submission
-      if (!cardNumber || !expiryDate || !cvv) {
-        throw new Error("Please fill in all card details");
+      // Validate card details
+      const formattedCardNumber = cardNumber.replace(/\s/g, "");
+      const formattedExpiry = convertExpiryDateFormat(expiryDate);
+
+      if (formattedCardNumber.length !== 16) {
+        throw new Error("Invalid card number");
       }
 
+      if (!formattedExpiry.match(/^\d{4}-\d{2}$/)) {
+        throw new Error("Invalid expiry date format");
+      }
+
+      if (cvv.length < 3) {
+        throw new Error("Invalid CVV");
+      }
+
+      // Create order
       console.log("Creating order...");
       const orderResponse = await fetch(`${paymentApiUrl}/api/orders`, {
         method: "POST",
@@ -80,9 +92,9 @@ export default function Stage2PaymentDesktop({
       }
 
       const orderData = await orderResponse.json();
-      console.log("Order created successfully:", orderData.id);
+      console.log("Order created:", orderData.id);
 
-      // Process the payment
+      // Process payment
       console.log("Processing payment...");
       const paymentResponse = await fetch(`${paymentApiUrl}/api/process-card`, {
         method: "POST",
@@ -92,8 +104,8 @@ export default function Stage2PaymentDesktop({
         body: JSON.stringify({
           orderId: orderData.id,
           cardDetails: {
-            number: cardNumber.replace(/\s/g, ""),
-            expiry: convertExpiryDateFormat(expiryDate),
+            number: formattedCardNumber,
+            expiry: formattedExpiry,
             cvv: cvv,
           },
         }),
@@ -103,23 +115,19 @@ export default function Stage2PaymentDesktop({
 
       if (!paymentResponse.ok) {
         throw new Error(
-          paymentData.error ||
-            "Payment processing failed. Please check your card details and try again."
+          paymentData.error || "Payment failed. Please check your card details."
         );
       }
 
       console.log("Payment successful:", paymentData);
       onPaymentSuccess(paymentData);
     } catch (error) {
-      console.error("Detailed payment error:", {
+      console.error("Payment error:", {
         message: error.message,
         stack: error.stack,
         apiUrl: paymentApiUrl,
       });
-      setError(
-        error.message ||
-          "Payment failed. Please check your card details and try again."
-      );
+      setError(error.message);
       onPaymentError();
     } finally {
       setLoading(false);
