@@ -45,17 +45,30 @@ function App() {
   useEffect(() => {
     const fetchClientToken = async () => {
       try {
+        console.log(
+          "Fetching client token from:",
+          `${import.meta.env.VITE_PAYMENT_API_URL}/api/client-token`
+        );
         const response = await fetch(
           `${import.meta.env.VITE_PAYMENT_API_URL}/api/client-token`
         );
+
         if (!response.ok) {
+          const errorText = await response.text();
+          console.error("Client token error response:", errorText);
           throw new Error(`HTTP error! status: ${response.status}`);
         }
+
         const data = await response.json();
+        console.log("Client token received:", data);
+
+        if (!data.clientToken) {
+          throw new Error("No client token in response");
+        }
+
         setClientToken(data.clientToken);
       } catch (error) {
         console.error("Error fetching client token:", error);
-        // Add better error handling here
         setLoading(false);
       }
     };
@@ -126,11 +139,21 @@ function App() {
     "client-id": import.meta.env.VITE_PAYPAL_CLIENT_ID,
     currency: "GBP",
     intent: "capture",
-    components: "buttons,hosted-fields",
+    components: "buttons",
     "data-client-token": clientToken,
-    "enable-funding": "card",
-    "disable-funding": "paylater,venmo",
   };
+
+  // Only add additional options if client token is available
+  if (clientToken) {
+    initialOptions.components = "buttons,hosted-fields";
+    initialOptions["enable-funding"] = "card";
+    initialOptions["disable-funding"] = "paylater,venmo";
+  }
+
+  // Add debug mode in development
+  if (import.meta.env.MODE === "development") {
+    initialOptions.debug = true;
+  }
 
   if (loading) {
     return <div>Loading...</div>;
@@ -141,110 +164,116 @@ function App() {
   }
 
   return (
-    <PayPalScriptProvider options={initialOptions}>
-      <div>
-        {screenSize < 1024 ? (
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <>
-                  <div className="fixed top-0 left-0 w-full bg-white z-100">
-                    <HeaderSearchBarMobile
-                      onSearch={handleSearch}
-                      currentService={currentService}
-                      currentLocation={currentLocation}
-                    />
-                    <HeaderServiceBarMobile
-                      currentService={currentService}
-                      onServiceSelect={handleServiceSelect}
-                    />
-                  </div>
-                  <div className="mt-41 min-[1339px]:mt-43 min-[1920px]:mt-48">
-                    <TradersCollectionsMobile
-                      traders={traders}
-                      currentService={currentService}
-                    />
-                  </div>
-                  <FooterMobile />
-                </>
-              }
-            />
-            <Route
-              path="/:traderId"
-              element={
-                <>
-                  <div className="fixed top-0 left-0 w-full bg-white z-100">
-                    <HeaderSearchBarMobile
-                      onSearch={handleSearch}
-                      currentService={currentService}
-                      currentLocation={currentLocation}
-                    />
-                    <HeaderServiceBarMobile
-                      currentService={currentService}
-                      onServiceSelect={handleServiceSelect}
-                    />
-                  </div>
-                  <div className="mt-24">
-                    <TraderDetailsMobile />
-                  </div>
-                  <FooterMobile />
-                </>
-              }
-            />
-          </Routes>
-        ) : (
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <>
-                  <div className="fixed top-0 left-0 w-full bg-white z-100">
-                    <HeaderSearchBarDesktop
-                      onSearch={handleSearch}
-                      currentService={currentService}
-                      currentLocation={currentLocation}
-                    />
-                    <HeaderServiceBarDesktop
-                      currentService={currentService}
-                      onServiceSelect={handleServiceSelect}
-                    />
-                  </div>
-                  <div className="mt-41 min-[1339px]:mt-43 min-[1920px]:mt-48">
-                    <TradersCollectionsDesktop
-                      traders={traders}
-                      currentService={currentService}
-                    />
-                  </div>
-                  <FooterDesktop />
-                </>
-              }
-            />
-            <Route
-              path="/:traderId"
-              element={
-                <>
-                  <div className="fixed top-0 left-0 w-full bg-white z-100">
-                    <HeaderSearchBarDesktop
-                      onSearch={handleSearch}
-                      currentService={currentService}
-                      currentLocation={currentLocation}
-                    />
-                    <HeaderServiceBarDesktop
-                      currentService={currentService}
-                      onServiceSelect={handleServiceSelect}
-                    />
-                  </div>
-                  <div className="mt-24 max-w-[100%] min-[1423px]:max-w-[90%] min-[1920px]:max-w-[85%] mx-auto">
-                    <TraderDetailsDesktop />
-                  </div>
-                  <FooterDesktop />
-                </>
-              }
-            />
-          </Routes>
-        )}
-      </div>
+    <PayPalScriptProvider options={initialOptions} deferLoading={!clientToken}>
+      {loading ? (
+        <div>Loading payment system...</div>
+      ) : !clientToken ? (
+        <div>Error initializing payment system. Please refresh the page.</div>
+      ) : (
+        <div>
+          {screenSize < 1024 ? (
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <>
+                    <div className="fixed top-0 left-0 w-full bg-white z-100">
+                      <HeaderSearchBarMobile
+                        onSearch={handleSearch}
+                        currentService={currentService}
+                        currentLocation={currentLocation}
+                      />
+                      <HeaderServiceBarMobile
+                        currentService={currentService}
+                        onServiceSelect={handleServiceSelect}
+                      />
+                    </div>
+                    <div className="mt-41 min-[1339px]:mt-43 min-[1920px]:mt-48">
+                      <TradersCollectionsMobile
+                        traders={traders}
+                        currentService={currentService}
+                      />
+                    </div>
+                    <FooterMobile />
+                  </>
+                }
+              />
+              <Route
+                path="/:traderId"
+                element={
+                  <>
+                    <div className="fixed top-0 left-0 w-full bg-white z-100">
+                      <HeaderSearchBarMobile
+                        onSearch={handleSearch}
+                        currentService={currentService}
+                        currentLocation={currentLocation}
+                      />
+                      <HeaderServiceBarMobile
+                        currentService={currentService}
+                        onServiceSelect={handleServiceSelect}
+                      />
+                    </div>
+                    <div className="mt-24">
+                      <TraderDetailsMobile />
+                    </div>
+                    <FooterMobile />
+                  </>
+                }
+              />
+            </Routes>
+          ) : (
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <>
+                    <div className="fixed top-0 left-0 w-full bg-white z-100">
+                      <HeaderSearchBarDesktop
+                        onSearch={handleSearch}
+                        currentService={currentService}
+                        currentLocation={currentLocation}
+                      />
+                      <HeaderServiceBarDesktop
+                        currentService={currentService}
+                        onServiceSelect={handleServiceSelect}
+                      />
+                    </div>
+                    <div className="mt-41 min-[1339px]:mt-43 min-[1920px]:mt-48">
+                      <TradersCollectionsDesktop
+                        traders={traders}
+                        currentService={currentService}
+                      />
+                    </div>
+                    <FooterDesktop />
+                  </>
+                }
+              />
+              <Route
+                path="/:traderId"
+                element={
+                  <>
+                    <div className="fixed top-0 left-0 w-full bg-white z-100">
+                      <HeaderSearchBarDesktop
+                        onSearch={handleSearch}
+                        currentService={currentService}
+                        currentLocation={currentLocation}
+                      />
+                      <HeaderServiceBarDesktop
+                        currentService={currentService}
+                        onServiceSelect={handleServiceSelect}
+                      />
+                    </div>
+                    <div className="mt-24 max-w-[100%] min-[1423px]:max-w-[90%] min-[1920px]:max-w-[85%] mx-auto">
+                      <TraderDetailsDesktop />
+                    </div>
+                    <FooterDesktop />
+                  </>
+                }
+              />
+            </Routes>
+          )}
+        </div>
+      )}
     </PayPalScriptProvider>
   );
 }
