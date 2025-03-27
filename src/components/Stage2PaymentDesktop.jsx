@@ -61,9 +61,12 @@ export default function Stage2PaymentDesktop({
     setError("");
 
     try {
-      console.log("Creating order using API:", `${paymentApiUrl}/api/orders`);
+      // Validate card details before submission
+      if (!cardNumber || !expiryDate || !cvv) {
+        throw new Error("Please fill in all card details");
+      }
 
-      // Create order first
+      console.log("Creating order...");
       const orderResponse = await fetch(`${paymentApiUrl}/api/orders`, {
         method: "POST",
         headers: {
@@ -77,8 +80,10 @@ export default function Stage2PaymentDesktop({
       }
 
       const orderData = await orderResponse.json();
+      console.log("Order created successfully:", orderData.id);
 
       // Process the payment
+      console.log("Processing payment...");
       const paymentResponse = await fetch(`${paymentApiUrl}/api/process-card`, {
         method: "POST",
         headers: {
@@ -94,12 +99,15 @@ export default function Stage2PaymentDesktop({
         }),
       });
 
+      const paymentData = await paymentResponse.json();
+
       if (!paymentResponse.ok) {
-        const errorData = await paymentResponse.json();
-        throw new Error(errorData.error || "Payment failed");
+        throw new Error(
+          paymentData.error ||
+            "Payment processing failed. Please check your card details and try again."
+        );
       }
 
-      const paymentData = await paymentResponse.json();
       console.log("Payment successful:", paymentData);
       onPaymentSuccess(paymentData);
     } catch (error) {
@@ -108,7 +116,10 @@ export default function Stage2PaymentDesktop({
         stack: error.stack,
         apiUrl: paymentApiUrl,
       });
-      setError(error.message || "Payment failed");
+      setError(
+        error.message ||
+          "Payment failed. Please check your card details and try again."
+      );
       onPaymentError();
     } finally {
       setLoading(false);
