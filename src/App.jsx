@@ -45,11 +45,18 @@ function App() {
   useEffect(() => {
     const fetchClientToken = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/client-token");
+        const response = await fetch(
+          `${import.meta.env.VITE_PAYMENT_API_URL}/api/client-token`
+        );
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const data = await response.json();
         setClientToken(data.clientToken);
       } catch (error) {
         console.error("Error fetching client token:", error);
+        // Add better error handling here
+        setLoading(false);
       }
     };
 
@@ -98,7 +105,6 @@ function App() {
       const data = await response.json();
       console.log("Received data:", data);
 
-      // Filter traders based on service type and location
       let filteredTraders = data.filter(
         (trader) => trader.removal_type === searchParams.service
       );
@@ -109,8 +115,10 @@ function App() {
         );
       }
       setTraders(filteredTraders);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching traders:", error);
+      setLoading(false);
     }
   };
 
@@ -119,10 +127,18 @@ function App() {
     currency: "GBP",
     intent: "capture",
     components: "buttons",
+    ...(import.meta.env.MODE === "development" && {
+      "enable-funding": "card",
+      "data-client-token": clientToken,
+    }),
   };
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   if (!clientToken) {
-    return <div>Loading payment system...</div>;
+    return <div>Initializing payment system... Please wait.</div>;
   }
 
   return (
