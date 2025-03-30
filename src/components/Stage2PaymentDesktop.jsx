@@ -1,195 +1,129 @@
-import { useState, useEffect } from "react";
-import { usePayPalScriptReducer } from "@paypal/react-paypal-js";
+import React, { useState } from "react";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
-export default function Stage2PaymentDesktop({
-  onPaymentSuccess,
-  onPaymentError,
-}) {
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [cardNumber, setCardNumber] = useState("");
-  const [expiryDate, setExpiryDate] = useState("");
-  const [cvv, setCvv] = useState("");
-  const [{ isResolved }] = usePayPalScriptReducer();
+// Renders errors or successfull transactions on the screen.
+function Message({ content }) {
+  return <p>{content}</p>;
+}
 
-  // Get the payment API URL from environment variables
-  const paymentApiUrl = import.meta.env.VITE_PAYMENT_API_URL;
-
-  useEffect(() => {
-    console.log("Payment API URL:", paymentApiUrl);
-  }, [paymentApiUrl]);
-
-  if (!isResolved) {
-    return <div>Loading payment fields...</div>;
-  }
-
-  const formatCardNumber = (value) => {
-    const v = value.replace(/\s+/g, "").replace(/[^0-9]/gi, "");
-    const matches = v.match(/\d{4,16}/g);
-    const match = (matches && matches[0]) || "";
-    const parts = [];
-
-    for (let i = 0, len = match.length; i < len; i += 4) {
-      parts.push(match.substring(i, i + 4));
-    }
-
-    if (parts.length) {
-      return parts.join(" ");
-    } else {
-      return value;
-    }
+function App() {
+  const initialOptions = {
+    "client-id": "test",
+    "enable-funding": "venmo",
+    "disable-funding": "",
+    "buyer-country": "GB",
+    currency: "GBP",
+    "data-page-type": "product-details",
+    components: "buttons",
+    "data-sdk-integration-source": "developer-studio",
   };
 
-  const formatExpiryDate = (value) => {
-    const v = value.replace(/\s+/g, "").replace(/[^0-9]/gi, "");
-    if (v.length >= 2) {
-      return `${v.substring(0, 2)}/${v.substring(2, 4)}`;
-    }
-    return v;
-  };
-
-  // Convert MM/YY to YYYY-MM format for PayPal
-  const convertExpiryDateFormat = (mmyy) => {
-    if (!mmyy || mmyy.length !== 5) return "";
-    const [month, year] = mmyy.split("/");
-    return `20${year}-${month}`;
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setLoading(true);
-    setError("");
-
-    try {
-      // Create order
-      const orderResponse = await fetch(`${paymentApiUrl}/api/orders`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!orderResponse.ok) {
-        const errorData = await orderResponse.json();
-        throw new Error(errorData.error || "Failed to create order");
-      }
-
-      const orderData = await orderResponse.json();
-      console.log("Order created:", orderData);
-
-      // Process payment
-      const paymentResponse = await fetch(`${paymentApiUrl}/api/process-card`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          orderId: orderData.id,
-          cardDetails: {
-            number: cardNumber.replace(/\s/g, ""),
-            expiry: convertExpiryDateFormat(expiryDate),
-            cvv: cvv,
-          },
-        }),
-      });
-
-      const paymentData = await paymentResponse.json();
-
-      if (paymentData.status === "3DS_REQUIRED") {
-        // Redirect to 3DS verification
-        window.location.href = paymentData.redirectUrl;
-        return;
-      }
-
-      if (!paymentResponse.ok) {
-        throw new Error(
-          paymentData.error || "Payment failed. Please check your card details."
-        );
-      }
-
-      console.log("Payment successful:", paymentData);
-      onPaymentSuccess(paymentData);
-    } catch (error) {
-      console.error("Payment error:", {
-        message: error.message,
-        stack: error.stack,
-        apiUrl: paymentApiUrl,
-      });
-      setError(error.message);
-      onPaymentError();
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [message, setMessage] = useState("");
 
   return (
-    <div className="w-full max-w-md p-4 mx-auto">
-      {error && (
-        <div className="p-3 mb-4 text-red-500 rounded bg-red-50">{error}</div>
-      )}
+    <div className="App">
+      <PayPalScriptProvider options={initialOptions}>
+        <PayPalButtons
+          style={{
+            shape: "rect",
+            layout: "vertical",
+            color: "gold",
+            label: "paypal",
+          }}
+          onError={(err) => {
+            console.error("PayPal Error:", err);
+            setMessage(
+              "There was an error processing your payment. Please try again."
+            );
+          }}
+          createOrder={async () => {
+            try {
+              const response = await fetch(
+                `${import.meta.env.VITE_PAYMENT_API_URL}/api/orders`,
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  // use the "body" param to optionally pass additional order information
+                  // like product ids and quantities
+                  body: JSON.stringify({
+                    cart: [
+                      {
+                        id: "YOUR_PRODUCT_ID",
+                        quantity: "YOUR_PRODUCT_QUANTITY",
+                      },
+                    ],
+                  }),
+                }
+              );
 
-      {loading && (
-        <div className="p-3 mb-4 text-gray-600 rounded bg-gray-50">
-          Processing payment...
-        </div>
-      )}
+              const orderData = await response.json();
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">
-            Card Number
-          </label>
-          <input
-            type="text"
-            value={cardNumber}
-            onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
-            placeholder="4111 1111 1111 1111"
-            className="w-full p-2 border rounded"
-            maxLength="19"
-            required
-          />
-        </div>
+              if (orderData.id) {
+                return orderData.id;
+              } else {
+                const errorDetail = orderData?.details?.[0];
+                const errorMessage = errorDetail
+                  ? `${errorDetail.issue} ${errorDetail.description} (${orderData.debug_id})`
+                  : JSON.stringify(orderData);
 
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">
-              Expiry Date
-            </label>
-            <input
-              type="text"
-              value={expiryDate}
-              onChange={(e) => setExpiryDate(formatExpiryDate(e.target.value))}
-              placeholder="MM/YY"
-              className="w-full p-2 border rounded"
-              maxLength="5"
-              required
-            />
-          </div>
+                throw new Error(errorMessage);
+              }
+            } catch (error) {
+              console.error(error);
+              setMessage(`Could not initiate PayPal Checkout...${error}`);
+            }
+          }}
+          onApprove={async (data, actions) => {
+            try {
+              const response = await fetch(
+                `${import.meta.env.VITE_PAYMENT_API_URL}/api/orders/${data.orderID}/capture`,
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                }
+              );
 
-          <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">
-              CVV
-            </label>
-            <input
-              type="text"
-              value={cvv}
-              onChange={(e) => setCvv(e.target.value.replace(/\D/g, ""))}
-              placeholder="123"
-              className="w-full p-2 border rounded"
-              maxLength="4"
-              required
-            />
-          </div>
-        </div>
+              const orderData = await response.json();
+              const errorDetail = orderData?.details?.[0];
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700 disabled:opacity-50"
-        >
-          {loading ? "Processing..." : "Pay Now"}
-        </button>
-      </form>
+              if (errorDetail?.issue === "INSTRUMENT_DECLINED") {
+                return actions.restart();
+              } else if (errorDetail) {
+                throw new Error(
+                  `${errorDetail.description} (${orderData.debug_id})`
+                );
+              } else if (!orderData.purchase_units) {
+                throw new Error(JSON.stringify(orderData));
+              } else {
+                const transaction =
+                  orderData?.purchase_units?.[0]?.payments?.captures?.[0] ||
+                  orderData?.purchase_units?.[0]?.payments?.authorizations?.[0];
+                setMessage(
+                  `Transaction ${transaction.status}: ${transaction.id}<br />
+                  <br />See console for all available details`
+                );
+                console.log(
+                  "Capture result",
+                  orderData,
+                  JSON.stringify(orderData, null, 2)
+                );
+              }
+            } catch (error) {
+              console.error(error);
+              setMessage(
+                `Sorry, your transaction could not be processed...<br /><br />${error}`
+              );
+            }
+          }}
+        />
+      </PayPalScriptProvider>
+      <Message content={message} />
     </div>
   );
 }
+
+export default App;
