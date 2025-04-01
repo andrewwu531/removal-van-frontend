@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import ImageWithFallback from "./ImageWithFallback";
+import Stage3LoadingDesktop from "./Stage3LoadingDesktop";
 
 // Add a mapping object for custom service titles
 const serviceDisplayTitles = {
@@ -84,12 +85,8 @@ export default function Traders_Collections({ traders, currentService }) {
             </div>
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center pt-20 text-center pb-35">
-            <div className="mb-5 text-2xl font-semibold text-gray-700">
-              Loading providers...
-            </div>
-            {/* Optional: Add a loading spinner */}
-            <div className="w-12 h-12 border-4 border-gray-300 rounded-full border-t-blue-500 animate-spin"></div>
+          <div className="container pt-20 pb-20 mx-auto">
+            <Stage3LoadingDesktop />
           </div>
         )
       ) : (

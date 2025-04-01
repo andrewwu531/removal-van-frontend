@@ -50,15 +50,18 @@ function App() {
         const response = await fetch(
           `${import.meta.env.VITE_PAYMENT_API_URL}/api/client-token`,
           {
-            method: "POST",
+            method: "GET",
             headers: {
               "Content-Type": "application/json",
             },
+            credentials: "include",
           }
         );
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
+
         const data = await response.json();
         setClientToken(data.clientToken);
       } catch (error) {
