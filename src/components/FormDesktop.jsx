@@ -9,28 +9,23 @@ const PaymentFlow = () => {
     FullName: "",
     Email: "",
     Telephone: "",
-    Date: "",
-    DepositAmount: "£60",
+    DepositAmount: "60.00",
   });
   const [transactionDetails, setTransactionDetails] = useState(null);
 
   const handleBookingSubmit = (details) => {
+    console.log("Booking details received:", details);
     setBookingDetails(details);
     setStage(2);
   };
 
   const handlePaymentSuccess = (transaction) => {
-    console.log(
-      "Andrew BookingDetails: " + JSON.stringify(bookingDetails, null, 2)
-    );
-
+    console.log("Transaction details:", transaction);
     setTransactionDetails(transaction);
-
     setStage(3);
   };
 
   const handlePaymentError = () => {
-    // Optionally revert to payment stage so the customer can retry
     setStage(2);
   };
 
@@ -46,6 +41,7 @@ const PaymentFlow = () => {
       case 2:
         return (
           <Stage2PaymentDesktop
+            bookingDetails={bookingDetails}
             onPaymentSuccess={handlePaymentSuccess}
             onPaymentError={handlePaymentError}
           />

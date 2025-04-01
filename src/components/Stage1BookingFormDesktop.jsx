@@ -4,10 +4,12 @@ import { FaChevronDown } from "react-icons/fa";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const Stage1BookingFormDesktop = ({ bookingDetails, onNextStep }) => {
+const Stage1BookingFormDesktop = ({ onNextStep }) => {
   const [formData, setFormData] = useState({
-    ...bookingDetails,
-    Date: bookingDetails.Date ? new Date(bookingDetails.Date) : null,
+    FullName: "",
+    Email: "",
+    Telephone: "",
+    DepositAmount: "60.00",
   });
 
   const handleChange = (e) => {
@@ -20,6 +22,7 @@ const Stage1BookingFormDesktop = ({ bookingDetails, onNextStep }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("Submitting form data:", formData);
     onNextStep(formData);
   };
 
@@ -64,7 +67,7 @@ const Stage1BookingFormDesktop = ({ bookingDetails, onNextStep }) => {
               <label className="block font-medium text-gray-700 text-md min-[2560px]:text-lg">
                 Name
               </label>
-              
+
               <input
                 type="text"
                 name="FullName"
@@ -154,7 +157,6 @@ const Stage1BookingFormDesktop = ({ bookingDetails, onNextStep }) => {
 };
 
 Stage1BookingFormDesktop.propTypes = {
-  bookingDetails: PropTypes.object.isRequired,
   onNextStep: PropTypes.func.isRequired,
 };
 
