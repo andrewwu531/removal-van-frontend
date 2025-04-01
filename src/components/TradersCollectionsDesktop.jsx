@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import ImageWithFallback from "./ImageWithFallback";
@@ -19,6 +19,20 @@ const serviceDisplayTitles = {
 
 export default function Traders_Collections({ traders, currentService }) {
   const navigate = useNavigate();
+  const [showNoTraders, setShowNoTraders] = useState(false);
+
+  useEffect(() => {
+    // Reset the state when traders changes
+    setShowNoTraders(false);
+
+    // Set a timer to show the "no traders" message after 5 seconds
+    const timer = setTimeout(() => {
+      setShowNoTraders(true);
+    }, 5000);
+
+    // Cleanup timer on component unmount or when traders changes
+    return () => clearTimeout(timer);
+  }, [traders]); // Reset timer when traders array changes
 
   // Update getImageUrl to handle Azure URLs
   const getImageUrl = (photoPath) => {
@@ -57,17 +71,27 @@ export default function Traders_Collections({ traders, currentService }) {
       </div>
 
       {traders.length === 0 ? (
-        <div className="flex flex-col items-center justify-center pt-20 text-center pb-35">
-          <div className="mb-5 text-2xl font-semibold text-gray-700">
-            No providers available yet
+        showNoTraders ? (
+          <div className="flex flex-col items-center justify-center pt-20 text-center pb-35">
+            <div className="mb-5 text-2xl font-semibold text-gray-700">
+              No providers available yet
+            </div>
+            <div className="text-lg text-gray-600">
+              We are working hard on finding providers within this location.
+            </div>
+            <div className="mt-2 text-gray-500">
+              Please find provider in a different location or check back later.
+            </div>
           </div>
-          <div className="text-lg text-gray-600">
-            We are working hard on finding providers within this location.
+        ) : (
+          <div className="flex flex-col items-center justify-center pt-20 text-center pb-35">
+            <div className="mb-5 text-2xl font-semibold text-gray-700">
+              Loading providers...
+            </div>
+            {/* Optional: Add a loading spinner */}
+            <div className="w-12 h-12 border-4 border-gray-300 rounded-full border-t-blue-500 animate-spin"></div>
           </div>
-          <div className="mt-2 text-gray-500">
-            Please find provider in a different location or check back later.
-          </div>
-        </div>
+        )
       ) : (
         <div className="grid justify-center grid-cols-4 gap-5">
           {traders.map((trader) => (

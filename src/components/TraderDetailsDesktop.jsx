@@ -39,13 +39,6 @@ export default function TraderDetails() {
     fetchTraderDetails();
   }, [traderId]);
 
-  if (loading)
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-xl font-semibold">Loading...</div>
-      </div>
-    );
-
   if (!trader)
     return (
       <div className="flex items-center justify-center min-h-screen">

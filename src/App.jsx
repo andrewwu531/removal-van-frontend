@@ -139,10 +139,6 @@ function App() {
     "disable-funding": "paylater,venmo",
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <PayPalScriptProvider options={initialOptions}>
       <div>
