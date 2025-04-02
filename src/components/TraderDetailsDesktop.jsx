@@ -6,11 +6,12 @@ import TraderFivePhotosDesktop from "./TraderFivePhotosDesktop";
 import { apiService } from "../services/apiService";
 import Stage3LoadingDesktop from "./Stage3LoadingDesktop";
 
-export default function TraderDetails() {
+export default function TraderDetails({ onLoadingChange }) {
   const { traderId } = useParams();
   const [trader, setTrader] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showNoTrader, setShowNoTrader] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
 
   const initialBookingDetails = {
     FullName: "",
@@ -26,16 +27,25 @@ export default function TraderDetails() {
     // Handle the form submission here
   };
 
+  const updateLoading = (newLoadingState) => {
+    setLoading(newLoadingState);
+    onLoadingChange?.(newLoadingState);
+  };
+
   const fetchTraderDetails = async () => {
     try {
-      setLoading(true);
+      updateLoading(true);
+      const loadingTimeout = setTimeout(() => {
+        setShowLoading(true);
+      }, 3000);
+
       const trader = await apiService.getTraderById(traderId);
+      clearTimeout(loadingTimeout);
       setTrader(trader);
-      setLoading(false);
+      updateLoading(false);
     } catch (error) {
       console.error("Error fetching trader details:", error);
-      setLoading(false);
-      // Start timer for showing no trader message
+      updateLoading(false);
       setTimeout(() => {
         setShowNoTrader(true);
       }, 5000);
@@ -47,6 +57,9 @@ export default function TraderDetails() {
   }, [traderId]);
 
   if (loading || (!trader && !showNoTrader)) {
+    if (!showLoading) {
+      return null; // Return nothing for the first 3 seconds
+    }
     return (
       <div className="container pt-20 pb-20 mx-auto">
         <Stage3LoadingDesktop />
@@ -76,7 +89,7 @@ export default function TraderDetails() {
   }
 
   return (
-    <div className="container pt-20 pb-20 mx-auto">
+    <div className="container min-h-screen pt-20 pb-20 mx-auto">
       <TraderFivePhotosDesktop trader={trader} />
       <div className="flex flex-col min-[1339px]:flex-row gap-6 max-w-[95%] min-[1423px]:max-w-[90%] min-[1920px]:max-w-[85%] mx-auto">
         {/* TraderDetailsCard */}

@@ -23,7 +23,20 @@ function App() {
   const [currentService, setCurrentService] = useState("Removal");
   const [currentLocation, setCurrentLocation] = useState("");
   const [clientToken, setClientToken] = useState(null);
+  const [showFooter, setShowFooter] = useState(false);
+  const [traderDetailsLoading, setTraderDetailsLoading] = useState(true);
   const location = useLocation();
+
+  // Simplify the footer effect to only depend on trader details loading state
+  useEffect(() => {
+    if (location.pathname.match(/^\/\d+$/)) {
+      // On trader details page, footer visibility depends on loading state
+      setShowFooter(!traderDetailsLoading);
+    } else {
+      // On main page or other pages, show footer immediately
+      setShowFooter(true);
+    }
+  }, [location.pathname, traderDetailsLoading]);
 
   // Handle screen resize
   useEffect(() => {
@@ -142,6 +155,11 @@ function App() {
     "disable-funding": "paylater,venmo",
   };
 
+  // Handler for trader details loading state
+  const handleTraderDetailsLoading = (isLoading) => {
+    setTraderDetailsLoading(isLoading);
+  };
+
   return (
     <PayPalScriptProvider options={initialOptions}>
       <div>
@@ -168,7 +186,7 @@ function App() {
                       currentService={currentService}
                     />
                   </div>
-                  <FooterMobile />
+                  {showFooter && <FooterMobile />}
                 </>
               }
             />
@@ -190,7 +208,7 @@ function App() {
                   <div className="mt-24">
                     <TraderDetailsMobile />
                   </div>
-                  <FooterMobile />
+                  {showFooter && <FooterMobile />}
                 </>
               }
             />
@@ -218,7 +236,7 @@ function App() {
                       currentService={currentService}
                     />
                   </div>
-                  <FooterDesktop />
+                  {showFooter && <FooterDesktop />}
                 </>
               }
             />
@@ -238,9 +256,11 @@ function App() {
                     />
                   </div>
                   <div className="mt-24 max-w-[100%] min-[1423px]:max-w-[90%] min-[1920px]:max-w-[85%] mx-auto">
-                    <TraderDetailsDesktop />
+                    <TraderDetailsDesktop
+                      onLoadingChange={handleTraderDetailsLoading}
+                    />
                   </div>
-                  <FooterDesktop />
+                  {showFooter && <FooterDesktop />}
                 </>
               }
             />

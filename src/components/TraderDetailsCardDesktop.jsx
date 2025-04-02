@@ -24,7 +24,7 @@ export default function TraderDetailsCard({ trader, isLoading }) {
   // Show loading spinner while loading or during initial 5-second delay
   if (isLoading || (!trader && !showNoTrader)) {
     return (
-      <div className="flex flex-col items-center justify-center col-span-3 py-20 pb-16 bg-white rounded-lg shadow-lg">
+      <div className="flex flex-col items-center justify-center min-h-screen col-span-3 py-20 pb-16 bg-white rounded-lg shadow-lg">
         <div className="w-16 h-16 border-4 border-gray-300 rounded-full border-t-blue-500 animate-spin"></div>
         <p className="mt-4 text-lg text-gray-600">Loading trader details...</p>
       </div>
@@ -34,7 +34,7 @@ export default function TraderDetailsCard({ trader, isLoading }) {
   // Show no trader message after 5 seconds if trader is not found
   if (!trader && showNoTrader) {
     return (
-      <div className="flex flex-col items-center justify-center col-span-3 py-20 pb-16 bg-white rounded-lg shadow-lg">
+      <div className="flex flex-col items-center justify-center min-h-screen col-span-3 py-20 pb-16 bg-white rounded-lg shadow-lg">
         <h1 className="text-2xl font-semibold text-gray-800">
           Trader Not Found
         </h1>
@@ -52,7 +52,7 @@ export default function TraderDetailsCard({ trader, isLoading }) {
   }
 
   return (
-    <div className="col-span-3 pb-16 bg-white rounded-lg shadow-lg">
+    <div className="min-h-screen col-span-3 pb-16 bg-white rounded-lg shadow-lg">
       {/* Header Section */}
 
       {/* Content Section */}

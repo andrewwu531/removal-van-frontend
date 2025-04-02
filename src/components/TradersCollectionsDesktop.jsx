@@ -21,19 +21,29 @@ const serviceDisplayTitles = {
 export default function Traders_Collections({ traders, currentService }) {
   const navigate = useNavigate();
   const [showNoTraders, setShowNoTraders] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
 
   useEffect(() => {
-    // Reset the state when traders changes
+    // Reset both states when traders changes
     setShowNoTraders(false);
+    setShowLoading(false);
 
-    // Set a timer to show the "no traders" message after 5 seconds
-    const timer = setTimeout(() => {
-      setShowNoTraders(true);
+    // Set a timer to show loading after 5 seconds
+    const loadingTimer = setTimeout(() => {
+      setShowLoading(true);
     }, 5000);
 
-    // Cleanup timer on component unmount or when traders changes
-    return () => clearTimeout(timer);
-  }, [traders]); // Reset timer when traders array changes
+    // Set a timer to show the "no traders" message after loading shows
+    const noTradersTimer = setTimeout(() => {
+      setShowNoTraders(true);
+    }, 10000); // 5 seconds after loading appears
+
+    // Cleanup timers on component unmount or when traders changes
+    return () => {
+      clearTimeout(loadingTimer);
+      clearTimeout(noTradersTimer);
+    };
+  }, [traders]); // Reset timers when traders array changes
 
   // Update getImageUrl to handle Azure URLs
   const getImageUrl = (photoPath) => {
@@ -84,10 +94,13 @@ export default function Traders_Collections({ traders, currentService }) {
               Please find provider in a different location or check back later.
             </div>
           </div>
-        ) : (
-          <div className="container pt-20 pb-20 mx-auto">
+        ) : showLoading ? (
+          <div className="container min-h-screen pt-20 pb-20 mx-auto">
             <Stage3LoadingDesktop />
           </div>
+        ) : (
+          // Show nothing for the first 5 seconds
+          <div className="container min-h-screen pt-20 pb-20 mx-auto"></div>
         )
       ) : (
         <div className="grid justify-center grid-cols-4 gap-5">
