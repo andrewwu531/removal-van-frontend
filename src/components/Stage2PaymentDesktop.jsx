@@ -66,45 +66,81 @@ export default function Stage2PaymentDesktop({
     setError("");
 
     try {
-      // Create and capture order with direct bank details
-      const response = await fetch(
-        `${import.meta.env.VITE_PAYMENT_API_URL}/api/orders/direct`,
+      // Generate a unique request ID
+      const requestId = `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+      // 1. Create the order
+      const createResponse = await fetch(
+        `${import.meta.env.VITE_PAYMENT_API_URL}/api/orders`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "PayPal-Request-Id": requestId,
           },
           body: JSON.stringify({
             bookingDetails: {
               FullName: bookingDetails.FullName || "",
               Email: bookingDetails.Email || "",
               Telephone: bookingDetails.Telephone || "",
-              DepositAmount: bookingDetails.DepositAmount || "60.00",
-            },
-            paymentDetails: {
+              DepositAmount: "1.00",
               cardNumber: cardNumber.replace(/\s/g, ""),
-              expiryDate: expiryDate,
+              expiryDate: convertExpiryDateFormat(expiryDate),
               cvv: cvv,
             },
           }),
         }
       );
 
-      const orderData = await response.json();
+      if (!createResponse.ok) {
+        const errorData = await createResponse.json();
+        throw new Error(`Order creation failed: ${JSON.stringify(errorData)}`);
+      }
 
+      const orderData = await createResponse.json();
+      console.log("Order created successfully:", orderData);
+
+      // If order is already completed, no need to capture
       if (orderData.status === "COMPLETED") {
         onPaymentSuccess({
-          orderId: orderData.orderId,
+          orderId: orderData.id,
           status: orderData.status,
-          amount: bookingDetails.DepositAmount || "60.00",
+          amount: "1.00",
           bookingDetails: bookingDetails,
           timestamp: new Date().toISOString(),
         });
-      } else {
-        throw new Error("Payment not completed");
+        return;
       }
+
+      // Only attempt capture if the order is not already completed
+      const captureResponse = await fetch(
+        `${import.meta.env.VITE_PAYMENT_API_URL}/api/orders/${orderData.id}/capture`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "PayPal-Request-Id": `${requestId}_capture`,
+          },
+        }
+      );
+
+      if (!captureResponse.ok) {
+        const errorData = await captureResponse.json();
+        throw new Error(`Capture failed: ${JSON.stringify(errorData)}`);
+      }
+
+      const captureData = await captureResponse.json();
+      console.log("Capture completed:", captureData);
+
+      onPaymentSuccess({
+        orderId: orderData.id,
+        status: captureData.status,
+        amount: "1.00",
+        bookingDetails: bookingDetails,
+        timestamp: new Date().toISOString(),
+      });
     } catch (error) {
-      console.error("Payment error:", error);
+      console.error("Payment process failed:", error);
       setError(error.message);
       onPaymentError();
     } finally {
