@@ -15,6 +15,7 @@ import FooterMobile from "./components/FooterMobile";
 import PaymentSuccess from "./components/PaymentSuccess";
 import PaymentError from "./components/PaymentError";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import emailjs from "@emailjs/browser";
 
 function App() {
   const [traders, setTraders] = useState([]);
@@ -84,6 +85,10 @@ function App() {
     };
 
     fetchClientToken();
+  }, []);
+
+  useEffect(() => {
+    emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
   }, []);
 
   const handleSearch = (searchParams) => {

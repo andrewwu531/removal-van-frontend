@@ -5,6 +5,7 @@ import {
   PayPalHostedFieldsProvider,
   PayPalHostedField,
 } from "@paypal/react-paypal-js";
+import emailjs from "@emailjs/browser";
 
 export default function Stage2PaymentDesktop({
   bookingDetails,
@@ -60,6 +61,31 @@ export default function Stage2PaymentDesktop({
     return `20${year}-${month}`;
   };
 
+  const sendConfirmationEmails = async (orderData, bookingDetails) => {
+    try {
+      // Single email send - template handles recipient
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        {
+          name: bookingDetails.FullName,
+          order_id: orderData.id,
+          amount: bookingDetails.DepositAmount,
+          date: bookingDetails.Date
+            ? new Date(bookingDetails.Date).toLocaleDateString()
+            : "Not specified",
+          telephone: bookingDetails.Telephone,
+          customer_email: bookingDetails.Email, // Used in template for dynamic recipient
+        },
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      );
+
+      console.log("Confirmation email sent successfully");
+    } catch (error) {
+      console.error("Failed to send confirmation email:", error);
+    }
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
@@ -106,8 +132,10 @@ export default function Stage2PaymentDesktop({
         const orderData = await createResponse.json();
         console.log("Order created successfully:", orderData);
 
-        // Rest of your existing success logic...
         if (orderData.status === "COMPLETED") {
+          // Send confirmation emails
+          await sendConfirmationEmails(orderData, bookingDetails);
+
           onPaymentSuccess({
             orderId: orderData.id,
             status: orderData.status,
@@ -137,6 +165,10 @@ export default function Stage2PaymentDesktop({
         }
 
         const captureData = await captureResponse.json();
+
+        // Send confirmation emails after successful capture
+        await sendConfirmationEmails(orderData, bookingDetails);
+
         onPaymentSuccess({
           orderId: orderData.id,
           status: captureData.status,
@@ -287,6 +319,7 @@ Stage2PaymentDesktop.propTypes = {
     Email: PropTypes.string.isRequired,
     Telephone: PropTypes.string.isRequired,
     DepositAmount: PropTypes.string.isRequired,
+    Date: PropTypes.string,
   }).isRequired,
   onPaymentSuccess: PropTypes.func.isRequired,
   onPaymentError: PropTypes.func.isRequired,
