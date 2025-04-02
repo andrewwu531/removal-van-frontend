@@ -65,83 +65,107 @@ export default function Stage2PaymentDesktop({
     setLoading(true);
     setError("");
 
-    try {
-      // Generate a unique request ID
-      const requestId = `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const maxRetries = 3;
+    let retryCount = 0;
 
-      // 1. Create the order
-      const createResponse = await fetch(
-        `${import.meta.env.VITE_PAYMENT_API_URL}/api/orders`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "PayPal-Request-Id": requestId,
-          },
-          body: JSON.stringify({
-            bookingDetails: {
-              FullName: bookingDetails.FullName || "",
-              Email: bookingDetails.Email || "",
-              Telephone: bookingDetails.Telephone || "",
-              DepositAmount: "1.00",
-              cardNumber: cardNumber.replace(/\s/g, ""),
-              expiryDate: convertExpiryDateFormat(expiryDate),
-              cvv: cvv,
+    const attemptRequest = async () => {
+      try {
+        const requestId = `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+        const createResponse = await fetch(
+          `${import.meta.env.VITE_PAYMENT_API_URL}/api/orders`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "PayPal-Request-Id": requestId,
             },
-          }),
+            body: JSON.stringify({
+              bookingDetails: {
+                FullName: bookingDetails.FullName || "",
+                Email: bookingDetails.Email || "",
+                Telephone: bookingDetails.Telephone || "",
+                DepositAmount: bookingDetails.DepositAmount || "1.00",
+                cardNumber: cardNumber.replace(/\s/g, ""),
+                expiryDate: convertExpiryDateFormat(expiryDate),
+                cvv: cvv,
+              },
+            }),
+            // Add timeout
+            signal: AbortSignal.timeout(10000), // 10 second timeout
+          }
+        );
+
+        if (!createResponse.ok) {
+          const errorData = await createResponse.json();
+          throw new Error(
+            `Order creation failed: ${JSON.stringify(errorData)}`
+          );
         }
-      );
 
-      if (!createResponse.ok) {
-        const errorData = await createResponse.json();
-        throw new Error(`Order creation failed: ${JSON.stringify(errorData)}`);
-      }
+        const orderData = await createResponse.json();
+        console.log("Order created successfully:", orderData);
 
-      const orderData = await createResponse.json();
-      console.log("Order created successfully:", orderData);
+        // Rest of your existing success logic...
+        if (orderData.status === "COMPLETED") {
+          onPaymentSuccess({
+            orderId: orderData.id,
+            status: orderData.status,
+            amount: bookingDetails.DepositAmount || "1.00",
+            bookingDetails: bookingDetails,
+            timestamp: new Date().toISOString(),
+          });
+          return;
+        }
 
-      // If order is already completed, no need to capture
-      if (orderData.status === "COMPLETED") {
+        // Capture logic remains the same...
+        const captureResponse = await fetch(
+          `${import.meta.env.VITE_PAYMENT_API_URL}/api/orders/${orderData.id}/capture`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "PayPal-Request-Id": `${requestId}_capture`,
+            },
+            signal: AbortSignal.timeout(10000), // 10 second timeout
+          }
+        );
+
+        if (!captureResponse.ok) {
+          const errorData = await captureResponse.json();
+          throw new Error(`Capture failed: ${JSON.stringify(errorData)}`);
+        }
+
+        const captureData = await captureResponse.json();
         onPaymentSuccess({
           orderId: orderData.id,
-          status: orderData.status,
-          amount: "1.00",
+          status: captureData.status,
+          amount: bookingDetails.DepositAmount || "1.00",
           bookingDetails: bookingDetails,
           timestamp: new Date().toISOString(),
         });
-        return;
-      }
-
-      // Only attempt capture if the order is not already completed
-      const captureResponse = await fetch(
-        `${import.meta.env.VITE_PAYMENT_API_URL}/api/orders/${orderData.id}/capture`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "PayPal-Request-Id": `${requestId}_capture`,
-          },
+      } catch (error) {
+        if (
+          error.name === "TimeoutError" ||
+          error.message.includes("timeout")
+        ) {
+          if (retryCount < maxRetries) {
+            retryCount++;
+            console.log(
+              `Retrying payment request (attempt ${retryCount}/${maxRetries})...`
+            );
+            return attemptRequest();
+          }
         }
-      );
-
-      if (!captureResponse.ok) {
-        const errorData = await captureResponse.json();
-        throw new Error(`Capture failed: ${JSON.stringify(errorData)}`);
+        throw error;
       }
+    };
 
-      const captureData = await captureResponse.json();
-      console.log("Capture completed:", captureData);
-
-      onPaymentSuccess({
-        orderId: orderData.id,
-        status: captureData.status,
-        amount: "1.00",
-        bookingDetails: bookingDetails,
-        timestamp: new Date().toISOString(),
-      });
+    try {
+      await attemptRequest();
     } catch (error) {
       console.error("Payment process failed:", error);
-      setError(error.message);
+      setError(error.message || "Payment failed. Please try again.");
       onPaymentError();
     } finally {
       setLoading(false);
@@ -150,18 +174,18 @@ export default function Stage2PaymentDesktop({
 
   return (
     <div className="w-full mx-auto font-sans">
-      <div className="px-6 pt-2 min-[2560px]:pt-6 bg-white rounded-lg shadow-lg">
-        <h2 className="pt-18 mb-10 text-2xl min-[2560px]:text-3xl font-semibold text-gray-700 px-8">
+      <div className="px-4 pt-2 min-[2560px]:pt-6 bg-white rounded-lg shadow-lg">
+        <h2 className="pt-18 mb-10 text-2xl min-[2560px]:text-3xl font-semibold text-gray-700 px-6">
           Payment Details
         </h2>
 
         {error && (
-          <div className="p-3 px-8 mb-4 text-red-500 rounded bg-red-50">
+          <div className="p-3 px-6 mb-4 text-red-500 rounded bg-red-50">
             {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="px-8 pb-16">
+        <form onSubmit={handleSubmit} className="px-6 pb-16">
           <div className="mb-3">
             <label className="block font-medium text-gray-700 text-md min-[2560px]:text-lg">
               Card Number
@@ -209,6 +233,13 @@ export default function Stage2PaymentDesktop({
                 required
               />
             </div>
+          </div>
+
+          <div className="p-4 mt-8 rounded-lg bg-blue-50">
+            <p className="px-2 py-1 text-blue-800">
+              Before booking an appointment, please contact us by phone or text
+              via (+44) 7943 059 792 to confirm availability.
+            </p>
           </div>
 
           <button

@@ -56,13 +56,13 @@ const Stage1BookingFormDesktop = ({ onNextStep }) => {
 
   return (
     <div className="w-full mx-auto font-sans">
-      <div className="px-6 pt-2 min-[2560px]:pt-6 bg-white rounded-lg shadow-lg">
+      <div className="px-4 pt-2 min-[2560px]:pt-6 bg-white rounded-lg shadow-lg">
         <form onSubmit={handleSubmit}>
-          <h2 className="pt-10 mb-10 text-2xl min-[2560px]:text-3xl font-semibold text-gray-700 px-8">
+          <h2 className="pt-10 mb-10 text-2xl min-[2560px]:text-3xl font-semibold text-gray-700 px-6">
             Book Appointment
           </h2>
 
-          <div className="px-8 pb-16">
+          <div className="px-6 pb-16">
             <div className="mb-3">
               <label className="block font-medium text-gray-700 text-md min-[2560px]:text-lg">
                 Name
@@ -141,7 +141,13 @@ const Stage1BookingFormDesktop = ({ onNextStep }) => {
                 </div>
               </div>
             </div>
-            <div className="mt-10 text-left">
+            <div className="p-4 mt-8 rounded-lg bg-blue-50">
+              <p className="px-2 py-1 text-blue-800">
+                Before booking an appointment, please contact us by phone or
+                text via (+44) 7943 059 792 to confirm availability.
+              </p>
+            </div>
+            <div className="mt-2 text-left">
               <button
                 type="submit"
                 className="px-11 min-[2560px]:px-14 py-4.5 min-[2560px]:py-6 mt-5 font-semibold text-lg min-[2560px]:text-xl text-white bg-red-500 rounded-4xl focus:outline-none hover:scale-102"

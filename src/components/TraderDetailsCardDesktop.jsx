@@ -56,7 +56,7 @@ export default function TraderDetailsCard({ trader, isLoading }) {
       {/* Header Section */}
 
       {/* Content Section */}
-      <div className="pt-13 px-26">
+      <div className="px-16 pt-13">
         <h1 className="mb-2 text-3xl font-bold">{trader.name}</h1>
         <h2 className="text-xl text-gray-600 ">{trader.title}</h2>
 

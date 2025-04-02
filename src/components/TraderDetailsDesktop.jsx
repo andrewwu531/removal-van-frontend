@@ -91,7 +91,7 @@ export default function TraderDetails({ onLoadingChange }) {
   return (
     <div className="container min-h-screen pt-20 pb-20 mx-auto">
       <TraderFivePhotosDesktop trader={trader} />
-      <div className="flex flex-col min-[1339px]:flex-row gap-6 max-w-[95%] min-[1423px]:max-w-[90%] min-[1920px]:max-w-[85%] mx-auto">
+      <div className="flex flex-col min-[1339px]:flex-row gap-6 mx-auto max-w-[90%] min-[1423px]:max-w-[85%] min-[1920px]:max-w-[80%]">
         {/* TraderDetailsCard */}
         <div className="w-full min-[1339px]:w-[60%]">
           <TraderDetailsCardDesktop trader={trader} />
