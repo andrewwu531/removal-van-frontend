@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import { usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import PropTypes from "prop-types";
+import {
+  PayPalHostedFieldsProvider,
+  PayPalHostedField,
+} from "@paypal/react-paypal-js";
 
 export default function Stage2PaymentDesktop({
   bookingDetails,
@@ -12,10 +16,8 @@ export default function Stage2PaymentDesktop({
   const [cardNumber, setCardNumber] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
   const [cvv, setCvv] = useState("");
-  const [{ isResolved }] = usePayPalScriptReducer();
   const [message, setMessage] = useState("");
   const [isError, setIsError] = useState(false);
-  const [clientToken, setClientToken] = useState(null);
 
   useEffect(() => {
     console.log("Current bookingDetails:", bookingDetails);
@@ -25,10 +27,6 @@ export default function Stage2PaymentDesktop({
       setMessage("Missing booking information");
     }
   }, [bookingDetails]);
-
-  if (!isResolved) {
-    return <div>Loading payment fields...</div>;
-  }
 
   const formatCardNumber = (value) => {
     const v = value.replace(/\s+/g, "").replace(/[^0-9]/gi, "");
@@ -64,21 +62,13 @@ export default function Stage2PaymentDesktop({
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    if (!bookingDetails) {
-      console.error("No booking details available");
-      setIsError(true);
-      setMessage("Missing booking information");
-      return;
-    }
-
     setLoading(true);
     setError("");
 
     try {
-      console.log("Creating PayPal order with details:", bookingDetails);
+      // Create and capture order with direct bank details
       const response = await fetch(
-        `${import.meta.env.VITE_PAYMENT_API_URL}/api/orders`,
+        `${import.meta.env.VITE_PAYMENT_API_URL}/api/orders/direct`,
         {
           method: "POST",
           headers: {
@@ -91,36 +81,31 @@ export default function Stage2PaymentDesktop({
               Telephone: bookingDetails.Telephone || "",
               DepositAmount: bookingDetails.DepositAmount || "60.00",
             },
-            amount: "60.00",
-            currency: "GBP",
+            paymentDetails: {
+              cardNumber: cardNumber.replace(/\s/g, ""),
+              expiryDate: expiryDate,
+              cvv: cvv,
+            },
           }),
         }
       );
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.details || "Failed to create order");
-      }
-
       const orderData = await response.json();
-      console.log("Order created:", orderData);
 
-      if (orderData.id) {
-        // Call onPaymentSuccess with all relevant details
+      if (orderData.status === "COMPLETED") {
         onPaymentSuccess({
-          orderId: orderData.id,
+          orderId: orderData.orderId,
           status: orderData.status,
-          amount: "60.00",
+          amount: bookingDetails.DepositAmount || "60.00",
           bookingDetails: bookingDetails,
           timestamp: new Date().toISOString(),
         });
       } else {
-        throw new Error("No order ID received");
+        throw new Error("Payment not completed");
       }
     } catch (error) {
       console.error("Payment error:", error);
-      setIsError(true);
-      setMessage(`Payment failed: ${error.message}`);
+      setError(error.message);
       onPaymentError();
     } finally {
       setLoading(false);
@@ -140,12 +125,6 @@ export default function Stage2PaymentDesktop({
           </div>
         )}
 
-        {loading && (
-          <div className="p-3 px-8 mb-4 text-gray-600 rounded bg-gray-50">
-            Processing payment...
-          </div>
-        )}
-
         <form onSubmit={handleSubmit} className="px-8 pb-16">
           <div className="mb-3">
             <label className="block font-medium text-gray-700 text-md min-[2560px]:text-lg">
@@ -155,7 +134,8 @@ export default function Stage2PaymentDesktop({
               type="text"
               value={cardNumber}
               onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
-              className="block w-full p-3 min-[2560px]:p-4 mt-1 bg-white border border-gray-300 rounded focus:outline-none"
+              placeholder="1234 5678 9012 3456"
+              className="block w-full p-3 min-[2560px]:p-4 mt-1 bg-white border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               maxLength="19"
               required
             />
@@ -173,7 +153,7 @@ export default function Stage2PaymentDesktop({
                   setExpiryDate(formatExpiryDate(e.target.value))
                 }
                 placeholder="MM/YY"
-                className="w-full p-3 mt-1 bg-white border border-gray-300 rounded"
+                className="w-full p-3 mt-1 bg-white border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 maxLength="5"
                 required
               />
@@ -187,7 +167,8 @@ export default function Stage2PaymentDesktop({
                 type="text"
                 value={cvv}
                 onChange={(e) => setCvv(e.target.value.replace(/\D/g, ""))}
-                className="w-full p-3 mt-1 bg-white border border-gray-300 rounded"
+                placeholder="123"
+                className="w-full p-3 mt-1 bg-white border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 maxLength="4"
                 required
               />
@@ -197,9 +178,35 @@ export default function Stage2PaymentDesktop({
           <button
             type="submit"
             disabled={loading}
-            className="mt-10 mb-6 px-11 min-[2560px]:px-14 py-4.5 min-[2560px]:py-6 font-semibold text-lg min-[2560px]:text-xl text-white bg-red-500 rounded-4xl focus:outline-none hover:scale-102"
+            className={`mt-10 mb-6 px-11 min-[2560px]:px-14 py-4.5 min-[2560px]:py-6 font-semibold text-lg min-[2560px]:text-xl text-white rounded-4xl focus:outline-none hover:scale-102 ${
+              loading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-red-500 hover:bg-red-600"
+            }`}
           >
-            Book Now
+            {loading ? (
+              <span className="flex items-center justify-center">
+                <svg className="w-5 h-5 mr-2 animate-spin" viewBox="0 0 24 24">
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                    fill="none"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  />
+                </svg>
+                Processing...
+              </span>
+            ) : (
+              "Book Now"
+            )}
           </button>
         </form>
       </div>
