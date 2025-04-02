@@ -53,7 +53,7 @@ export default function Stage2PaymentDesktop({
     return v;
   };
 
-  // Convert MM/YY to YYYY-MM format for PayPal
+  // Convert MM/YY to YYYY-MM format for PayPal x
   const convertExpiryDateFormat = (mmyy) => {
     if (!mmyy || mmyy.length !== 5) return "";
     const [month, year] = mmyy.split("/");
