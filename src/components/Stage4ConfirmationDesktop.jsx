@@ -1,7 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const Stage4ConfirmationDesktop = ({ bookingDetails, transactionDetails }) => (
+const Stage4ConfirmationDesktop = ({
+  bookingDetails,
+  transactionDetails,
+  trader,
+}) => (
   <div className="flex flex-col p-6 bg-white rounded-lg shadow-lg">
     <div className="px-6">
       <div className="mt-16">
@@ -18,6 +22,10 @@ const Stage4ConfirmationDesktop = ({ bookingDetails, transactionDetails }) => (
           </p>
           <p>
             <strong>Telephone:</strong> {bookingDetails.Telephone}
+          </p>
+          <p>
+            <strong>Company:</strong>{" "}
+            {trader?.name || bookingDetails.TraderName}
           </p>
           <p>
             <strong>Appointment Date:</strong>{" "}
@@ -52,6 +60,11 @@ Stage4ConfirmationDesktop.propTypes = {
     Telephone: PropTypes.string.isRequired,
     DepositAmount: PropTypes.string.isRequired,
     Date: PropTypes.instanceOf(Date),
+    TraderName: PropTypes.string,
+  }).isRequired,
+  trader: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    // ... other trader properties if needed
   }).isRequired,
   transactionDetails: PropTypes.object.isRequired,
 };

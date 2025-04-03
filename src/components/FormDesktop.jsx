@@ -1,17 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Stage1BookingFormDesktop from "./Stage1BookingFormDesktop";
 import Stage2PaymentDesktop from "./Stage2PaymentDesktop";
 import Stage4ConfirmationDesktop from "./Stage4ConfirmationDesktop";
+import PropTypes from "prop-types";
 
-const PaymentFlow = () => {
+const PaymentFlow = ({ trader }) => {
   const [stage, setStage] = useState(1);
   const [bookingDetails, setBookingDetails] = useState({
     FullName: "",
     Email: "",
     Telephone: "",
     DepositAmount: "60.00",
+    TraderName: trader?.name || "",
   });
   const [transactionDetails, setTransactionDetails] = useState(null);
+
+  useEffect(() => {
+    if (trader?.name) {
+      setBookingDetails((prev) => ({
+        ...prev,
+        TraderName: trader.name,
+      }));
+    }
+  }, [trader]);
 
   const handleBookingSubmit = (details) => {
     console.log("Booking details received:", details);
@@ -41,7 +52,11 @@ const PaymentFlow = () => {
       case 2:
         return (
           <Stage2PaymentDesktop
-            bookingDetails={bookingDetails}
+            bookingDetails={{
+              ...bookingDetails,
+              TraderName: trader?.name || "",
+            }}
+            trader={trader}
             onPaymentSuccess={handlePaymentSuccess}
             onPaymentError={handlePaymentError}
           />
@@ -49,7 +64,11 @@ const PaymentFlow = () => {
       case 3:
         return (
           <Stage4ConfirmationDesktop
-            bookingDetails={bookingDetails}
+            bookingDetails={{
+              ...bookingDetails,
+              TraderName: trader?.name || "",
+            }}
+            trader={trader}
             transactionDetails={transactionDetails}
           />
         );
@@ -59,6 +78,10 @@ const PaymentFlow = () => {
   };
 
   return <>{renderStage()}</>;
+};
+
+PaymentFlow.propTypes = {
+  trader: PropTypes.object.isRequired,
 };
 
 export default PaymentFlow;

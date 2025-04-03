@@ -9,6 +9,7 @@ import emailjs from "@emailjs/browser";
 
 export default function Stage2PaymentDesktop({
   bookingDetails,
+  trader,
   onPaymentSuccess,
   onPaymentError,
 }) {
@@ -63,11 +64,12 @@ export default function Stage2PaymentDesktop({
 
   const sendConfirmationEmails = async (orderData, bookingDetails) => {
     try {
-      // Single email send - template handles recipient
+      // Email to customer
       await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        "service_a97f1ul",
+        "template_mwl2hss",
         {
+          customer_email: bookingDetails.Email,
           name: bookingDetails.FullName,
           order_id: orderData.id,
           amount: bookingDetails.DepositAmount,
@@ -75,14 +77,32 @@ export default function Stage2PaymentDesktop({
             ? new Date(bookingDetails.Date).toLocaleDateString()
             : "Not specified",
           telephone: bookingDetails.Telephone,
-          customer_email: bookingDetails.Email, // Used in template for dynamic recipient
+          company: trader?.name || bookingDetails.TraderName,
         },
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+        "_DB93G25spcgDVK97"
       );
 
-      console.log("Confirmation email sent successfully");
+      // Email to admin
+      await emailjs.send(
+        "service_a97f1ul",
+        "template_58lhvam",
+        {
+          customer_email: bookingDetails.Email,
+          name: bookingDetails.FullName,
+          order_id: orderData.id,
+          amount: bookingDetails.DepositAmount,
+          date: bookingDetails.Date
+            ? new Date(bookingDetails.Date).toLocaleDateString()
+            : "Not specified",
+          telephone: bookingDetails.Telephone,
+          company: trader?.name || bookingDetails.TraderName,
+        },
+        "_DB93G25spcgDVK97"
+      );
+
+      console.log("Confirmation emails sent successfully");
     } catch (error) {
-      console.error("Failed to send confirmation email:", error);
+      console.error("Failed to send confirmation emails:", error);
     }
   };
 
@@ -320,6 +340,10 @@ Stage2PaymentDesktop.propTypes = {
     Telephone: PropTypes.string.isRequired,
     DepositAmount: PropTypes.string.isRequired,
     Date: PropTypes.string,
+    TraderName: PropTypes.string,
+  }).isRequired,
+  trader: PropTypes.shape({
+    name: PropTypes.string.isRequired,
   }).isRequired,
   onPaymentSuccess: PropTypes.func.isRequired,
   onPaymentError: PropTypes.func.isRequired,

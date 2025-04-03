@@ -18,7 +18,11 @@ const serviceDisplayTitles = {
   Car: "Automotive Services",
 };
 
-export default function Traders_Collections({ traders, currentService }) {
+export default function Traders_Collections({
+  traders,
+  currentService,
+  onTraderSelect,
+}) {
   const navigate = useNavigate();
   const [showNoTraders, setShowNoTraders] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
@@ -71,8 +75,9 @@ export default function Traders_Collections({ traders, currentService }) {
     return serviceDisplayTitles[service] || `${service} Services`;
   };
 
-  const handleTraderClick = (traderId) => {
-    navigate(`/${traderId}`);
+  const handleTraderClick = (trader) => {
+    onTraderSelect(trader);
+    navigate(`/${trader.id}`);
   };
 
   return (
@@ -108,7 +113,7 @@ export default function Traders_Collections({ traders, currentService }) {
             <div
               key={trader.id}
               className="flex flex-col w-full pb-10 overflow-hidden transition-shadow bg-white cursor-pointer rounded-2xl hover:shadow-lg"
-              onClick={() => handleTraderClick(trader.id)}
+              onClick={() => handleTraderClick(trader)}
             >
               {/* Image Container with Gradient Overlay and Name */}
               <div className="relative w-full overflow-hidden aspect-square">
@@ -173,6 +178,7 @@ Traders_Collections.propTypes = {
     })
   ).isRequired,
   currentService: PropTypes.string.isRequired,
+  onTraderSelect: PropTypes.func.isRequired,
 };
 
 Traders_Collections.defaultProps = {

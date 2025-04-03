@@ -165,6 +165,11 @@ function App() {
     setTraderDetailsLoading(isLoading);
   };
 
+  const handleTraderSelect = (selectedTrader) => {
+    // You might want to store this in state if needed elsewhere
+    console.log("Selected trader:", selectedTrader.name);
+  };
+
   return (
     <PayPalScriptProvider options={initialOptions}>
       <div>
@@ -239,6 +244,7 @@ function App() {
                     <TradersCollectionsDesktop
                       traders={traders}
                       currentService={currentService}
+                      onTraderSelect={handleTraderSelect}
                     />
                   </div>
                   {showFooter && <FooterDesktop />}
