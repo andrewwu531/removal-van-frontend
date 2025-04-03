@@ -3,17 +3,21 @@ import PropTypes from "prop-types";
 import ImageWithFallback from "./ImageWithFallback";
 
 const TraderFivePhotos = ({ trader }) => {
-  const getImageUrl = (photoUrl) => {
-    if (!photoUrl) return "/fallback-image.png";
+  const getImageUrl = (photoPath) => {
+    if (!photoPath) return "/fallback-image.png";
 
-    // Log the URL for debugging
-    console.log("Processing photo URL:", photoUrl);
+    // Construct the full Azure Blob Storage URL
+    const baseUrl =
+      "https://tradespecialistsmedia.blob.core.windows.net/media-prod";
+    const fullUrl = `${baseUrl}/${photoPath}`;
 
-    // Return the full URL directly
-    return photoUrl;
+    // Log the constructed URL for debugging
+    console.log("Constructed photo URL:", fullUrl);
+
+    return fullUrl;
   };
 
-  // Debug logging with more detail
+  // Debug logging
   console.log("Trader data:", {
     id: trader.id,
     name: trader.name,
@@ -76,6 +80,7 @@ const TraderFivePhotos = ({ trader }) => {
 
 TraderFivePhotos.propTypes = {
   trader: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     photo1: PropTypes.string,
     photo2: PropTypes.string,
