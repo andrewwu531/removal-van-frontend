@@ -6,13 +6,15 @@ const TraderFivePhotos = ({ trader }) => {
   const getImageUrl = (photoPath) => {
     if (!photoPath) return "/fallback-image.png";
 
-    // Construct the full Azure Blob Storage URL
-    const baseUrl =
-      "https://tradespecialistsmedia.blob.core.windows.net/media-prod";
-    const fullUrl = `${baseUrl}/${photoPath}`;
+    // Get the environment-specific base URL
+    const baseUrl = import.meta.env.PROD
+      ? "https://tradespecialistsmedia.blob.core.windows.net/media-prod"
+      : "https://tradespecialistsmedia.blob.core.windows.net/media";
 
-    // Log the constructed URL for debugging
-    console.log("Constructed photo URL:", fullUrl);
+    const fullUrl = `${baseUrl}/${photoPath}`;
+    console.log("Environment:", import.meta.env.MODE);
+    console.log("Base URL:", baseUrl);
+    console.log("Full photo URL:", fullUrl);
 
     return fullUrl;
   };

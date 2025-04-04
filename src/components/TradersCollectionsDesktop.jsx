@@ -53,21 +53,21 @@ export default function Traders_Collections({
   const getImageUrl = (photoPath) => {
     if (!photoPath) return "/fallback-image.png";
 
-    // If it's already a full Azure URL, return it
+    // Get the environment-specific base URL
+    const baseUrl = import.meta.env.PROD
+      ? "https://tradespecialistsmedia.blob.core.windows.net/media-prod"
+      : "https://tradespecialistsmedia.blob.core.windows.net/media";
+
+    // If it's already a full URL, return it
     if (photoPath.startsWith("https://")) return photoPath;
 
-    // If it's a relative path, construct the Azure URL
-    if (photoPath.startsWith("/media/")) {
-      // Remove any duplicate 'traders' in the path
-      const cleanPath = photoPath
-        .replace("/media/traders/traders/", "/traders/")
-        .replace("/media/traders/", "/traders/");
+    // Construct the full URL (photoPath already contains "removal/...")
+    const fullUrl = `${baseUrl}/${photoPath}`;
 
-      return `${import.meta.env.VITE_AZURE_STORAGE_URL}${cleanPath}`;
-    }
+    console.log("Photo path:", photoPath);
+    console.log("Full URL:", fullUrl);
 
-    // If it's just a filename, construct the full path
-    return `${import.meta.env.VITE_AZURE_STORAGE_URL}/traders/${photoPath}`;
+    return fullUrl;
   };
 
   // Get the custom title based on currentService, fallback to currentService if no custom title exists
