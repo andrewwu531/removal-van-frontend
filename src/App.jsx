@@ -13,24 +13,47 @@ function App() {
   const [currentService, setCurrentService] = useState("Removal");
   const [currentLocation, setCurrentLocation] = useState("");
   const [clientToken, setClientToken] = useState(null);
-  const [showFooter, setShowFooter] = useState(false);
-  const [traderDetailsLoading, setTraderDetailsLoading] = useState(true);
+  const [showFooter, setShowFooter] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [isDataReady, setIsDataReady] = useState(false);
   const location = useLocation();
 
-  // Simplify the footer effect to only depend on trader details loading state
+  // Common layout component to reduce duplication
+  const Layout = ({ children }) => (
+    <>
+      <div className="fixed top-0 left-0 w-full bg-white z-100">
+        <HeaderSearchBarDesktop
+          onSearch={handleSearch}
+          currentService={currentService}
+          currentLocation={currentLocation}
+        />
+        <HeaderServiceBarDesktop
+          currentService={currentService}
+          onServiceSelect={handleServiceSelect}
+        />
+      </div>
+      {children}
+      {showFooter && <FooterDesktop />}
+    </>
+  );
+
   useEffect(() => {
-    if (location.pathname.match(/^\/\d+$/)) {
-      // On trader details page, footer visibility depends on loading state
-      setShowFooter(!traderDetailsLoading);
-    } else {
-      // On main page or other pages, show footer immediately
-      setShowFooter(true);
-    }
-  }, [location.pathname, traderDetailsLoading]);
+    // Show footer on all pages except loading state of trader details
+    setShowFooter(true);
+  }, [location.pathname]);
 
   useEffect(() => {
     // Initial load with default values
-    fetchTraders({ service: currentService, location: currentLocation });
+    console.log("App mounted, initializing data...");
+    const initializeData = async () => {
+      await fetchTraders({
+        service: currentService,
+        location: currentLocation,
+      });
+      setIsDataReady(true);
+      console.log("Initial data loaded");
+    };
+    initializeData();
   }, []);
 
   useEffect(() => {
@@ -70,23 +93,34 @@ function App() {
     emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
   }, []);
 
-  const handleSearch = (searchParams) => {
+  const handleSearch = async (searchParams) => {
+    // Hide current content
+    setIsDataReady(false);
+
+    // Update state and fetch new data
     setCurrentService(searchParams.service);
     setCurrentLocation(searchParams.location);
-    fetchTraders(searchParams);
+    await fetchTraders(searchParams);
+
+    // Show new content
+    setIsDataReady(true);
   };
 
-  const handleServiceSelect = (serviceName) => {
+  const handleServiceSelect = async (serviceName) => {
+    // Hide current content
+    setIsDataReady(false);
+
+    // Update state and fetch new data
     setCurrentService(serviceName);
-    fetchTraders({ service: serviceName, location: currentLocation });
+    await fetchTraders({ service: serviceName, location: currentLocation });
+
+    // Show new content
+    setIsDataReady(true);
   };
 
   const fetchTraders = async (searchParams) => {
+    console.log("Fetching traders with params:", searchParams);
     try {
-      console.log(
-        "Fetching from:",
-        `${import.meta.env.VITE_API_URL}/api/backend/traders`
-      );
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/backend/traders`,
         {
@@ -96,36 +130,36 @@ function App() {
             "Content-Type": "application/json",
             "X-API-Key": import.meta.env.VITE_API_KEY,
           },
-          mode: "cors",
-          credentials: "omit",
         }
       );
 
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error("Server response:", errorText);
-        throw new Error(
-          `HTTP error! status: ${response.status}, message: ${errorText}`
-        );
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
-      console.log("Received data:", data);
+      console.log("Received traders data:", data);
 
-      let filteredTraders = data.filter(
-        (trader) => trader.removal_type === searchParams.service
-      );
+      let filteredTraders = data;
 
-      if (searchParams.location) {
+      if (searchParams?.service) {
+        filteredTraders = filteredTraders.filter(
+          (trader) => trader.removal_type === searchParams.service
+        );
+      }
+
+      if (searchParams?.location) {
         filteredTraders = filteredTraders.filter((trader) =>
           trader.available_locations.includes(searchParams.location)
         );
       }
+
+      console.log("Filtered traders:", filteredTraders);
       setTraders(filteredTraders);
-      setTraderDetailsLoading(false);
+      return filteredTraders;
     } catch (error) {
       console.error("Error fetching traders:", error);
-      setTraderDetailsLoading(false);
+      return [];
     }
   };
 
@@ -139,70 +173,51 @@ function App() {
     "disable-funding": "paylater,venmo",
   };
 
-  const handleTraderDetailsLoading = (isLoading) => {
-    setTraderDetailsLoading(isLoading);
-  };
-
   const handleTraderSelect = (selectedTrader) => {
+    // You can add any additional logic here if needed
     console.log("Selected trader:", selectedTrader.name);
   };
 
+  // Don't render anything until initial data is ready
+  if (!isDataReady) {
+    console.log("App not ready yet");
+    return null;
+  }
+
+  console.log("Rendering App with traders:", traders);
+
   return (
     <PayPalScriptProvider options={initialOptions}>
-      <div>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <div className="fixed top-0 left-0 w-full bg-white z-100">
-                  <HeaderSearchBarDesktop
-                    onSearch={handleSearch}
-                    currentService={currentService}
-                    currentLocation={currentLocation}
-                  />
-                  <HeaderServiceBarDesktop
-                    currentService={currentService}
-                    onServiceSelect={handleServiceSelect}
-                  />
-                </div>
-                <div className="mt-41 min-[1339px]:mt-43 min-[1920px]:mt-48">
-                  <TradersCollectionsDesktop
-                    traders={traders}
-                    currentService={currentService}
-                    onTraderSelect={handleTraderSelect}
-                  />
-                </div>
-                {showFooter && <FooterDesktop />}
-              </>
-            }
-          />
-          <Route
-            path="/:traderId"
-            element={
-              <>
-                <div className="fixed top-0 left-0 w-full bg-white z-100">
-                  <HeaderSearchBarDesktop
-                    onSearch={handleSearch}
-                    currentService={currentService}
-                    currentLocation={currentLocation}
-                  />
-                  <HeaderServiceBarDesktop
-                    currentService={currentService}
-                    onServiceSelect={handleServiceSelect}
-                  />
-                </div>
-                <div className="mt-24 max-w-[100%] min-[1423px]:max-w-[90%] min-[1920px]:max-w-[85%] mx-auto">
-                  <TraderDetailsDesktop
-                    onLoadingChange={handleTraderDetailsLoading}
-                  />
-                </div>
-                {showFooter && <FooterDesktop />}
-              </>
-            }
-          />
-        </Routes>
-      </div>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Layout>
+              <div className="mt-41 min-[1339px]:mt-43 min-[1920px]:mt-48">
+                <TradersCollectionsDesktop
+                  traders={traders}
+                  currentService={currentService}
+                  onTraderSelect={handleTraderSelect}
+                />
+              </div>
+            </Layout>
+          }
+        />
+        <Route
+          path="/:traderId"
+          element={
+            <Layout>
+              <div className="mt-24 max-w-[100%] min-[1423px]:max-w-[90%] min-[1920px]:max-w-[85%] mx-auto">
+                <TraderDetailsDesktop
+                  traders={traders}
+                  fetchTraders={fetchTraders}
+                  setShowFooter={setShowFooter}
+                />
+              </div>
+            </Layout>
+          }
+        />
+      </Routes>
     </PayPalScriptProvider>
   );
 }
