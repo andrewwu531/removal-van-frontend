@@ -1,0 +1,58 @@
+import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
+import ServiceTitle from "./components/ServiceTitle";
+import EmptyTradersList from "./components/EmptyTradersList";
+import TraderCard from "./components/TraderCard";
+
+export default function TradersCollectionsDesktop({
+  traders,
+  currentService,
+  onTraderSelect,
+}) {
+  const navigate = useNavigate();
+
+  const handleTraderClick = (trader) => {
+    onTraderSelect(trader);
+    navigate(`/${trader.id}`);
+  };
+
+  return (
+    <div className="container justify-center px-12 py-8 mx-auto max-w-19/20 min-[1339px]:max-w-11/12 min-[1920px]:max-w-5/6">
+      <ServiceTitle currentService={currentService} />
+
+      {traders.length === 0 ? (
+        <EmptyTradersList />
+      ) : (
+        <div className="grid justify-center grid-cols-4 gap-5">
+          {traders.map((trader) => (
+            <TraderCard
+              key={trader.id}
+              trader={trader}
+              onClick={() => handleTraderClick(trader)}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+TradersCollectionsDesktop.propTypes = {
+  traders: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      from_price: PropTypes.number.isRequired,
+      main_photo: PropTypes.string,
+      available_locations: PropTypes.arrayOf(PropTypes.string).isRequired,
+      service_type: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  currentService: PropTypes.string.isRequired,
+  onTraderSelect: PropTypes.func.isRequired,
+};
+
+TradersCollectionsDesktop.defaultProps = {
+  currentService: "Removal",
+};

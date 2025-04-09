@@ -1,0 +1,46 @@
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import NotFoundState from "./components/NotFoundState";
+import TraderInfo from "./components/TraderInfo";
+import { TraderPropType } from "../types/trader.types";
+
+export default function TraderDetailsCard({ trader, isLoading }) {
+  const [showNoTrader, setShowNoTrader] = useState(false);
+
+  useEffect(() => {
+    // Reset the state whenever trader or loading state changes
+    setShowNoTrader(false);
+
+    let timer;
+    if (!trader && !isLoading) {
+      // Only start timer if we're not loading and have no trader
+      timer = setTimeout(() => {
+        setShowNoTrader(true);
+      }, 5000);
+    }
+
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [trader, isLoading]);
+
+  // Show no trader message after 5 seconds if trader is not found
+  if (!trader && showNoTrader) {
+    return <NotFoundState />;
+  }
+
+  return (
+    <div className="min-h-screen col-span-3 pb-16 bg-white rounded-lg shadow-lg">
+      <TraderInfo trader={trader} />
+    </div>
+  );
+}
+
+TraderDetailsCard.propTypes = {
+  trader: TraderPropType,
+  isLoading: PropTypes.bool,
+};
+
+TraderDetailsCard.defaultProps = {
+  isLoading: false,
+};

@@ -1,0 +1,32 @@
+import PropTypes from "prop-types";
+
+export default function EnquiryButton({ onClose, cardRef }) {
+  return (
+    <div
+      ref={cardRef}
+      className="absolute z-50 bg-white border border-gray-200 rounded-lg shadow-lg py-9 px-9 top-20 right-10 w-90"
+    >
+      <button
+        className="absolute text-gray-500 top-2 right-2 hover:text-gray-700"
+        onClick={onClose}
+      >
+        ✕
+      </button>
+      <h2 className="mb-4 text-xl font-bold text-gray-800">Contact Us</h2>
+      <p className="mb-5 text-gray-600">
+        For general enquiries, please contact us by text or phone call at:
+      </p>
+      <div className="mb-5 text-xl font-semibold text-center text-red-400">
+        07943 059 792
+      </div>
+      <p className="text-sm text-left text-gray-500">
+        * Our team is available Monday to Sunday from 9am - 8pm.
+      </p>
+    </div>
+  );
+}
+
+EnquiryButton.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  cardRef: PropTypes.object.isRequired,
+};

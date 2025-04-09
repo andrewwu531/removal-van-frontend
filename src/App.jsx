@@ -1,26 +1,15 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import TradersCollectionsDesktop from "./components/TradersCollectionsDesktop";
-import TraderDetailsDesktop from "./components/TraderDetailsDesktop";
-import HeaderSearchBarDesktop from "./components/HeaderSearchBarDesktop";
-import HeaderServiceBarDesktop from "./components/HeaderServiceBarDesktop";
-import FooterDesktop from "./components/FooterDesktop";
-
-import TradersCollectionsMobile from "./components/TradersCollectionsMobile";
-import TraderDetailsMobile from "./components/TraderDetailsMobile";
-import HeaderSearchBarMobile from "./components/HeaderSearchBarMobile";
-import HeaderServiceBarMobile from "./components/HeaderServiceBarMobile";
-import FooterMobile from "./components/FooterMobile";
-
-import PaymentSuccess from "./components/PaymentSuccess";
-import PaymentError from "./components/PaymentError";
+import TradersCollectionsDesktop from "./components/traders/TradersCollectionsDesktop";
+import TraderDetailsDesktop from "./components/trader/details/TraderDetailsDesktop";
+import HeaderSearchBarDesktop from "./components/layout/header/HeaderSearchBarDesktop";
+import HeaderServiceBarDesktop from "./components/layout/header/HeaderServiceBarDesktop";
+import FooterDesktop from "./components/layout/footer/FooterDesktop";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import emailjs from "@emailjs/browser";
 
 function App() {
   const [traders, setTraders] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [screenSize, setScreenSize] = useState(window.innerWidth);
   const [currentService, setCurrentService] = useState("Removal");
   const [currentLocation, setCurrentLocation] = useState("");
   const [clientToken, setClientToken] = useState(null);
@@ -39,23 +28,9 @@ function App() {
     }
   }, [location.pathname, traderDetailsLoading]);
 
-  // Handle screen resize
-  useEffect(() => {
-    const handleResize = () => {
-      setScreenSize(window.innerWidth);
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
   useEffect(() => {
     // Initial load with default values
     fetchTraders({ service: currentService, location: currentLocation });
-
-    const handleResize = () => setScreenSize(window.innerWidth);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
@@ -77,10 +52,14 @@ function App() {
         }
 
         const data = await response.json();
-        setClientToken(data.clientToken);
+        if (!data.success || !data.data?.clientToken) {
+          throw new Error("Invalid token response");
+        }
+
+        setClientToken(data.data.clientToken);
       } catch (error) {
         console.error("Error fetching client token:", error);
-        setLoading(false);
+        setTraderDetailsLoading(false);
       }
     };
 
@@ -143,10 +122,10 @@ function App() {
         );
       }
       setTraders(filteredTraders);
-      setLoading(false);
+      setTraderDetailsLoading(false);
     } catch (error) {
       console.error("Error fetching traders:", error);
-      setLoading(false);
+      setTraderDetailsLoading(false);
     }
   };
 
@@ -160,123 +139,69 @@ function App() {
     "disable-funding": "paylater,venmo",
   };
 
-  // Handler for trader details loading state
   const handleTraderDetailsLoading = (isLoading) => {
     setTraderDetailsLoading(isLoading);
   };
 
   const handleTraderSelect = (selectedTrader) => {
-    // You might want to store this in state if needed elsewhere
     console.log("Selected trader:", selectedTrader.name);
   };
 
   return (
     <PayPalScriptProvider options={initialOptions}>
       <div>
-        {screenSize < 1024 ? (
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <>
-                  <div className="fixed top-0 left-0 w-full bg-white z-100">
-                    <HeaderSearchBarMobile
-                      onSearch={handleSearch}
-                      currentService={currentService}
-                      currentLocation={currentLocation}
-                    />
-                    <HeaderServiceBarMobile
-                      currentService={currentService}
-                      onServiceSelect={handleServiceSelect}
-                    />
-                  </div>
-                  <div className="mt-41 min-[1339px]:mt-43 min-[1920px]:mt-48">
-                    <TradersCollectionsMobile
-                      traders={traders}
-                      currentService={currentService}
-                    />
-                  </div>
-                  {showFooter && <FooterMobile />}
-                </>
-              }
-            />
-            <Route
-              path="/:traderId"
-              element={
-                <>
-                  <div className="fixed top-0 left-0 w-full bg-white z-100">
-                    <HeaderSearchBarMobile
-                      onSearch={handleSearch}
-                      currentService={currentService}
-                      currentLocation={currentLocation}
-                    />
-                    <HeaderServiceBarMobile
-                      currentService={currentService}
-                      onServiceSelect={handleServiceSelect}
-                    />
-                  </div>
-                  <div className="mt-24">
-                    <TraderDetailsMobile />
-                  </div>
-                  {showFooter && <FooterMobile />}
-                </>
-              }
-            />
-          </Routes>
-        ) : (
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <>
-                  <div className="fixed top-0 left-0 w-full bg-white z-100">
-                    <HeaderSearchBarDesktop
-                      onSearch={handleSearch}
-                      currentService={currentService}
-                      currentLocation={currentLocation}
-                    />
-                    <HeaderServiceBarDesktop
-                      currentService={currentService}
-                      onServiceSelect={handleServiceSelect}
-                    />
-                  </div>
-                  <div className="mt-41 min-[1339px]:mt-43 min-[1920px]:mt-48">
-                    <TradersCollectionsDesktop
-                      traders={traders}
-                      currentService={currentService}
-                      onTraderSelect={handleTraderSelect}
-                    />
-                  </div>
-                  {showFooter && <FooterDesktop />}
-                </>
-              }
-            />
-            <Route
-              path="/:traderId"
-              element={
-                <>
-                  <div className="fixed top-0 left-0 w-full bg-white z-100">
-                    <HeaderSearchBarDesktop
-                      onSearch={handleSearch}
-                      currentService={currentService}
-                      currentLocation={currentLocation}
-                    />
-                    <HeaderServiceBarDesktop
-                      currentService={currentService}
-                      onServiceSelect={handleServiceSelect}
-                    />
-                  </div>
-                  <div className="mt-24 max-w-[100%] min-[1423px]:max-w-[90%] min-[1920px]:max-w-[85%] mx-auto">
-                    <TraderDetailsDesktop
-                      onLoadingChange={handleTraderDetailsLoading}
-                    />
-                  </div>
-                  {showFooter && <FooterDesktop />}
-                </>
-              }
-            />
-          </Routes>
-        )}
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <div className="fixed top-0 left-0 w-full bg-white z-100">
+                  <HeaderSearchBarDesktop
+                    onSearch={handleSearch}
+                    currentService={currentService}
+                    currentLocation={currentLocation}
+                  />
+                  <HeaderServiceBarDesktop
+                    currentService={currentService}
+                    onServiceSelect={handleServiceSelect}
+                  />
+                </div>
+                <div className="mt-41 min-[1339px]:mt-43 min-[1920px]:mt-48">
+                  <TradersCollectionsDesktop
+                    traders={traders}
+                    currentService={currentService}
+                    onTraderSelect={handleTraderSelect}
+                  />
+                </div>
+                {showFooter && <FooterDesktop />}
+              </>
+            }
+          />
+          <Route
+            path="/:traderId"
+            element={
+              <>
+                <div className="fixed top-0 left-0 w-full bg-white z-100">
+                  <HeaderSearchBarDesktop
+                    onSearch={handleSearch}
+                    currentService={currentService}
+                    currentLocation={currentLocation}
+                  />
+                  <HeaderServiceBarDesktop
+                    currentService={currentService}
+                    onServiceSelect={handleServiceSelect}
+                  />
+                </div>
+                <div className="mt-24 max-w-[100%] min-[1423px]:max-w-[90%] min-[1920px]:max-w-[85%] mx-auto">
+                  <TraderDetailsDesktop
+                    onLoadingChange={handleTraderDetailsLoading}
+                  />
+                </div>
+                {showFooter && <FooterDesktop />}
+              </>
+            }
+          />
+        </Routes>
       </div>
     </PayPalScriptProvider>
   );
