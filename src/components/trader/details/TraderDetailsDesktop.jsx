@@ -14,48 +14,44 @@ export default function TraderDetailsDesktop({
   const navigate = useNavigate();
   const [trader, setTrader] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isRefresh, setIsRefresh] = useState(false);
 
   useEffect(() => {
-    // Check if this is a page refresh
-    const isPageRefresh = performance.navigation.type === 1;
-    setIsRefresh(isPageRefresh);
-
-    if (isPageRefresh) {
-      // If it's a refresh, redirect to home using relative path in production
-      const baseUrl =
-        import.meta.env.MODE === "development" ? "http://localhost:5173" : "/"; // Using relative path for production
-      window.location.href = baseUrl;
-      return;
-    }
+    let isMounted = true;
 
     const initializeTrader = async () => {
+      // First try to find trader in existing traders array
       let currentTrader = traders.find((t) => t.id.toString() === traderId);
 
       if (!currentTrader) {
+        // Only fetch if trader not found in current array
         const allTraders = await fetchTraders({});
         currentTrader = allTraders.find((t) => t.id.toString() === traderId);
       }
 
-      if (currentTrader) {
+      if (currentTrader && isMounted) {
         setTrader(currentTrader);
         setTimeout(() => {
-          setIsLoading(false);
-          setParentLoading(false);
+          if (isMounted) {
+            setIsLoading(false);
+            setParentLoading(false);
+          }
         }, 500);
-      } else {
+      } else if (isMounted) {
         navigate("/");
       }
     };
 
-    if (!isRefresh) {
-      setIsLoading(true);
-      setParentLoading(true);
-      initializeTrader();
-    }
-  }, [traderId]);
+    setIsLoading(true);
+    setParentLoading(true);
+    initializeTrader();
 
-  if (!trader || isLoading || isRefresh) {
+    // Cleanup function
+    return () => {
+      isMounted = false;
+    };
+  }, [traderId]); // Only depend on traderId
+
+  if (!trader || isLoading) {
     return null;
   }
 
