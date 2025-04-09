@@ -14,16 +14,17 @@ export default function TraderDetailsDesktop({
   const navigate = useNavigate();
   const [trader, setTrader] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isRefresh, setIsRefresh] = useState(false);
 
   useEffect(() => {
-    // Check if this is a page load/refresh
-    if (document.readyState === "complete") {
-      const baseUrl =
-        import.meta.env.MODE === "development"
-          ? "http://localhost:5173"
-          : "/trade-specialists"; // Changed to relative path for production
+    // Check if this is a page refresh
+    const isPageRefresh = performance.navigation.type === 1;
+    setIsRefresh(isPageRefresh);
 
-      // Force navigation to home page
+    if (isPageRefresh) {
+      // If it's a refresh, redirect to home using relative path in production
+      const baseUrl =
+        import.meta.env.MODE === "development" ? "http://localhost:5173" : "/"; // Using relative path for production
       window.location.href = baseUrl;
       return;
     }
@@ -47,12 +48,14 @@ export default function TraderDetailsDesktop({
       }
     };
 
-    setIsLoading(true);
-    setParentLoading(true);
-    initializeTrader();
+    if (!isRefresh) {
+      setIsLoading(true);
+      setParentLoading(true);
+      initializeTrader();
+    }
   }, [traderId]);
 
-  if (!trader || isLoading) {
+  if (!trader || isLoading || isRefresh) {
     return null;
   }
 
