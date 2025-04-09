@@ -4,7 +4,7 @@ import { getImageUrl } from "../utils/imageUtils";
 
 export default function MainPhoto({ photo, altText }) {
   return (
-    <div className="relative">
+    <div className="relative h-full aspect-square">
       <ImageWithFallback
         src={getImageUrl(photo)}
         alt={altText}

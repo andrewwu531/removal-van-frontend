@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import TradersCollectionsDesktop from "./components/traders/TradersCollectionsDesktop";
 import TraderDetailsDesktop from "./components/trader/details/TraderDetailsDesktop";
@@ -7,6 +7,7 @@ import HeaderServiceBarDesktop from "./components/layout/header/HeaderServiceBar
 import FooterDesktop from "./components/layout/footer/FooterDesktop";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import emailjs from "@emailjs/browser";
+import Layout from "./components/layout/Layout";
 
 function App() {
   const [traders, setTraders] = useState([]);
@@ -17,25 +18,6 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [isDataReady, setIsDataReady] = useState(false);
   const location = useLocation();
-
-  // Common layout component to reduce duplication
-  const Layout = ({ children }) => (
-    <>
-      <div className="fixed top-0 left-0 w-full bg-white z-100">
-        <HeaderSearchBarDesktop
-          onSearch={handleSearch}
-          currentService={currentService}
-          currentLocation={currentLocation}
-        />
-        <HeaderServiceBarDesktop
-          currentService={currentService}
-          onServiceSelect={handleServiceSelect}
-        />
-      </div>
-      {children}
-      {showFooter && <FooterDesktop />}
-    </>
-  );
 
   useEffect(() => {
     // Show footer on all pages except loading state of trader details
@@ -192,7 +174,12 @@ function App() {
         <Route
           path="/"
           element={
-            <Layout>
+            <Layout
+              currentService={currentService}
+              currentLocation={currentLocation}
+              onSearch={handleSearch}
+              onServiceSelect={handleServiceSelect}
+            >
               <div className="mt-41 min-[1339px]:mt-43 min-[1920px]:mt-48">
                 <TradersCollectionsDesktop
                   traders={traders}
@@ -200,20 +187,24 @@ function App() {
                   onTraderSelect={handleTraderSelect}
                 />
               </div>
+              <FooterDesktop />
             </Layout>
           }
         />
         <Route
           path="/:traderId"
           element={
-            <Layout>
-              <div className="mt-24 max-w-[100%] min-[1423px]:max-w-[90%] min-[1920px]:max-w-[85%] mx-auto">
-                <TraderDetailsDesktop
-                  traders={traders}
-                  fetchTraders={fetchTraders}
-                  setShowFooter={setShowFooter}
-                />
-              </div>
+            <Layout
+              currentService={currentService}
+              currentLocation={currentLocation}
+              onSearch={handleSearch}
+              onServiceSelect={handleServiceSelect}
+            >
+              <TraderDetailsDesktop
+                traders={traders}
+                currentService={currentService}
+              />
+              <FooterDesktop />
             </Layout>
           }
         />
