@@ -16,14 +16,15 @@ export default function TraderDetailsDesktop({
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Handle page refresh by redirecting to home page
-    if (performance.navigation.type === 1) {
-      // Check if it's a page refresh
+    // Check if this is a page load/refresh
+    if (document.readyState === "complete") {
       const baseUrl =
         import.meta.env.MODE === "development"
           ? "http://localhost:5173"
-          : "https://trade-specialists.com";
-      window.location.replace(baseUrl); // Use replace to prevent adding to history
+          : "/trade-specialists"; // Changed to relative path for production
+
+      // Force navigation to home page
+      window.location.href = baseUrl;
       return;
     }
 
