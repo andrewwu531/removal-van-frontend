@@ -24,6 +24,10 @@ export default function Stage2PaymentDesktop({
     }
   }, [bookingDetails]);
 
+  useEffect(() => {
+    emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
+  }, []);
+
   const convertExpiryDateFormat = (mmyy) => {
     if (!mmyy || mmyy.length !== 5) return "";
     const [month, year] = mmyy.split("/");
@@ -59,58 +63,9 @@ export default function Stage2PaymentDesktop({
     try {
       const requestId = `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
-      const orderData = {
-        bookingDetails: {
-          FullName: bookingDetails.FullName,
-          Email: bookingDetails.Email,
-          Telephone: bookingDetails.Telephone,
-          DepositAmount: bookingDetails.DepositAmount,
-          Date: bookingDetails.Date,
-          TraderName: bookingDetails.TraderName,
-        },
-        paymentDetails: {
-          intent: "CAPTURE",
-          purchase_units: [
-            {
-              amount: {
-                currency_code: "GBP",
-                value: bookingDetails.DepositAmount,
-              },
-              description: `Deposit for ${trader.name} service`,
-            },
-          ],
-          payment_source: {
-            card: {
-              number: cardNumber.replace(/\s/g, ""),
-              expiry: convertExpiryDateFormat(expiryDate),
-              security_code: cvv,
-              name: bookingDetails.FullName,
-              billing_address: {
-                address_line_1: "NA",
-                admin_area_2: "NA",
-                postal_code: "NA",
-                country_code: "GB",
-              },
-            },
-          },
-        },
-      };
+      console.log("Sending payment request...");
 
-      console.log("Creating order with data:", {
-        ...orderData,
-        paymentDetails: {
-          ...orderData.paymentDetails,
-          payment_source: {
-            card: {
-              ...orderData.paymentDetails.payment_source.card,
-              number: "****",
-              security_code: "***",
-            },
-          },
-        },
-      });
-
-      const createResponse = await fetch(
+      const response = await fetch(
         `${import.meta.env.VITE_PAYMENT_API_URL}/api/orders`,
         {
           method: "POST",
@@ -118,36 +73,56 @@ export default function Stage2PaymentDesktop({
             "Content-Type": "application/json",
             "PayPal-Request-Id": requestId,
           },
-          body: JSON.stringify(orderData),
+          credentials: "include",
+          body: JSON.stringify({
+            bookingDetails: {
+              FullName: bookingDetails.FullName,
+              Email: bookingDetails.Email,
+              Telephone: bookingDetails.Telephone,
+              DepositAmount: "1.00",
+              Date: bookingDetails.Date,
+              TraderName: bookingDetails.TraderName,
+            },
+            paymentDetails: {
+              payment_source: {
+                card: {
+                  number: cardNumber.replace(/\s/g, ""),
+                  expiry: convertExpiryDateFormat(expiryDate),
+                  security_code: cvv,
+                  name: bookingDetails.FullName,
+                  billing_address: {
+                    address_line_1: "123 Test Street",
+                    admin_area_2: "London",
+                    postal_code: "SW1A 1AA",
+                    country_code: "GB",
+                  },
+                },
+              },
+            },
+          }),
         }
       );
 
-      if (!createResponse.ok) {
-        const errorData = await createResponse.json();
-        throw new Error(`Order creation failed: ${JSON.stringify(errorData)}`);
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.details || data.error || "Payment failed");
       }
 
-      const createdOrder = await createResponse.json();
-      console.log("Order created successfully:", createdOrder);
+      console.log("Payment successful:", data);
 
-      // Since the order is already completed, we can send confirmation emails
-      await sendConfirmationEmails(createdOrder, bookingDetails);
+      // Send confirmation emails after successful payment
+      await sendConfirmationEmails(data, bookingDetails);
 
-      // Notify success
       onPaymentSuccess({
-        orderId: createdOrder.id,
-        status: createdOrder.status,
-        amount: bookingDetails.DepositAmount,
+        orderId: data.id,
+        status: data.status,
+        amount: data.amount,
         bookingDetails: bookingDetails,
-        timestamp: new Date().toISOString(),
       });
     } catch (error) {
       console.error("Payment process failed:", error);
-      setError(
-        error.message.includes("INVALID_PARAMETER_SYNTAX")
-          ? "Invalid card details. Please check and try again."
-          : "Payment failed. Please try again."
-      );
+      setError(error.message || "Payment failed. Please try again.");
       onPaymentError();
     } finally {
       setLoading(false);
@@ -156,40 +131,32 @@ export default function Stage2PaymentDesktop({
 
   const sendConfirmationEmails = async (orderData, bookingDetails) => {
     try {
+      const emailData = {
+        customer_email: bookingDetails.Email,
+        name: bookingDetails.FullName,
+        order_id: orderData.id,
+        amount: bookingDetails.DepositAmount,
+        date: bookingDetails.Date
+          ? new Date(bookingDetails.Date).toLocaleDateString()
+          : "Not specified",
+        telephone: bookingDetails.Telephone,
+        company: trader?.name || bookingDetails.TraderName,
+      };
+
       // Email to customer
       await emailjs.send(
-        "service_a97f1ul",
-        "template_mwl2hss",
-        {
-          customer_email: bookingDetails.Email,
-          name: bookingDetails.FullName,
-          order_id: orderData.id,
-          amount: bookingDetails.DepositAmount,
-          date: bookingDetails.Date
-            ? new Date(bookingDetails.Date).toLocaleDateString()
-            : "Not specified",
-          telephone: bookingDetails.Telephone,
-          company: trader?.name || bookingDetails.TraderName,
-        },
-        "_DB93G25spcgDVK97"
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        emailData,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       );
 
       // Email to admin
       await emailjs.send(
-        "service_a97f1ul",
-        "template_58lhvam",
-        {
-          customer_email: bookingDetails.Email,
-          name: bookingDetails.FullName,
-          order_id: orderData.id,
-          amount: bookingDetails.DepositAmount,
-          date: bookingDetails.Date
-            ? new Date(bookingDetails.Date).toLocaleDateString()
-            : "Not specified",
-          telephone: bookingDetails.Telephone,
-          company: trader?.name || bookingDetails.TraderName,
-        },
-        "_DB93G25spcgDVK97"
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE_ID,
+        emailData,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       );
 
       console.log("Confirmation emails sent successfully");

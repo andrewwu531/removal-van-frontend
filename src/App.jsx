@@ -52,14 +52,14 @@ function App() {
         }
 
         const data = await response.json();
-        if (!data.success || !data.data?.clientToken) {
-          throw new Error("Invalid token response");
+        if (!data.success) {
+          throw new Error("Failed to get client token");
         }
 
         setClientToken(data.data.clientToken);
       } catch (error) {
         console.error("Error fetching client token:", error);
-        setTraderDetailsLoading(false);
+        // Don't set loading to false here if you want to retry
       }
     };
 
