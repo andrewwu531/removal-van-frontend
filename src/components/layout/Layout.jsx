@@ -1,13 +1,16 @@
 import HeaderSearchBarDesktop from "./header/HeaderSearchBarDesktop";
 import HeaderServiceBarDesktop from "./header/HeaderServiceBarDesktop";
 import PropTypes from "prop-types";
+import FooterDesktop from "./footer/FooterDesktop";
 
 export default function Layout({
   children,
+  showFooter = true,
   currentService,
   currentLocation,
   onSearch,
   onServiceSelect,
+  isLoading,
 }) {
   return (
     <>
@@ -23,14 +26,17 @@ export default function Layout({
         />
       </div>
       {children}
+      {showFooter && !isLoading && <FooterDesktop />}
     </>
   );
 }
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
-  currentService: PropTypes.string,
+  showFooter: PropTypes.bool,
+  currentService: PropTypes.string.isRequired,
   currentLocation: PropTypes.string,
   onSearch: PropTypes.func.isRequired,
   onServiceSelect: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool,
 };

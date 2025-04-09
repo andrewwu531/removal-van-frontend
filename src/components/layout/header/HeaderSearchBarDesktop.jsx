@@ -126,20 +126,10 @@ export default function HeaderSearchBarDesktop({
   };
 
   const handleLogoClick = () => {
-    setLocation("");
-    setService("Removal");
-
-    navigate("/", {
-      state: {
-        selectedService: "Removal",
-        selectedLocation: "",
-      },
-    });
-
-    onSearch({
-      service: "Removal",
-      location: "",
-    });
+    navigate("/");
+    if (typeof onSearch === "function") {
+      onSearch({ service: currentService, location: "" });
+    }
   };
 
   const handleEnquiryClick = () => {
@@ -213,7 +203,7 @@ export default function HeaderSearchBarDesktop({
 
 HeaderSearchBarDesktop.propTypes = {
   onSearch: PropTypes.func.isRequired,
-  currentService: PropTypes.string,
+  currentService: PropTypes.string.isRequired,
   currentLocation: PropTypes.string,
 };
 

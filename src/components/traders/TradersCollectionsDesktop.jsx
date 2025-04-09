@@ -3,13 +3,50 @@ import PropTypes from "prop-types";
 import ServiceTitle from "./components/ServiceTitle";
 import EmptyTradersList from "./components/EmptyTradersList";
 import TraderCard from "./components/TraderCard";
+import { useState, useEffect } from "react";
 
 export default function TradersCollectionsDesktop({
   traders,
   currentService,
   onTraderSelect,
+  setParentLoading,
 }) {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (!traders || traders.length === 0) {
+      setIsLoading(false);
+      setParentLoading(false);
+      return;
+    }
+
+    setIsLoading(true);
+    setParentLoading(true);
+    const imagesToLoad = traders.map((trader) => trader.photo1).filter(Boolean);
+
+    Promise.all(
+      imagesToLoad.map(
+        (src) =>
+          new Promise((resolve) => {
+            const img = new Image();
+            img.onload = resolve;
+            img.onerror = resolve;
+            img.src = src;
+          })
+      )
+    ).then(() => {
+      setTimeout(() => {
+        setIsLoading(false);
+        setParentLoading(false);
+      }, 500);
+    });
+
+    return () => {
+      setIsLoading(true);
+      setParentLoading(true);
+    };
+  }, [traders, setParentLoading]);
 
   const handleTraderClick = (trader) => {
     onTraderSelect(trader);
@@ -17,20 +54,23 @@ export default function TradersCollectionsDesktop({
   };
 
   return (
-    <div className="container justify-center px-12 py-8 mx-auto max-w-19/20 min-[1339px]:max-w-11/12 min-[1920px]:max-w-5/6">
-      <ServiceTitle currentService={currentService} />
-
-      {traders.length === 0 ? (
-        <EmptyTradersList />
-      ) : (
-        <div className="grid justify-center grid-cols-4 gap-5">
-          {traders.map((trader) => (
-            <TraderCard
-              key={trader.id}
-              trader={trader}
-              onClick={() => handleTraderClick(trader)}
-            />
-          ))}
+    <div>
+      {!isLoading && (
+        <div className="container justify-center px-12 py-8 mx-auto max-w-19/20 min-[1339px]:max-w-11/12 min-[1920px]:max-w-5/6">
+          <ServiceTitle currentService={currentService} />
+          {traders.length === 0 ? (
+            <EmptyTradersList />
+          ) : (
+            <div className="grid justify-center grid-cols-4 gap-5">
+              {traders.map((trader) => (
+                <TraderCard
+                  key={trader.id}
+                  trader={trader}
+                  onClick={() => handleTraderClick(trader)}
+                />
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -51,6 +91,7 @@ TradersCollectionsDesktop.propTypes = {
   ).isRequired,
   currentService: PropTypes.string.isRequired,
   onTraderSelect: PropTypes.func.isRequired,
+  setParentLoading: PropTypes.func.isRequired,
 };
 
 TradersCollectionsDesktop.defaultProps = {

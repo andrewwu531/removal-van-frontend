@@ -1,4 +1,10 @@
-import { Routes, Route, useLocation, useParams } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  useLocation,
+  useParams,
+  useNavigate,
+} from "react-router-dom";
 import { useState, useEffect } from "react";
 import TradersCollectionsDesktop from "./components/traders/TradersCollectionsDesktop";
 import TraderDetailsDesktop from "./components/trader/details/TraderDetailsDesktop";
@@ -15,7 +21,7 @@ function App() {
   const [currentLocation, setCurrentLocation] = useState("");
   const [clientToken, setClientToken] = useState(null);
   const [showFooter, setShowFooter] = useState(true);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [isDataReady, setIsDataReady] = useState(false);
   const location = useLocation();
 
@@ -175,19 +181,21 @@ function App() {
           path="/"
           element={
             <Layout
+              showFooter={true}
               currentService={currentService}
               currentLocation={currentLocation}
               onSearch={handleSearch}
               onServiceSelect={handleServiceSelect}
+              isLoading={loading}
             >
               <div className="mt-41 min-[1339px]:mt-43 min-[1920px]:mt-48">
                 <TradersCollectionsDesktop
                   traders={traders}
                   currentService={currentService}
                   onTraderSelect={handleTraderSelect}
+                  setParentLoading={setLoading}
                 />
               </div>
-              <FooterDesktop />
             </Layout>
           }
         />
@@ -195,16 +203,18 @@ function App() {
           path="/:traderId"
           element={
             <Layout
+              showFooter={true}
               currentService={currentService}
               currentLocation={currentLocation}
               onSearch={handleSearch}
               onServiceSelect={handleServiceSelect}
+              isLoading={loading}
             >
               <TraderDetailsDesktop
                 traders={traders}
-                currentService={currentService}
+                fetchTraders={fetchTraders}
+                setParentLoading={setLoading}
               />
-              <FooterDesktop />
             </Layout>
           }
         />
