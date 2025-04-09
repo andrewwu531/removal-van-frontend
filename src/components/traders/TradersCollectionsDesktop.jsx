@@ -4,6 +4,7 @@ import ServiceTitle from "./components/ServiceTitle";
 import EmptyTradersList from "./components/EmptyTradersList";
 import TraderCard from "./components/TraderCard";
 import { useState, useEffect } from "react";
+import { getImageUrl } from "./utils/imageUtils";
 
 export default function TradersCollectionsDesktop({
   traders,
@@ -23,7 +24,10 @@ export default function TradersCollectionsDesktop({
 
     setIsLoading(true);
     setParentLoading(true);
-    const imagesToLoad = traders.map((trader) => trader.photo1).filter(Boolean);
+
+    const imagesToLoad = traders
+      .map((trader) => getImageUrl(trader.main_photo))
+      .filter(Boolean);
 
     Promise.all(
       imagesToLoad.map(
@@ -31,7 +35,10 @@ export default function TradersCollectionsDesktop({
           new Promise((resolve) => {
             const img = new Image();
             img.onload = resolve;
-            img.onerror = resolve;
+            img.onerror = () => {
+              console.log("Failed to load image:", src);
+              resolve();
+            };
             img.src = src;
           })
       )

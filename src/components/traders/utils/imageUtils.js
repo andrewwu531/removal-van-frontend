@@ -5,7 +5,7 @@ export const getImageUrl = (photoPath) => {
     ? "https://tradespecialistsmedia.blob.core.windows.net/media-prod"
     : "https://tradespecialistsmedia.blob.core.windows.net/media";
 
-  if (photoPath.startsWith("https://")) return photoPath;
+  // if (photoPath.startsWith("https://")) return photoPath;
 
   const fullUrl = `${baseUrl}/${photoPath}`;
 

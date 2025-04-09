@@ -19,16 +19,15 @@ export default function TraderDetailsDesktop({
     let isMounted = true;
 
     const initializeTrader = async () => {
-      // First try to find trader in existing traders array
       let currentTrader = traders.find((t) => t.id.toString() === traderId);
 
       if (!currentTrader) {
-        // Only fetch if trader not found in current array
         const allTraders = await fetchTraders({});
         currentTrader = allTraders.find((t) => t.id.toString() === traderId);
       }
 
       if (currentTrader && isMounted) {
+        // Use the trader object as is, without URL transformation
         setTrader(currentTrader);
         setTimeout(() => {
           if (isMounted) {
@@ -45,11 +44,10 @@ export default function TraderDetailsDesktop({
     setParentLoading(true);
     initializeTrader();
 
-    // Cleanup function
     return () => {
       isMounted = false;
     };
-  }, [traderId]); // Only depend on traderId
+  }, [traderId]);
 
   if (!trader || isLoading) {
     return null;
