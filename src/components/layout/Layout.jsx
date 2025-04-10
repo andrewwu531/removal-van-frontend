@@ -2,6 +2,7 @@ import HeaderSearchBarDesktop from "./header/HeaderSearchBarDesktop";
 import HeaderServiceBarDesktop from "./header/HeaderServiceBarDesktop";
 import PropTypes from "prop-types";
 import FooterDesktop from "./footer/FooterDesktop";
+import CookieBanner from "./cookie/CookieBanner";
 
 export default function Layout({
   children,
@@ -27,6 +28,7 @@ export default function Layout({
       </div>
       {children}
       {showFooter && !isLoading && <FooterDesktop />}
+      <CookieBanner />
     </>
   );
 }

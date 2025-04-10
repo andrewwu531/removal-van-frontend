@@ -1,8 +1,12 @@
 import PropTypes from "prop-types";
+import { forwardRef } from "react";
 
-export default function SearchDropdown({ items, selectedValue, onSelect }) {
+const SearchDropdown = forwardRef(({ items, selectedValue, onSelect }, ref) => {
   return (
-    <div className="absolute left-0 z-50 w-full mt-2 bg-white rounded-lg shadow-md">
+    <div
+      ref={ref}
+      className="absolute left-0 z-50 w-full mt-2 bg-white rounded-lg shadow-md"
+    >
       {items.map((item) => (
         <div
           key={item}
@@ -15,10 +19,14 @@ export default function SearchDropdown({ items, selectedValue, onSelect }) {
       ))}
     </div>
   );
-}
+});
+
+SearchDropdown.displayName = "SearchDropdown";
 
 SearchDropdown.propTypes = {
   items: PropTypes.arrayOf(PropTypes.string).isRequired,
   selectedValue: PropTypes.string,
   onSelect: PropTypes.func.isRequired,
 };
+
+export default SearchDropdown;

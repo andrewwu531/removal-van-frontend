@@ -55,6 +55,11 @@ export default function TradersCollectionsDesktop({
     };
   }, [traders, setParentLoading]);
 
+  useEffect(() => {
+    console.log("TradersCollectionsDesktop received new traders:", traders);
+    console.log("Current service:", currentService);
+  }, [traders, currentService]);
+
   const handleTraderClick = (trader) => {
     onTraderSelect(trader);
     navigate(`/${trader.id}`);

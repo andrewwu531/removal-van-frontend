@@ -32,24 +32,29 @@ export default function HeaderSearchBarDesktop({
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (locationDropdownRef.current && locationInputRef.current) {
-        if (
-          !locationDropdownRef.current.contains(event.target) &&
-          !locationInputRef.current.contains(event.target)
-        ) {
-          setShowLocationDropdown(false);
-        }
+      // For location dropdown
+      const isLocationDropdownVisible = showLocationDropdown;
+      const clickedInLocation =
+        locationInputRef.current?.contains(event.target) ||
+        locationDropdownRef.current?.contains(event.target);
+
+      // For service dropdown
+      const isServiceDropdownVisible = showServiceDropdown;
+      const clickedInService =
+        serviceInputRef.current?.contains(event.target) ||
+        serviceDropdownRef.current?.contains(event.target);
+
+      // Close location dropdown if it's open and clicked outside
+      if (isLocationDropdownVisible && !clickedInLocation) {
+        setShowLocationDropdown(false);
       }
 
-      if (serviceDropdownRef.current && serviceInputRef.current) {
-        if (
-          !serviceDropdownRef.current.contains(event.target) &&
-          !serviceInputRef.current.contains(event.target)
-        ) {
-          setShowServiceDropdown(false);
-        }
+      // Close service dropdown if it's open and clicked outside
+      if (isServiceDropdownVisible && !clickedInService) {
+        setShowServiceDropdown(false);
       }
 
+      // Handle enquiry button
       if (
         enquiryCardRef.current &&
         !enquiryCardRef.current.contains(event.target) &&
@@ -60,11 +65,8 @@ export default function HeaderSearchBarDesktop({
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [showLocationDropdown, showServiceDropdown]);
 
   useEffect(() => {
     setService(currentService || "");
@@ -136,6 +138,16 @@ export default function HeaderSearchBarDesktop({
     setShowEnquiryButton(!showEnquiryButton);
   };
 
+  const handleLocationFocus = () => {
+    setShowServiceDropdown(false);
+    setShowLocationDropdown(true);
+  };
+
+  const handleServiceFocus = () => {
+    setShowLocationDropdown(false);
+    setShowServiceDropdown(true);
+  };
+
   return (
     <div className="flex flex-col items-center pt-5 min-[1920px]:pt-6 z-100">
       <img
@@ -159,7 +171,7 @@ export default function HeaderSearchBarDesktop({
             onChange={(e) => setLocation(e.target.value)}
             placeholder="Your Location"
             showDropdown={showLocationDropdown}
-            onFocus={() => setShowLocationDropdown(true)}
+            onFocus={handleLocationFocus}
             dropdownRef={locationDropdownRef}
             items={locations}
             onSelect={handleLocationSelect}
@@ -187,7 +199,7 @@ export default function HeaderSearchBarDesktop({
             onChange={(e) => setService(e.target.value)}
             placeholder="Service Type"
             showDropdown={showServiceDropdown}
-            onFocus={() => setShowServiceDropdown(true)}
+            onFocus={handleServiceFocus}
             dropdownRef={serviceDropdownRef}
             items={services}
             onSelect={handleServiceSelect}
