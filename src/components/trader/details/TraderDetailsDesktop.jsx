@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import TraderDetailsCardDesktop from "./TraderDetailsCardDesktop";
 import TraderFivePhotosDesktop from "../fivePhotos/TraderFivePhotosDesktop";
 import FormDesktop from "../../forms/layout/FormDesktop";
+import NotFoundState from "./components/NotFoundState";
 
 export default function TraderDetailsDesktop({
   traders,
@@ -14,45 +15,81 @@ export default function TraderDetailsDesktop({
   const navigate = useNavigate();
   const [trader, setTrader] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
 
     const initializeTrader = async () => {
-      let currentTrader = traders.find((t) => t.id.toString() === traderId);
+      try {
+        // Only set loading states if we don't have the trader yet
+        if (!trader) {
+          setIsLoading(true);
+          setParentLoading(true);
+        }
+        setError(false);
 
-      if (!currentTrader) {
-        const allTraders = await fetchTraders({});
-        currentTrader = allTraders.find((t) => t.id.toString() === traderId);
-      }
+        // First try to find in existing traders
+        let currentTrader = traders.find((t) => t.id.toString() === traderId);
 
-      if (currentTrader && isMounted) {
-        // Use the trader object as is, without URL transformation
-        setTrader(currentTrader);
-        setTimeout(() => {
-          if (isMounted) {
+        // If not found, fetch all traders
+        if (!currentTrader) {
+          const allTraders = await fetchTraders({});
+          if (!isMounted) return;
+          currentTrader = allTraders.find((t) => t.id.toString() === traderId);
+        }
+
+        if (currentTrader && isMounted) {
+          setTrader(currentTrader);
+          // Only use setTimeout for initial load
+          if (isLoading) {
+            setTimeout(() => {
+              if (isMounted) {
+                setIsLoading(false);
+                setParentLoading(false);
+              }
+            }, 500);
+          } else {
             setIsLoading(false);
             setParentLoading(false);
           }
-        }, 500);
-      } else if (isMounted) {
-        navigate("/");
+        } else if (isMounted) {
+          setError(true);
+          setIsLoading(false);
+          setParentLoading(false);
+        }
+      } catch (err) {
+        console.error("Error fetching trader:", err);
+        if (isMounted) {
+          setError(true);
+          setIsLoading(false);
+          setParentLoading(false);
+        }
       }
     };
 
-    setIsLoading(true);
-    setParentLoading(true);
     initializeTrader();
 
     return () => {
       isMounted = false;
     };
-  }, [traderId]);
+  }, [traderId]); // Only depend on traderId changes
 
-  if (!trader || isLoading) {
+  // Show loading state
+  if (isLoading) {
     return null;
   }
 
+  // Show error state
+  if (error || !trader) {
+    return (
+      <div className="container min-h-screen pb-20 mx-auto pt-45">
+        <NotFoundState />
+      </div>
+    );
+  }
+
+  // Show trader details
   return (
     <div className="container min-h-screen pb-20 mx-auto pt-45">
       <TraderFivePhotosDesktop trader={trader} />
