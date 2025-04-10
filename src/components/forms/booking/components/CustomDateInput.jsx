@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const CustomDateInput = React.forwardRef(({ value, onClick }, ref) => (
+const CustomDateInput = React.forwardRef(({ value, onClick, id }, ref) => (
   <div className="relative">
     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
       <svg
@@ -16,7 +16,7 @@ const CustomDateInput = React.forwardRef(({ value, onClick }, ref) => (
     </div>
     <input
       type="text"
-      id="datePicker"
+      id={id}
       name="datePicker"
       onClick={onClick}
       ref={ref}
@@ -24,6 +24,7 @@ const CustomDateInput = React.forwardRef(({ value, onClick }, ref) => (
       readOnly
       className="block w-full p-3.5 min-[2560px]:p-4 mt-1 bg-white border border-gray-300 rounded focus:outline-none pl-10 text-sm placeholder:text-base"
       placeholder="DD/MM/YYYY"
+      aria-label="Date picker"
     />
   </div>
 ));
@@ -33,6 +34,7 @@ CustomDateInput.displayName = "CustomDateInput";
 CustomDateInput.propTypes = {
   value: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
 };
 
 export default CustomDateInput;

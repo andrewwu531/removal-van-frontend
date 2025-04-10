@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import TraderDetailsCardDesktop from "./TraderDetailsCardDesktop";
 import TraderFivePhotosDesktop from "../fivePhotos/TraderFivePhotosDesktop";
@@ -7,12 +7,10 @@ import FormDesktop from "../../forms/layout/FormDesktop";
 import NotFoundState from "./components/NotFoundState";
 
 export default function TraderDetailsDesktop({
-  traders,
   fetchTraders,
   setParentLoading,
 }) {
   const { traderId } = useParams();
-  const navigate = useNavigate();
   const [trader, setTrader] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -20,46 +18,38 @@ export default function TraderDetailsDesktop({
   useEffect(() => {
     let isMounted = true;
 
-    const initializeTrader = async () => {
+    const loadTraderData = async () => {
+      if (!traderId) return;
+
       try {
-        // Only set loading states if we don't have the trader yet
-        if (!trader) {
-          setIsLoading(true);
-          setParentLoading(true);
-        }
+        setIsLoading(true);
+        setParentLoading(true);
         setError(false);
 
-        // First try to find in existing traders
-        let currentTrader = traders.find((t) => t.id.toString() === traderId);
+        // Always fetch fresh data
+        const allTraders = await fetchTraders({});
 
-        // If not found, fetch all traders
-        if (!currentTrader) {
-          const allTraders = await fetchTraders({});
-          if (!isMounted) return;
-          currentTrader = allTraders.find((t) => t.id.toString() === traderId);
-        }
+        if (!isMounted) return;
+
+        const currentTrader = allTraders.find(
+          (t) => t.id.toString() === traderId
+        );
 
         if (currentTrader && isMounted) {
           setTrader(currentTrader);
-          // Only use setTimeout for initial load
-          if (isLoading) {
-            setTimeout(() => {
-              if (isMounted) {
-                setIsLoading(false);
-                setParentLoading(false);
-              }
-            }, 500);
-          } else {
-            setIsLoading(false);
-            setParentLoading(false);
-          }
-        } else if (isMounted) {
+          setTimeout(() => {
+            if (isMounted) {
+              setIsLoading(false);
+              setParentLoading(false);
+            }
+          }, 500);
+        } else {
           setError(true);
           setIsLoading(false);
           setParentLoading(false);
         }
       } catch (err) {
-        console.error("Error fetching trader:", err);
+        console.error("Error loading trader:", err);
         if (isMounted) {
           setError(true);
           setIsLoading(false);
@@ -68,19 +58,17 @@ export default function TraderDetailsDesktop({
       }
     };
 
-    initializeTrader();
+    loadTraderData();
 
     return () => {
       isMounted = false;
     };
-  }, [traderId]); // Only depend on traderId changes
+  }, [traderId]);
 
-  // Show loading state
   if (isLoading) {
     return null;
   }
 
-  // Show error state
   if (error || !trader) {
     return (
       <div className="container min-h-screen pb-20 mx-auto pt-45">
@@ -89,7 +77,6 @@ export default function TraderDetailsDesktop({
     );
   }
 
-  // Show trader details
   return (
     <div className="container min-h-screen pb-20 mx-auto pt-45">
       <TraderFivePhotosDesktop trader={trader} />
@@ -108,7 +95,6 @@ export default function TraderDetailsDesktop({
 }
 
 TraderDetailsDesktop.propTypes = {
-  traders: PropTypes.array.isRequired,
   fetchTraders: PropTypes.func.isRequired,
   setParentLoading: PropTypes.func.isRequired,
 };

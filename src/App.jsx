@@ -31,18 +31,24 @@ function App() {
   }, [location.pathname]);
 
   useEffect(() => {
-    // Initial load with default values
-    console.log("App mounted, initializing data...");
-    const initializeData = async () => {
-      await fetchTraders({
-        service: currentService,
-        location: currentLocation,
-      });
-      setIsDataReady(true);
-      console.log("Initial data loaded");
+    const loadInitialData = async () => {
+      console.log("App mounted, initializing data...");
+      try {
+        const data = await fetchTraders({
+          service: currentService,
+          location: currentLocation,
+        });
+        setTraders(data);
+        setIsDataReady(true);
+        console.log("Initial data loaded");
+      } catch (error) {
+        console.error("Error loading initial data:", error);
+        setIsDataReady(true); // Still set to true to show the app
+      }
     };
-    initializeData();
-  }, []);
+
+    loadInitialData();
+  }, [currentService, currentLocation]); // Dependencies that should trigger a reload
 
   useEffect(() => {
     const fetchClientToken = async () => {
@@ -211,7 +217,6 @@ function App() {
               isLoading={loading}
             >
               <TraderDetailsDesktop
-                traders={traders}
                 fetchTraders={fetchTraders}
                 setParentLoading={setLoading}
               />

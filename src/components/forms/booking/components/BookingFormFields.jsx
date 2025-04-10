@@ -15,7 +15,9 @@ const BookingFormFields = ({ formData, handleChange }) => (
         name="FullName"
         value={formData.FullName}
         onChange={handleChange}
+        autoComplete="name"
         className="block w-full p-3 min-[2560px]:p-4 mt-1 bg-white border border-gray-300 rounded focus:outline-none"
+        required
       />
     </div>
     <div className="mb-3">
@@ -31,7 +33,9 @@ const BookingFormFields = ({ formData, handleChange }) => (
         name="Email"
         value={formData.Email}
         onChange={handleChange}
+        autoComplete="email"
         className="block w-full p-3 min-[2560px]:p-4 mt-1 bg-white border border-gray-300 rounded focus:outline-none"
+        required
       />
     </div>
     <div className="mb-3 min-[2560px]:mt-1">
@@ -47,7 +51,9 @@ const BookingFormFields = ({ formData, handleChange }) => (
         name="Telephone"
         value={formData.Telephone}
         onChange={handleChange}
+        autoComplete="tel"
         className="block w-full p-3 min-[2560px]:p-4 mt-1 bg-white border border-gray-300 rounded focus:outline-none"
+        required
       />
     </div>
   </>

@@ -42,22 +42,29 @@ const Stage1BookingFormDesktop = ({ onNextStep }) => {
             />
             <div className="flex flex-row space-x-4">
               <div className="mb-3 min-[2560px]:mt-1">
-                <label className="block font-medium text-gray-700 text-md min-[2560px]:text-lg">
+                <label
+                  htmlFor="bookingDate"
+                  className="block font-medium text-gray-700 text-md min-[2560px]:text-lg"
+                >
                   Date
                 </label>
                 <DatePicker
+                  id="bookingDate"
                   selected={formData.Date}
                   onChange={handleDateChange}
                   dateFormat="dd/MM/yyyy"
                   minDate={new Date()}
-                  customInput={<CustomDateInput />}
+                  customInput={<CustomDateInput id="bookingDate" />}
                   wrapperClassName="w-full"
                   showPopperArrow={false}
+                  autoComplete="off"
+                  aria-labelledby="booking-date-label"
                 />
               </div>
 
               <div className="mb-3">
                 <label
+                  id="deposit-amount-label"
                   htmlFor="depositAmount"
                   className="block font-medium text-gray-700 text-md min-[2560px]:text-lg"
                 >
@@ -69,6 +76,8 @@ const Stage1BookingFormDesktop = ({ onNextStep }) => {
                     name="DepositAmount"
                     value={formData.DepositAmount}
                     onChange={handleChange}
+                    autoComplete="off"
+                    aria-labelledby="deposit-amount-label"
                     style={{
                       backgroundImage:
                         "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='7.5' viewBox='0 0 14 8'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23555' stroke-width='2' fill='none'/%3E%3C/svg%3E\")",
@@ -78,8 +87,8 @@ const Stage1BookingFormDesktop = ({ onNextStep }) => {
                     }}
                     className="block p-3 pl-4 min-[2560px]:p-4 mt-1 bg-white border border-gray-300 rounded w-35 min-[2560px]:w-40 focus:outline-none appearance-none text-[15px]"
                   >
-                    <option>£60</option>
-                    <option>£100</option>
+                    <option value="60.00">£60</option>
+                    <option value="100.00">£100</option>
                   </select>
                 </div>
               </div>
