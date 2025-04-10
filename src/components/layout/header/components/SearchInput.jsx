@@ -13,6 +13,10 @@ export default function SearchInput({
   onSelect,
   id,
   name,
+  autoComplete,
+  "aria-expanded": ariaExpanded,
+  "aria-haspopup": ariaHaspopup,
+  "aria-controls": ariaControls,
 }) {
   return (
     <div className="relative flex-1">
@@ -29,6 +33,10 @@ export default function SearchInput({
         value={value}
         onChange={onChange}
         onFocus={onFocus}
+        autoComplete={autoComplete}
+        aria-expanded={ariaExpanded}
+        aria-haspopup={ariaHaspopup}
+        aria-controls={ariaControls}
       />
       {showDropdown && (
         <SearchDropdown
@@ -36,6 +44,9 @@ export default function SearchInput({
           items={items}
           selectedValue={value}
           onSelect={onSelect}
+          id={`${ariaControls}`}
+          role="listbox"
+          aria-label={placeholder}
         />
       )}
     </div>
@@ -54,4 +65,8 @@ SearchInput.propTypes = {
   onSelect: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  autoComplete: PropTypes.string,
+  "aria-expanded": PropTypes.bool,
+  "aria-haspopup": PropTypes.string,
+  "aria-controls": PropTypes.string,
 };

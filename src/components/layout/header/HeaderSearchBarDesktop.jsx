@@ -144,40 +144,67 @@ export default function HeaderSearchBarDesktop({
         className="absolute w-9 h-9 min-[1339px]:w-10 min-[1339px]:h-10 min-[1920px]:w-11 min-[1920px]:h-11 cursor-pointer top-7 min-[1339px]:top-7 left-10 min-[1920px]:left-11"
         onClick={handleLogoClick}
       />
-      <div className="flex items-center w-full max-w-lg min-[1339px]:max-w-xl min-[1920px]:max-w-2xl px-4 min-[1920px]:px-5 py-2 min-[1920px]:py-3 bg-white rounded-full shadow-md mr-7">
-        <SearchInput
-          inputRef={locationInputRef}
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          placeholder="Your Location"
-          showDropdown={showLocationDropdown}
-          onFocus={() => setShowLocationDropdown(true)}
-          dropdownRef={locationDropdownRef}
-          items={locations}
-          onSelect={handleLocationSelect}
-          id="locationInput"
-          name="locationInput"
-        />
+      <div
+        className="flex items-center w-full max-w-lg min-[1339px]:max-w-xl min-[1920px]:max-w-2xl px-4 min-[1920px]:px-5 py-2 min-[1920px]:py-3 bg-white rounded-full shadow-md mr-7"
+        role="search"
+        aria-label="Search traders"
+      >
+        <div className="relative flex-1">
+          <label htmlFor="locationInput" className="sr-only">
+            Your Location
+          </label>
+          <SearchInput
+            inputRef={locationInputRef}
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            placeholder="Your Location"
+            showDropdown={showLocationDropdown}
+            onFocus={() => setShowLocationDropdown(true)}
+            dropdownRef={locationDropdownRef}
+            items={locations}
+            onSelect={handleLocationSelect}
+            id="locationInput"
+            name="locationInput"
+            autoComplete="address-level2"
+            aria-expanded={showLocationDropdown}
+            aria-haspopup="listbox"
+            aria-controls="location-listbox"
+          />
+        </div>
 
-        <div className="h-6 mx-2 border-l border-gray-300"></div>
+        <div
+          className="h-6 mx-2 border-l border-gray-300"
+          role="separator"
+        ></div>
 
-        <SearchInput
-          inputRef={serviceInputRef}
-          value={service}
-          onChange={(e) => setService(e.target.value)}
-          placeholder="Service Type"
-          showDropdown={showServiceDropdown}
-          onFocus={() => setShowServiceDropdown(true)}
-          dropdownRef={serviceDropdownRef}
-          items={services}
-          onSelect={handleServiceSelect}
-          id="serviceInput"
-          name="serviceInput"
-        />
+        <div className="relative flex-1">
+          <label htmlFor="serviceInput" className="sr-only">
+            Service Type
+          </label>
+          <SearchInput
+            inputRef={serviceInputRef}
+            value={service}
+            onChange={(e) => setService(e.target.value)}
+            placeholder="Service Type"
+            showDropdown={showServiceDropdown}
+            onFocus={() => setShowServiceDropdown(true)}
+            dropdownRef={serviceDropdownRef}
+            items={services}
+            onSelect={handleServiceSelect}
+            id="serviceInput"
+            name="serviceInput"
+            autoComplete="off"
+            aria-expanded={showServiceDropdown}
+            aria-haspopup="listbox"
+            aria-controls="service-listbox"
+          />
+        </div>
 
         <button
           className="p-3 ml-2 text-white transition-colors bg-red-500 rounded-full hover:bg-red-600"
           onClick={handleSearchClick}
+          aria-label="Search traders"
+          type="button"
         >
           <FaSearch />
         </button>
@@ -187,6 +214,9 @@ export default function HeaderSearchBarDesktop({
         ref={enquiryButtonRef}
         className="absolute right-10 mt-1 min-[1920px]:mt-1.5 px-6.5 min-[1920px]:px-8 py-3 min-[1920px]:py-3.5 text-base min-[1920px]:text-lg text-white font-semibold transition-colors bg-red-500 rounded-full hover:scale-103"
         onClick={handleEnquiryClick}
+        type="button"
+        aria-expanded={showEnquiryButton}
+        aria-haspopup="dialog"
       >
         General Enquiry
       </button>
