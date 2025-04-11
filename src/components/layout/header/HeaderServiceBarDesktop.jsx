@@ -9,14 +9,17 @@ export default function HeaderServiceBarDesktop({
   onServiceSelect,
 }) {
   const [hoveredService, setHoveredService] = useState(null);
-  const location = useLocation();
   const navigate = useNavigate();
-  const isTraderDetailsPage = location.pathname.match(/^\/\d+$/);
 
   const handleServiceClick = (serviceName) => {
-    if (isTraderDetailsPage) {
-      navigate("/", { state: { selectedService: serviceName } });
-    }
+    // Convert service name to URL format
+    const urlServiceName = serviceName
+      .toLowerCase()
+      .replace(/&/g, "")
+      .replace(/\s+/g, "-");
+
+    // Update URL and trigger service change
+    navigate(`/${urlServiceName}`);
     onServiceSelect(serviceName);
   };
 
@@ -28,7 +31,7 @@ export default function HeaderServiceBarDesktop({
             key={index}
             service={service}
             isActive={currentService === service.name}
-            onClick={handleServiceClick}
+            onClick={() => handleServiceClick(service.name)}
             onHover={setHoveredService}
             isHovered={hoveredService === service.name}
             anyServiceHovered={hoveredService !== null}

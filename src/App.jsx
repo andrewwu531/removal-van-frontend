@@ -15,11 +15,37 @@ import FooterDesktop from "./components/layout/footer/FooterDesktop";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import emailjs from "@emailjs/browser";
 import Layout from "./components/layout/Layout";
+import { serviceIcons } from "./components/layout/header/constants/serviceIcons";
 import { serviceDisplayTitles } from "./components/traders/constants/serviceDisplayTitles";
+
+// First, update the getServiceFromUrl function to handle the initial case
+const getServiceFromUrl = (urlService) => {
+  // Mapping of URL formats to service names
+  const urlToServiceMap = {
+    removal: "Removal",
+    "house-renovation": "House Renovation",
+    "carpet-flooring": "Carpet & Flooring",
+    painting: "Painting",
+    "damage-repair": "Damage Repair",
+    "electricity-gas": "Electricity & Gas",
+    "lock-smith": "Lock Smith",
+    "solar-panels": "Solar Panels",
+    "window-heating": "Window & Heating",
+    car: "Car",
+  };
+
+  if (!urlService) return "Removal"; // Default case
+  const normalizedUrl = urlService.toLowerCase().trim();
+  return urlToServiceMap[normalizedUrl];
+};
+
+const getUrlFromService = (serviceName) => {
+  return serviceName.toLowerCase().replace(/&/g, "").replace(/\s+/g, "-");
+};
 
 function App() {
   const [traders, setTraders] = useState([]);
-  const [currentService, setCurrentService] = useState("Removal");
+  const [currentService, setCurrentService] = useState(null); // Initialize as null
   const [currentLocation, setCurrentLocation] = useState("");
   const [clientToken, setClientToken] = useState(null);
   const [showFooter, setShowFooter] = useState(true);
@@ -28,48 +54,68 @@ function App() {
   const location = useLocation();
   const navigate = useNavigate();
 
+  // Add a new effect to handle initial URL and service setup
   useEffect(() => {
-    setShowFooter(true);
-  }, [location.pathname]);
+    const initializeFromUrl = async () => {
+      setIsDataReady(false);
+      const path = location.pathname.substring(1);
+      const serviceType = path.split("/")[0];
 
-  useEffect(() => {
-    const path = location.pathname.substring(1);
-    if (path && path !== "trader") {
-      const urlToServiceName = decodeURIComponent(path)
-        .replace(/-/g, " ")
-        .replace(/(%26|&)/g, "");
+      // Get the service from URL or default to "Removal"
+      const matchedService = getServiceFromUrl(serviceType);
+      console.log("Initial URL path:", path);
+      console.log("Initial service type:", serviceType);
+      console.log("Matched service:", matchedService);
 
-      const isValidService = Object.keys(serviceDisplayTitles).some(
-        (service) => service.toLowerCase() === urlToServiceName.toLowerCase()
-      );
+      setCurrentService(matchedService);
 
-      if (isValidService) {
-        const serviceKey = Object.keys(serviceDisplayTitles).find(
-          (service) => service.toLowerCase() === urlToServiceName.toLowerCase()
-        );
-        setCurrentService(serviceKey);
-        fetchTraders({ service: serviceKey, location: currentLocation });
-      }
-    }
-  }, [location.pathname]);
-
-  useEffect(() => {
-    const loadInitialData = async () => {
       try {
-        const data = await fetchTraders({
-          service: currentService,
+        await fetchTraders({
+          service: matchedService,
           location: currentLocation,
         });
-        setTraders(data);
-        setIsDataReady(true);
       } catch (error) {
-        console.error("Error loading initial data:", error);
+        console.error("Error loading initial traders:", error);
+      } finally {
         setIsDataReady(true);
       }
     };
 
-    loadInitialData();
-  }, [currentService, currentLocation]);
+    initializeFromUrl();
+  }, []); // Run only once on mount
+
+  // Update the URL effect to handle subsequent URL changes
+  useEffect(() => {
+    const handleUrlChange = async () => {
+      const path = location.pathname.substring(1);
+
+      if (!path) {
+        navigate("/removal", { replace: true });
+        return;
+      }
+
+      const serviceType = path.split("/")[0];
+      const matchedService = getServiceFromUrl(serviceType);
+
+      if (matchedService && matchedService !== currentService) {
+        setIsDataReady(false);
+        setCurrentService(matchedService);
+
+        try {
+          await fetchTraders({
+            service: matchedService,
+            location: currentLocation,
+          });
+        } catch (error) {
+          console.error("Error loading traders:", error);
+        } finally {
+          setIsDataReady(true);
+        }
+      }
+    };
+
+    handleUrlChange();
+  }, [location.pathname]);
 
   useEffect(() => {
     const fetchClientToken = async () => {
@@ -110,23 +156,40 @@ function App() {
 
   const handleSearch = async (searchParams) => {
     setIsDataReady(false);
-    setCurrentService(searchParams.service);
     setCurrentLocation(searchParams.location);
     await fetchTraders(searchParams);
     setIsDataReady(true);
   };
 
   const handleServiceSelect = async (serviceName) => {
-    setIsDataReady(false);
-    setCurrentService(serviceName);
-    await fetchTraders({ service: serviceName, location: currentLocation });
-    setIsDataReady(true);
+    // Don't do anything if we're already on this service
+    if (currentService === serviceName) return;
 
-    const urlServiceName = serviceName
-      .toLowerCase()
-      .replace(/&/g, "")
-      .replace(/\s+/g, "-");
-    navigate(`/${encodeURIComponent(urlServiceName)}`);
+    // Get URL format of the service name
+    const urlServiceName = getUrlFromService(serviceName);
+
+    // Update URL first
+    navigate(`/${urlServiceName}`);
+
+    // Update current service and fetch traders
+    setCurrentService(serviceName);
+    setIsDataReady(false);
+
+    try {
+      await fetchTraders({
+        service: serviceName,
+        location: currentLocation,
+      });
+    } catch (error) {
+      console.error("Error fetching traders:", error);
+    } finally {
+      setIsDataReady(true);
+    }
+  };
+
+  const handleTraderSelect = (selectedTrader) => {
+    const urlServiceName = getUrlFromService(currentService);
+    navigate(`/${urlServiceName}/${selectedTrader.id}`);
   };
 
   const fetchTraders = async (searchParams) => {
@@ -155,6 +218,7 @@ function App() {
       let filteredTraders = data;
 
       if (searchParams?.service) {
+        console.log("Filtering for service:", searchParams.service);
         filteredTraders = filteredTraders.filter(
           (trader) => trader.removal_type === searchParams.service
         );
@@ -171,7 +235,7 @@ function App() {
       return filteredTraders;
     } catch (error) {
       console.error("Error fetching traders:", error);
-      return [];
+      throw error;
     }
   };
 
@@ -185,15 +249,7 @@ function App() {
     "disable-funding": "paylater,venmo",
   };
 
-  const handleTraderSelect = (selectedTrader) => {
-    const urlServiceName = currentService
-      .toLowerCase()
-      .replace(/&/g, "")
-      .replace(/\s+/g, "-");
-    navigate(`/${urlServiceName}/${selectedTrader.id}`);
-  };
-
-  if (!isDataReady) {
+  if (!currentService || !isDataReady) {
     return null;
   }
 
