@@ -186,8 +186,11 @@ function App() {
   };
 
   const handleTraderSelect = (selectedTrader) => {
-    // You can add any additional logic here if needed
-    console.log("Selected trader:", selectedTrader.name);
+    const urlServiceName = currentService
+      .toLowerCase()
+      .replace(/&/g, "")
+      .replace(/\s+/g, "-");
+    navigate(`/${urlServiceName}/${selectedTrader.id}`);
   };
 
   if (!isDataReady) {
@@ -221,7 +224,7 @@ function App() {
           }
         />
         <Route
-          path="/trader/:traderId"
+          path="/:serviceType/:traderId"
           element={
             <Layout
               showFooter={true}

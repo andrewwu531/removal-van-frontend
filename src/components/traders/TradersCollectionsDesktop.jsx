@@ -62,7 +62,11 @@ export default function TradersCollectionsDesktop({
 
   const handleTraderClick = (trader) => {
     onTraderSelect(trader);
-    navigate(`/${trader.id}`);
+    const urlServiceName = currentService
+      .toLowerCase()
+      .replace(/&/g, "")
+      .replace(/\s+/g, "-");
+    navigate(`/${urlServiceName}/${trader.id}`);
   };
 
   return (
