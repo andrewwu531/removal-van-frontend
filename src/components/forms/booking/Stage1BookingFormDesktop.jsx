@@ -85,7 +85,7 @@ const Stage1BookingFormDesktop = ({ onNextStep }) => {
                       backgroundPosition: "right 0.65rem center",
                       backgroundSize: "0.65rem auto",
                     }}
-                    className="block p-3 pl-4 min-[2560px]:p-4 mt-1 bg-white border border-gray-300 rounded w-35 min-[2560px]:w-40 focus:outline-none appearance-none text-[15px]"
+                    className="block px-3 py-3.5 pl-4 min-[2560px]:p-4 mt-1 bg-white border border-gray-300 rounded w-35 min-[2560px]:w-40 focus:outline-none appearance-none text-[15px]"
                   >
                     <option value="60.00">£60</option>
                     <option value="100.00">£100</option>
