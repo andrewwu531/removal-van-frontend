@@ -3,7 +3,7 @@ import { TraderPropType } from "../../types/trader.types";
 
 export default function TraderInfo({ trader }) {
   return (
-    <div className="px-16 pt-13">
+    <div className="px-11 min-[500px]:px-16 pt-10 min-[500px]:pt-13">
       <h1 className="mb-2 text-3xl font-bold">{trader.name}</h1>
       <h2 className="text-xl text-gray-600">{trader.title}</h2>
 

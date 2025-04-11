@@ -19,15 +19,17 @@ export default function HeaderServiceBarDesktop({
   };
 
   return (
-    <div className="flex items-center justify-center pb-1 mt-3 min-[1920px]:mt-3.5 bg-white shadow-xs">
-      {serviceIcons.map((service, index) => (
-        <ServiceButton
-          key={index}
-          service={service}
-          isActive={currentService === service.name}
-          onClick={handleServiceClick}
-        />
-      ))}
+    <div className="w-full overflow-hidden transition-shadow duration-200 border-b border-gray-200 hover:shadow-[0_1px_2px_0_rgba(0,0,0,0.05)]">
+      <div className="flex items-center px-6 mt-3 -mb-1 min-[1920px]:mt-2.5 min-[500px]:justify-center max-[500px]:overflow-x-scroll max-[500px]:whitespace-nowrap max-[500px]:w-full max-[500px]:scrollbar-thin max-[500px]:scrollbar-track-transparent max-[500px]:scrollbar-thumb-gray-200 [&::-webkit-scrollbar-thumb]:h-[5px] [&::-webkit-scrollbar]:h-[8px]">
+        {serviceIcons.map((service, index) => (
+          <ServiceButton
+            key={index}
+            service={service}
+            isActive={currentService === service.name}
+            onClick={handleServiceClick}
+          />
+        ))}
+      </div>
     </div>
   );
 }

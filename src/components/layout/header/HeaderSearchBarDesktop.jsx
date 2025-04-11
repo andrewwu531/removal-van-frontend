@@ -153,11 +153,11 @@ export default function HeaderSearchBarDesktop({
       <img
         src={logo}
         alt="logo"
-        className="absolute w-9 h-9 min-[1339px]:w-10 min-[1339px]:h-10 min-[1920px]:w-11 min-[1920px]:h-11 cursor-pointer top-7 min-[1339px]:top-7 left-10 min-[1920px]:left-11"
+        className="absolute w-9 h-9 min-[1339px]:w-10 min-[1339px]:h-10 min-[1920px]:w-11 min-[1920px]:h-11 cursor-pointer top-7 min-[1339px]:top-7 left-10 min-[1920px]:left-11 max-[500px]:hidden"
         onClick={handleLogoClick}
       />
       <div
-        className="flex items-center w-full max-w-lg min-[1339px]:max-w-xl min-[1920px]:max-w-2xl px-4 min-[1920px]:px-5 py-2 min-[1920px]:py-3 bg-white rounded-full shadow-md mr-7"
+        className="flex items-center w-full max-w-sm min-[500px]:max-w-lg min-[1339px]:max-w-xl min-[1920px]:max-w-2xl px-4 min-[1920px]:px-5 py-2 min-[1920px]:py-3 bg-white rounded-full shadow-md min-[500px]:mr-7"
         role="search"
         aria-label="Search traders"
       >
@@ -224,7 +224,7 @@ export default function HeaderSearchBarDesktop({
 
       <button
         ref={enquiryButtonRef}
-        className="absolute right-10 mt-1 min-[1920px]:mt-1.5 px-6.5 min-[1920px]:px-8 py-3 min-[1920px]:py-3.5 text-base min-[1920px]:text-lg text-white font-semibold transition-colors bg-red-500 rounded-full hover:scale-103"
+        className="absolute right-10 mt-1 min-[1920px]:mt-1.5 px-6.5 min-[1920px]:px-8 py-3 min-[1920px]:py-3.5 text-base min-[1920px]:text-lg text-white font-semibold transition-colors bg-red-500 rounded-full hover:scale-103 max-[500px]:hidden"
         onClick={handleEnquiryClick}
         type="button"
         aria-expanded={showEnquiryButton}
