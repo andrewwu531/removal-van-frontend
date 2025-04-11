@@ -4,6 +4,7 @@ import {
   useLocation,
   useParams,
   useNavigate,
+  Navigate,
 } from "react-router-dom";
 import { useState, useEffect } from "react";
 import TradersCollectionsDesktop from "./components/traders/TradersCollectionsDesktop";
@@ -14,6 +15,7 @@ import FooterDesktop from "./components/layout/footer/FooterDesktop";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import emailjs from "@emailjs/browser";
 import Layout from "./components/layout/Layout";
+import { serviceDisplayTitles } from "./components/traders/constants/serviceDisplayTitles";
 
 function App() {
   const [traders, setTraders] = useState([]);
@@ -24,15 +26,35 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [isDataReady, setIsDataReady] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Show footer on all pages except loading state of trader details
     setShowFooter(true);
   }, [location.pathname]);
 
   useEffect(() => {
+    const path = location.pathname.substring(1);
+    if (path && path !== "trader") {
+      const urlToServiceName = decodeURIComponent(path)
+        .replace(/-/g, " ")
+        .replace(/(%26|&)/g, "");
+
+      const isValidService = Object.keys(serviceDisplayTitles).some(
+        (service) => service.toLowerCase() === urlToServiceName.toLowerCase()
+      );
+
+      if (isValidService) {
+        const serviceKey = Object.keys(serviceDisplayTitles).find(
+          (service) => service.toLowerCase() === urlToServiceName.toLowerCase()
+        );
+        setCurrentService(serviceKey);
+        fetchTraders({ service: serviceKey, location: currentLocation });
+      }
+    }
+  }, [location.pathname]);
+
+  useEffect(() => {
     const loadInitialData = async () => {
-      console.log("App mounted, initializing data...");
       try {
         const data = await fetchTraders({
           service: currentService,
@@ -40,15 +62,14 @@ function App() {
         });
         setTraders(data);
         setIsDataReady(true);
-        console.log("Initial data loaded");
       } catch (error) {
         console.error("Error loading initial data:", error);
-        setIsDataReady(true); // Still set to true to show the app
+        setIsDataReady(true);
       }
     };
 
     loadInitialData();
-  }, [currentService, currentLocation]); // Dependencies that should trigger a reload
+  }, [currentService, currentLocation]);
 
   useEffect(() => {
     const fetchClientToken = async () => {
@@ -88,28 +109,24 @@ function App() {
   }, []);
 
   const handleSearch = async (searchParams) => {
-    // Hide current content
     setIsDataReady(false);
-
-    // Update state and fetch new data
     setCurrentService(searchParams.service);
     setCurrentLocation(searchParams.location);
     await fetchTraders(searchParams);
-
-    // Show new content
     setIsDataReady(true);
   };
 
   const handleServiceSelect = async (serviceName) => {
-    // Hide current content
     setIsDataReady(false);
-
-    // Update state and fetch new data
     setCurrentService(serviceName);
     await fetchTraders({ service: serviceName, location: currentLocation });
-
-    // Show new content
     setIsDataReady(true);
+
+    const urlServiceName = serviceName
+      .toLowerCase()
+      .replace(/&/g, "")
+      .replace(/\s+/g, "-");
+    navigate(`/${encodeURIComponent(urlServiceName)}`);
   };
 
   const fetchTraders = async (searchParams) => {
@@ -173,19 +190,16 @@ function App() {
     console.log("Selected trader:", selectedTrader.name);
   };
 
-  // Don't render anything until initial data is ready
   if (!isDataReady) {
-    console.log("App not ready yet");
     return null;
   }
-
-  console.log("Rendering App with traders:", traders);
 
   return (
     <PayPalScriptProvider options={initialOptions}>
       <Routes>
+        <Route path="/" element={<Navigate to="/removal" replace />} />
         <Route
-          path="/"
+          path="/:serviceType"
           element={
             <Layout
               showFooter={true}
@@ -207,7 +221,7 @@ function App() {
           }
         />
         <Route
-          path="/:traderId"
+          path="/trader/:traderId"
           element={
             <Layout
               showFooter={true}
