@@ -40,7 +40,7 @@ const Stage1BookingFormDesktop = ({ onNextStep }) => {
               formData={formData}
               handleChange={handleChange}
             />
-            <div className="flex flex-row space-x-4">
+            <div className="min-[500px]:flex min-[500px]:flex-row min-[500px]:space-x-4">
               <div className="mb-3 min-[2560px]:mt-1">
                 <label
                   htmlFor="bookingDate"
@@ -93,7 +93,7 @@ const Stage1BookingFormDesktop = ({ onNextStep }) => {
                 </div>
               </div>
             </div>
-            <div className="p-4 mt-8 rounded-lg bg-blue-50">
+            <div className="p-5 mt-8 rounded-lg bg-blue-50">
               <p className="px-2 py-1 text-blue-800">
                 Before booking an appointment, please contact us by phone or
                 text via (+44) 7943 059 792 to confirm availability.

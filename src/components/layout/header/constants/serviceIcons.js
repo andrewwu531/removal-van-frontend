@@ -24,7 +24,7 @@ export const serviceIcons = [
     iconProps: { size: 26, className: "text-gray-600" },
     paddingTop: "pt-1",
     marginX:
-      "min-[500px]:-mr-2 min-[1256px]:-mr-1.5 min-[1423px]:-mr-0.5 min-[1920px]:mr-1.5",
+      "-mr-1 min-[500px]:-mr-2 min-[1256px]:-mr-1.5 min-[1423px]:-mr-0.5 min-[1920px]:mr-1.5",
   },
   {
     name: "Carpet & Flooring",

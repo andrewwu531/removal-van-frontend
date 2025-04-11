@@ -22,7 +22,7 @@ const CustomDateInput = React.forwardRef(({ value, onClick, id }, ref) => (
       ref={ref}
       value={value}
       readOnly
-      className="block w-full p-3.5 min-[2560px]:p-4 mt-1 bg-white border border-gray-300 rounded focus:outline-none pl-10 text-sm placeholder:text-base"
+      className="block w-full p-3.5 min-[2560px]:p-4 mt-1 bg-white border border-gray-300 rounded focus:outline-none pl-10 text-[15px] placeholder:text-[15px]"
       placeholder="DD/MM/YYYY"
       aria-label="Date picker"
     />
