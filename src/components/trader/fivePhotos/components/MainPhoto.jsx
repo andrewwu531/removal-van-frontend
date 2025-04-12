@@ -8,7 +8,7 @@ export default function MainPhoto({ photo, altText }) {
       <ImageWithFallback
         src={getImageUrl(photo)}
         alt={altText}
-        className="absolute inset-0 object-cover w-full h-full rounded-xl min-[500px]:rounded-l-lg"
+        className="absolute inset-0 object-cover w-full h-full rounded-lg min-[500px]:rounded-l-lg"
       />
     </div>
   );
