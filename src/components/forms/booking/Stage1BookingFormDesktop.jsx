@@ -41,7 +41,7 @@ const Stage1BookingFormDesktop = ({ onNextStep }) => {
               handleChange={handleChange}
             />
             <div className="min-[500px]:flex min-[500px]:flex-row min-[500px]:space-x-4">
-              <div className="mb-3 min-[2560px]:mt-1">
+              <div className="mb-3 min-[2560px]:mt-1 w-full min-[500px]:w-auto">
                 <label
                   htmlFor="bookingDate"
                   className="block font-medium text-gray-700 text-md min-[2560px]:text-lg"
@@ -62,7 +62,7 @@ const Stage1BookingFormDesktop = ({ onNextStep }) => {
                 />
               </div>
 
-              <div className="mb-3">
+              <div className="mb-3 w-1/2 min-[500px]:w-auto">
                 <label
                   id="deposit-amount-label"
                   htmlFor="depositAmount"
@@ -78,11 +78,26 @@ const Stage1BookingFormDesktop = ({ onNextStep }) => {
                     onChange={handleChange}
                     autoComplete="off"
                     aria-labelledby="deposit-amount-label"
-                    className="block px-3 py-3.5 pl-4 min-[2560px]:p-4 mt-1 bg-white border border-gray-300 rounded w-35 min-[2560px]:w-40 focus:outline-none appearance-none text-[15px]"
+                    className="block w-full min-[500px]:w-35 min-[2560px]:w-40 px-4 pr-7 py-3.5 min-[2560px]:p-4 mt-1 bg-white border border-gray-300 rounded-md focus:outline-none text-[15px] appearance-none"
                   >
                     <option value="1.00">£1</option>
                     <option value="3.00">£3</option>
                   </select>
+                  <div className="absolute inset-y-0 flex items-center mt-1 pointer-events-none right-2">
+                    <svg
+                      className="w-4 h-4 text-gray-400"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
                 </div>
               </div>
             </div>

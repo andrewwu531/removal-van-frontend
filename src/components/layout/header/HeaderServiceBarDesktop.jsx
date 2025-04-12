@@ -25,7 +25,7 @@ export default function HeaderServiceBarDesktop({
 
   return (
     <div className="w-full max-[500px]:overflow-hidden max-[500px]:transition-shadow max-[500px]:duration-200">
-      <div className="flex items-center px-6 mt-3 min-[1920px]:mt-2.5 min-[500px]:justify-center max-[500px]:overflow-x-scroll max-[500px]:whitespace-nowrap max-[500px]:w-full max-[500px]:border-b max-[500px]:border-gray-200 max-[500px]:scrollbar-thin max-[500px]:scrollbar-track-gray-200 max-[500px]:scrollbar-thumb-gray-400 [&::-webkit-scrollbar]:h-[1px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:rounded-full">
+      <div className="flex items-center px-6 mt-3 min-[1920px]:mt-2.5 min-[500px]:justify-center max-[500px]:overflow-x-scroll max-[500px]:whitespace-nowrap max-[500px]:w-full max-[500px]:border-b max-[500px]:border-gray-200 max-[500px]:scrollbar-none">
         {serviceIcons.map((service, index) => (
           <ServiceButton
             key={index}
