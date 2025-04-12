@@ -1,7 +1,5 @@
 import PropTypes from "prop-types";
-import { XMarkIcon } from "@heroicons/react/24/outline";
 import ImageWithFallback from "../../../common/image/ImageWithFallback";
-import { getImageUrl } from "../utils/imageUtils";
 
 export default function PhotoModal({ photos, traderName, onClose }) {
   const handleOverlayClick = (e) => {
