@@ -15,7 +15,10 @@ const Stage3ConfirmationDesktop = ({
         </h2>
         <h2 className="mb-5 text-2xl font-semibold">Booking Details</h2>
         <ConfirmationDetails
-          bookingDetails={bookingDetails}
+          bookingDetails={{
+            ...bookingDetails,
+            DepositAmount: `£${parseFloat(bookingDetails.DepositAmount).toFixed(2)}`,
+          }}
           transactionDetails={transactionDetails}
           trader={trader}
         />

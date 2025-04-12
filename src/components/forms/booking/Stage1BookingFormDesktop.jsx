@@ -10,7 +10,7 @@ const Stage1BookingFormDesktop = ({ onNextStep }) => {
     FullName: "",
     Email: "",
     Telephone: "",
-    DepositAmount: "60.00",
+    DepositAmount: "1.00",
   });
 
   const handleChange = (e) => {
@@ -78,17 +78,10 @@ const Stage1BookingFormDesktop = ({ onNextStep }) => {
                     onChange={handleChange}
                     autoComplete="off"
                     aria-labelledby="deposit-amount-label"
-                    style={{
-                      backgroundImage:
-                        "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='7.5' viewBox='0 0 14 8'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23555' stroke-width='2' fill='none'/%3E%3C/svg%3E\")",
-                      backgroundRepeat: "no-repeat",
-                      backgroundPosition: "right 0.65rem center",
-                      backgroundSize: "0.65rem auto",
-                    }}
                     className="block px-3 py-3.5 pl-4 min-[2560px]:p-4 mt-1 bg-white border border-gray-300 rounded w-35 min-[2560px]:w-40 focus:outline-none appearance-none text-[15px]"
                   >
-                    <option value="60.00">£60</option>
-                    <option value="100.00">£100</option>
+                    <option value="1.00">£1</option>
+                    <option value="3.00">£3</option>
                   </select>
                 </div>
               </div>

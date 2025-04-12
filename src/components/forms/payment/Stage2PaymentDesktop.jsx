@@ -62,8 +62,9 @@ export default function Stage2PaymentDesktop({
 
     try {
       const requestId = `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      const depositAmount = parseFloat(bookingDetails.DepositAmount).toFixed(2);
 
-      console.log("Sending payment request...");
+      console.log("Sending payment request with amount:", depositAmount);
 
       const response = await fetch(
         `${import.meta.env.VITE_PAYMENT_API_URL}/api/orders`,
@@ -76,12 +77,8 @@ export default function Stage2PaymentDesktop({
           credentials: "include",
           body: JSON.stringify({
             bookingDetails: {
-              FullName: bookingDetails.FullName,
-              Email: bookingDetails.Email,
-              Telephone: bookingDetails.Telephone,
-              DepositAmount: "1.00",
-              Date: bookingDetails.Date,
-              TraderName: bookingDetails.TraderName,
+              ...bookingDetails,
+              DepositAmount: depositAmount,
             },
             paymentDetails: {
               payment_source: {
@@ -103,22 +100,45 @@ export default function Stage2PaymentDesktop({
         }
       );
 
-      const data = await response.json();
+      let errorData;
+      let responseData;
 
-      if (!response.ok) {
-        throw new Error(data.details || data.error || "Payment failed");
+      try {
+        // Try to parse response as JSON
+        const textData = await response.text();
+        if (textData) {
+          responseData = JSON.parse(textData);
+        }
+      } catch (parseError) {
+        console.error("Error parsing response:", parseError);
+        throw new Error("Invalid server response");
       }
 
-      console.log("Payment successful:", data);
+      if (!response.ok) {
+        throw new Error(
+          responseData?.error ||
+            responseData?.message ||
+            "Payment processing failed"
+        );
+      }
+
+      if (!responseData) {
+        throw new Error("No response data received");
+      }
+
+      console.log("Payment successful:", responseData);
 
       // Send confirmation emails after successful payment
-      await sendConfirmationEmails(data, bookingDetails);
+      await sendConfirmationEmails(responseData, bookingDetails);
 
       onPaymentSuccess({
-        orderId: data.id,
-        status: data.status,
-        amount: data.amount,
-        bookingDetails: bookingDetails,
+        orderId: responseData.id,
+        status: responseData.status,
+        amount: depositAmount,
+        bookingDetails: {
+          ...bookingDetails,
+          DepositAmount: depositAmount,
+        },
       });
     } catch (error) {
       console.error("Payment process failed:", error);
