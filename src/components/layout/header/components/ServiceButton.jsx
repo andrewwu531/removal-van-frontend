@@ -30,7 +30,9 @@ export default function ServiceButton({
       onMouseLeave={() => onHover(null)}
     >
       <IconComponent {...iconProps} />
-      <span className="mt-2 min-[1423px]:mt-1.5 min-[1920px]:mt-2 text-sm font-medium line-clamp-2">
+      <span
+        className={`mt-2 min-[1423px]:mt-1.5 min-[1920px]:mt-2 text-sm font-medium whitespace-nowrap`}
+      >
         {service.name}
       </span>
     </div>

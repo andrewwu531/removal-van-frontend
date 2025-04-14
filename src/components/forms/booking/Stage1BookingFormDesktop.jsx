@@ -11,6 +11,7 @@ const Stage1BookingFormDesktop = ({ onNextStep }) => {
     Email: "",
     Telephone: "",
     DepositAmount: "1.00",
+    Date: new Date(),
   });
 
   const handleChange = (e) => {
@@ -18,7 +19,8 @@ const Stage1BookingFormDesktop = ({ onNextStep }) => {
   };
 
   const handleDateChange = (date) => {
-    setFormData({ ...formData, Date: date });
+    const dateString = date ? date.toISOString() : "";
+    setFormData({ ...formData, Date: dateString });
   };
 
   const handleSubmit = (e) => {

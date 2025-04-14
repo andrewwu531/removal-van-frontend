@@ -1,12 +1,12 @@
 export const services = [
   "Removal",
   "House Renovation",
-  "Carpet & Flooring",
   "Painting",
-  "Damage Repair",
+  "Carpet & Flooring",
   "Electricity & Gas",
-  "Lock Smith",
+  "Bathroom & Kitchen",
+  "Window & Door",
+  "Exterior & Roofing",
   "Solar Panels",
-  "Window & Heating & Ventilation",
-  "Car",
+  "Commercial Maintenance",
 ];

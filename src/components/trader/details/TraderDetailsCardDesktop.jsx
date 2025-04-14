@@ -4,7 +4,10 @@ import NotFoundState from "./components/NotFoundState";
 import TraderInfo from "./components/TraderInfo";
 import { TraderPropType } from "../types/trader.types";
 
-export default function TraderDetailsCard({ trader, isLoading }) {
+export default function TraderDetailsCardDesktop({
+  trader = null,
+  isLoading = false,
+}) {
   const [showNoTrader, setShowNoTrader] = useState(false);
 
   useEffect(() => {
@@ -36,11 +39,7 @@ export default function TraderDetailsCard({ trader, isLoading }) {
   );
 }
 
-TraderDetailsCard.propTypes = {
+TraderDetailsCardDesktop.propTypes = {
   trader: TraderPropType,
   isLoading: PropTypes.bool,
-};
-
-TraderDetailsCard.defaultProps = {
-  isLoading: false,
 };

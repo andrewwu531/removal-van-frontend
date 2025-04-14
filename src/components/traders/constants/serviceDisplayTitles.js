@@ -1,14 +1,14 @@
 export const serviceDisplayTitles = {
   Removal: "Removal Services",
   "House Renovation": "Home Renovation",
-  "Carpet & Flooring": "Carpet & Flooring",
   Painting: "Painting Services",
-  "Damage Repair": "Damage Repair",
+  "Carpet & Flooring": "Carpet & Flooring",
   "Electricity & Gas": "Electrical & Gas Services",
-  "Lock Smith": "Locksmith",
+  "Bathroom & Kitchen": "Bathroom & Kitchen Services",
+  "Window & Door": "Window & Door Specialists",
+  "Exterior & Roofing": "Exterior & Roofing",
   "Solar Panels": "Solar Installation",
-  "Window & Heating": "Window & HVAC Specialists",
-  Car: "Automotive Services",
+  "Commercial Maintenance": "Commercial Maintenance",
 };
 
 export const getServiceTitle = (service) => {

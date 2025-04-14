@@ -10,8 +10,8 @@ import EnquiryButton from "./components/EnquiryButton";
 
 export default function HeaderSearchBarDesktop({
   onSearch,
-  currentService,
-  currentLocation,
+  currentService = "Removal",
+  currentLocation = "",
 }) {
   const [location, setLocation] = useState(currentLocation || "");
   const [service, setService] = useState(currentService || "");
@@ -245,11 +245,6 @@ export default function HeaderSearchBarDesktop({
 
 HeaderSearchBarDesktop.propTypes = {
   onSearch: PropTypes.func.isRequired,
-  currentService: PropTypes.string.isRequired,
+  currentService: PropTypes.string,
   currentLocation: PropTypes.string,
-};
-
-HeaderSearchBarDesktop.defaultProps = {
-  currentService: "Removal",
-  currentLocation: "",
 };

@@ -5,7 +5,7 @@ import ServiceButton from "./components/ServiceButton";
 import { useState } from "react";
 
 export default function HeaderServiceBarDesktop({
-  currentService,
+  currentService = "Removal",
   onServiceSelect,
 }) {
   const [hoveredService, setHoveredService] = useState(null);
@@ -45,8 +45,4 @@ export default function HeaderServiceBarDesktop({
 HeaderServiceBarDesktop.propTypes = {
   currentService: PropTypes.string,
   onServiceSelect: PropTypes.func.isRequired,
-};
-
-HeaderServiceBarDesktop.defaultProps = {
-  currentService: "Removal",
 };

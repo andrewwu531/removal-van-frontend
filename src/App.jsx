@@ -17,6 +17,8 @@ import emailjs from "@emailjs/browser";
 import Layout from "./components/layout/Layout";
 import { serviceIcons } from "./components/layout/header/constants/serviceIcons";
 import { serviceDisplayTitles } from "./components/traders/constants/serviceDisplayTitles";
+import { HelmetProvider } from "react-helmet-async";
+import MetaTags from "./components/seo/MetaTags";
 
 // First, update the getServiceFromUrl function to handle the initial case
 const getServiceFromUrl = (urlService) => {
@@ -24,13 +26,14 @@ const getServiceFromUrl = (urlService) => {
   const urlToServiceMap = {
     removal: "Removal",
     "house-renovation": "House Renovation",
-    "carpet-flooring": "Carpet & Flooring",
     painting: "Painting",
+    "carpet-flooring": "Carpet & Flooring",
     "electricity-gas": "Electricity & Gas",
-    "door-installation": "Door Installation",
+    "bathroom-kitchen": "Bathroom & Kitchen",
+    "window-door": "Window & Door",
+    "exterior-roofing": "Exterior & Roofing",
     "solar-panels": "Solar Panels",
-    "window-heating": "Window & Heating",
-    car: "Car",
+    "commercial-maintenance": "Commercial Maintenance",
   };
 
   if (!urlService) return "Removal"; // Default case
@@ -253,51 +256,54 @@ function App() {
   }
 
   return (
-    <PayPalScriptProvider options={initialOptions}>
-      <Routes>
-        <Route path="/" element={<Navigate to="/removal" replace />} />
-        <Route
-          path="/:serviceType"
-          element={
-            <Layout
-              showFooter={true}
-              currentService={currentService}
-              currentLocation={currentLocation}
-              onSearch={handleSearch}
-              onServiceSelect={handleServiceSelect}
-              isLoading={loading}
-            >
-              <div className="mt-41 min-[1339px]:mt-43 min-[1920px]:mt-48">
-                <TradersCollectionsDesktop
-                  traders={traders}
-                  currentService={currentService}
-                  onTraderSelect={handleTraderSelect}
+    <HelmetProvider>
+      <PayPalScriptProvider options={initialOptions}>
+        <Routes>
+          <Route path="/" element={<Navigate to="/removal" replace />} />
+          <Route
+            path="/:serviceType"
+            element={
+              <Layout
+                showFooter={true}
+                currentService={currentService}
+                currentLocation={currentLocation}
+                onSearch={handleSearch}
+                onServiceSelect={handleServiceSelect}
+                isLoading={loading}
+              >
+                <MetaTags service={currentService} location={currentLocation} />
+                <div className="mt-41 min-[1339px]:mt-43 min-[1920px]:mt-48">
+                  <TradersCollectionsDesktop
+                    traders={traders}
+                    currentService={currentService}
+                    onTraderSelect={handleTraderSelect}
+                    setParentLoading={setLoading}
+                  />
+                </div>
+              </Layout>
+            }
+          />
+          <Route
+            path="/:serviceType/:traderId"
+            element={
+              <Layout
+                showFooter={true}
+                currentService={currentService}
+                currentLocation={currentLocation}
+                onSearch={handleSearch}
+                onServiceSelect={handleServiceSelect}
+                isLoading={loading}
+              >
+                <TraderDetailsDesktop
+                  fetchTraders={fetchTraders}
                   setParentLoading={setLoading}
                 />
-              </div>
-            </Layout>
-          }
-        />
-        <Route
-          path="/:serviceType/:traderId"
-          element={
-            <Layout
-              showFooter={true}
-              currentService={currentService}
-              currentLocation={currentLocation}
-              onSearch={handleSearch}
-              onServiceSelect={handleServiceSelect}
-              isLoading={loading}
-            >
-              <TraderDetailsDesktop
-                fetchTraders={fetchTraders}
-                setParentLoading={setLoading}
-              />
-            </Layout>
-          }
-        />
-      </Routes>
-    </PayPalScriptProvider>
+              </Layout>
+            }
+          />
+        </Routes>
+      </PayPalScriptProvider>
+    </HelmetProvider>
   );
 }
 

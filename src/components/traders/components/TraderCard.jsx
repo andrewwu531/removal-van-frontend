@@ -49,7 +49,6 @@ TraderCard.propTypes = {
     from_price: PropTypes.number.isRequired,
     main_photo: PropTypes.string,
     available_locations: PropTypes.arrayOf(PropTypes.string).isRequired,
-    service_type: PropTypes.string.isRequired,
   }).isRequired,
   onClick: PropTypes.func.isRequired,
 };

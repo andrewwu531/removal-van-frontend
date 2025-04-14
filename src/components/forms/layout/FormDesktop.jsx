@@ -12,6 +12,7 @@ const PaymentFlow = ({ trader }) => {
     Telephone: "",
     DepositAmount: "60.00",
     TraderName: trader?.name || "",
+    Date: "",
   });
   const [transactionDetails, setTransactionDetails] = useState(null);
 
