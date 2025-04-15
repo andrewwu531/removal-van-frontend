@@ -1,18 +1,85 @@
 import { SitemapStream, streamToPromise } from "sitemap";
 import { createWriteStream } from "fs";
 import { Readable } from "stream";
-import { generateSitemapUrls } from "../src/components/seo/utils/sitemap.js";
-import { sitemapConfig } from "../src/config/seo/sitemap-config.js";
+
+const services = [
+  {
+    url: "/",
+    changefreq: "daily",
+    priority: 1.0,
+  },
+  {
+    url: "/services/removal",
+    changefreq: "weekly",
+    priority: 0.8,
+  },
+  {
+    url: "/services/house-renovation",
+    changefreq: "weekly",
+    priority: 0.8,
+  },
+  {
+    url: "/services/painting",
+    changefreq: "weekly",
+    priority: 0.8,
+  },
+  {
+    url: "/services/carpet-flooring",
+    changefreq: "weekly",
+    priority: 0.8,
+  },
+  {
+    url: "/services/bathroom-kitchen",
+    changefreq: "weekly",
+    priority: 0.8,
+  },
+  {
+    url: "/services/window-door",
+    changefreq: "weekly",
+    priority: 0.8,
+  },
+  {
+    url: "/services/solar-panels",
+    changefreq: "weekly",
+    priority: 0.8,
+  },
+  {
+    url: "/services/exterior-roofing",
+    changefreq: "weekly",
+    priority: 0.8,
+  },
+  {
+    url: "/services/commercial",
+    changefreq: "weekly",
+    priority: 0.8,
+  },
+  {
+    url: "/about",
+    changefreq: "monthly",
+    priority: 0.6,
+  },
+  {
+    url: "/contact",
+    changefreq: "monthly",
+    priority: 0.6,
+  },
+];
 
 async function generateSitemap() {
-  const sitemap = new SitemapStream({ hostname: sitemapConfig.hostname });
-  const urls = generateSitemapUrls();
+  const stream = new SitemapStream({
+    hostname: "https://trade-specialists.com",
+  });
 
-  urls.forEach((url) => sitemap.write(url));
-  sitemap.end();
-
-  const data = await streamToPromise(Readable.from([sitemap]));
-  createWriteStream("./public/sitemap.xml").write(data.toString());
+  return streamToPromise(Readable.from(services).pipe(stream)).then((data) =>
+    data.toString()
+  );
 }
 
-generateSitemap().catch(console.error);
+generateSitemap()
+  .then((sitemap) => {
+    createWriteStream("./public/sitemap.xml").write(sitemap);
+    console.log("Sitemap generated successfully");
+  })
+  .catch((err) => {
+    console.error("Error generating sitemap:", err);
+  });
