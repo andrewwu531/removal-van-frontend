@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
 
+# Force crawlers to reindex frequently
+Crawl-delay: 1
+
 Sitemap: https://trade-specialists.com/sitemap.xml

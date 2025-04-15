@@ -24,6 +24,11 @@ export const getServiceMetadata = (service, location = "") => {
       provider: {
         "@type": "LocalBusiness",
         name: companyName,
+        logo: {
+          "@type": "ImageObject",
+          url: logo,
+        },
+        image: logo,
         address: {
           "@type": "PostalAddress",
           addressCountry: "GB",
@@ -32,7 +37,6 @@ export const getServiceMetadata = (service, location = "") => {
         },
         telephone: "7943059792",
         url: websiteUrl,
-        image: logo,
         priceRange: "£",
         hasOfferCatalog: {
           "@type": "OfferCatalog",
