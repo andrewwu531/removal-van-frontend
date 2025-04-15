@@ -53,16 +53,6 @@ const services = [
     changefreq: "weekly",
     priority: 0.8,
   },
-  {
-    url: "/about",
-    changefreq: "monthly",
-    priority: 0.6,
-  },
-  {
-    url: "/contact",
-    changefreq: "monthly",
-    priority: 0.6,
-  },
 ];
 
 async function generateSitemap() {
