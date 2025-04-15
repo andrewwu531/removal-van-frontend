@@ -7,19 +7,18 @@ export default function MetaTags({ service, location }) {
   const currentUrl = `https://trade-specialists.com/${service
     .toLowerCase()
     .replace(/\s+&\s+/g, "-")
-    .replace(
-      /\s+/g,
-      "-"
-    )}${location ? "/" + location.toLowerCase().replace(/\s+/g, "-") : ""}`;
+    .replace(/\s+/g, "-")}${
+    location ? "/" + location.toLowerCase().replace(/\s+/g, "-") : ""
+  }`;
 
   // Default site-wide metadata
   const defaultMetadata = {
     title:
       "Trade Specialists | Leading provider of professional trade services in Scotland",
     description:
-      "Expert contractors for removals, renovations, painting, flooring, and more.",
+      "Expert contractors for Removal, House Renovation, Painting, Carpet & Flooring, Bathroom & Kitchen, Window & Door, Exterior & Roofing, Solar Panels, and Commercial services.",
     keywords:
-      "removal services, house renovation, painting services, flooring services",
+      "trade specialists, removal, house renovation, painting, carpet flooring, bathroom kitchen, window door, exterior roofing, solar panels, commercial services",
   };
 
   // Use service-specific metadata if available, otherwise use default
@@ -32,7 +31,6 @@ export default function MetaTags({ service, location }) {
       <title>{pageTitle}</title>
       <meta name="description" content={pageDescription} />
       <meta name="keywords" content={pageKeywords} />
-
       {/* Open Graph */}
       <meta property="og:title" content={pageTitle} />
       <meta property="og:description" content={pageDescription} />
@@ -41,17 +39,11 @@ export default function MetaTags({ service, location }) {
       <meta property="og:site_name" content="Trade Specialists" />
       <meta property="og:locale" content="en_GB" />
 
-      {/* Twitter Card */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={pageTitle} />
-      <meta name="twitter:description" content={pageDescription} />
-
       {/* Additional SEO meta tags */}
       <meta name="robots" content="index, follow" />
       <meta name="googlebot" content="index, follow" />
       <meta name="format-detection" content="telephone=no" />
       <meta name="theme-color" content="#ffffff" />
-
       {/* Schema.org markup */}
       <script type="application/ld+json">
         {JSON.stringify(
@@ -85,7 +77,6 @@ export default function MetaTags({ service, location }) {
           }
         )}
       </script>
-
       {/* Dynamic canonical URL */}
       <link rel="canonical" href={currentUrl} />
     </Helmet>

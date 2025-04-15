@@ -6,7 +6,7 @@ export const getServiceMetadata = (service, location = "") => {
   if (!baseMetadata) return null;
 
   const locationSuffix = location ? ` in ${location}` : "";
-  const companyName = "Trade Specialists"; // Replace with your actual company name
+  const companyName = "Trade Specialists";
   const websiteUrl = "https://trade-specialists.com";
 
   return {
@@ -17,36 +17,93 @@ export const getServiceMetadata = (service, location = "") => {
     schema: {
       "@context": "https://schema.org",
       ...baseMetadata.schema,
-      name: `${service} Services${locationSuffix}`,
+      name: companyName,
+      alternateName: "Trade Specialists Scotland",
+      description:
+        "Expert contractors for Removal, House Renovation, Painting, Carpet & Flooring, Bathroom & Kitchen, Window & Door, Exterior & Roofing, Solar Panels, and Commercial services.",
       provider: {
         "@type": "LocalBusiness",
         name: companyName,
         address: {
           "@type": "PostalAddress",
           addressCountry: "GB",
-          // Add more specific address details
-          addressRegion: "Scotland", // Update as needed
-          addressLocality: location || "Scotland", // Update as needed
+          addressRegion: "Scotland",
+          addressLocality: location || "Scotland",
         },
-        telephone: "7943059792", // Add your business phone
+        telephone: "7943059792",
         url: websiteUrl,
         image: logo,
-        priceRange: "£", // Add your price range
-        // aggregateRating: {
-        //   "@type": "AggregateRating",
-        //   ratingValue: "4.8", // Update with your actual rating
-        //   reviewCount: "100", // Update with your actual review count
-        // },
+        priceRange: "£",
+        hasOfferCatalog: {
+          "@type": "OfferCatalog",
+          name: "Trade Services",
+          itemListElement: [
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "Removal Services",
+              },
+            },
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "House Renovation",
+              },
+            },
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "Painting",
+              },
+            },
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "Carpet & Flooring",
+              },
+            },
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "Bathroom & Kitchen",
+              },
+            },
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "Window & Door",
+              },
+            },
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "Exterior & Roofing",
+              },
+            },
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "Solar Panels",
+              },
+            },
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "Commercial Services",
+              },
+            },
+          ],
+        },
       },
-      //   areaServed: {
-      //     "@type": "GeoCircle",
-      //     geoMidpoint: {
-      //       "@type": "GeoCoordinates",
-      //       latitude: "51.5074", // Update for your service area
-      //       longitude: "-0.1278", // Update for your service area
-      //     },
-      //     geoRadius: "50 mi", // Update for your service radius
-      //   },
       availableChannel: {
         "@type": "ServiceChannel",
         serviceUrl: websiteUrl,
