@@ -1,7 +1,10 @@
 User-agent: *
 Allow: /
 
-# Force crawlers to reindex frequently
+# Force frequent crawling
 Crawl-delay: 1
+
+# Important: Remove old content
+Clean-param: *welcome* *removal*
 
 Sitemap: https://trade-specialists.com/sitemap.xml

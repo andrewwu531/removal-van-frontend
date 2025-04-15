@@ -4,6 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!-- Force no caching -->
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate"
+    />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
     <!-- Core Meta Tags -->
     <title>
       Trade Specialists | Leading provider of professional trade services in
@@ -14,6 +22,17 @@
       content="Expert contractors for Removal, House Renovation, Painting, Carpet & Flooring, Bathroom & Kitchen, Window & Door, Exterior & Roofing, Solar Panels, and Commercial services."
     />
     <meta name="application-name" content="Trade Specialists" />
+
+    <!-- Force search engines to reindex -->
+    <meta name="revisit-after" content="1 days" />
+    <meta
+      name="robots"
+      content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+    />
+    <meta
+      name="googlebot"
+      content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+    />
 
     <!-- Open Graph Meta Tags -->
     <meta property="og:site_name" content="Trade Specialists" />
@@ -29,14 +48,8 @@
     <meta property="og:url" content="https://trade-specialists.com/" />
     <meta property="og:image" content="./src/assets/logo.png" />
 
-    <!-- Search Engine Directives -->
-    <meta
-      name="robots"
-      content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
-    />
-    <link rel="canonical" href="https://trade-specialists.com/" />
-
     <link rel="icon" type="image/png" href="./src/assets/logo.png" />
+    <link rel="canonical" href="https://trade-specialists.com/" />
   </head>
   <body>
     <div id="root"></div>
