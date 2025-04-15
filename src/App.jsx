@@ -259,6 +259,7 @@ function App() {
     <HelmetProvider>
       <PayPalScriptProvider options={initialOptions}>
         <Routes>
+          <Route path="/about" element={<Navigate to="/" replace />} />
           <Route path="/" element={<Navigate to="/removal" replace />} />
           <Route
             path="/:serviceType"

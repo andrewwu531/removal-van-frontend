@@ -38,13 +38,19 @@ export default function MetaTags({ service, location }) {
       <meta property="og:type" content="website" />
       <meta property="og:url" content={currentUrl} />
       <meta property="og:site_name" content="Trade Specialists" />
-      <meta property="og:image" content="/logo.png" />
+      <meta
+        property="og:image"
+        content="https://trade-specialists.com/logo.png"
+      />
 
       {/* Twitter Card */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={pageTitle} />
       <meta name="twitter:description" content={pageDescription} />
-      <meta name="twitter:image" content="/logo.png" />
+      <meta
+        name="twitter:image"
+        content="https://trade-specialists.com/logo.png"
+      />
 
       <link rel="canonical" href={currentUrl} />
     </Helmet>
