@@ -2,26 +2,27 @@ import {
   Routes,
   Route,
   useLocation,
-  useParams,
   useNavigate,
   Navigate,
 } from "react-router-dom";
 import { useState, useEffect } from "react";
 import TradersCollectionsDesktop from "./components/traders/TradersCollectionsDesktop";
 import TraderDetailsDesktop from "./components/trader/details/TraderDetailsDesktop";
-import HeaderSearchBarDesktop from "./components/layout/header/HeaderSearchBarDesktop";
-import HeaderServiceBarDesktop from "./components/layout/header/HeaderServiceBarDesktop";
-import FooterDesktop from "./components/layout/footer/FooterDesktop";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import emailjs from "@emailjs/browser";
 import Layout from "./components/layout/Layout";
-import { serviceIcons } from "./components/layout/header/constants/serviceIcons";
-import { serviceDisplayTitles } from "./components/traders/constants/serviceDisplayTitles";
 import { HelmetProvider } from "react-helmet-async";
 import MetaTags from "./components/seo/MetaTags";
+import ScrollToTop from "./components/layout/footer/components/ScrollToTop";
+import LegalStatementPage from "./components/layout/footer/components/LegalStatementPage";
 
-// First, update the getServiceFromUrl function to handle the initial case
 const getServiceFromUrl = (urlService) => {
+  // Special routes that should not be treated as services
+  const specialRoutes = ["legal-statement"];
+  if (specialRoutes.includes(urlService)) {
+    return null;
+  }
+
   // Mapping of URL formats to service names
   const urlToServiceMap = {
     removal: "Removal",
@@ -47,21 +48,27 @@ const getUrlFromService = (serviceName) => {
 
 function App() {
   const [traders, setTraders] = useState([]);
-  const [currentService, setCurrentService] = useState(null); // Initialize as null
+  const [currentService, setCurrentService] = useState(null);
   const [currentLocation, setCurrentLocation] = useState("");
   const [clientToken, setClientToken] = useState(null);
-  const [showFooter, setShowFooter] = useState(true);
   const [loading, setLoading] = useState(true);
   const [isDataReady, setIsDataReady] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Add a new effect to handle initial URL and service setup
+  // Update the initialization effect
   useEffect(() => {
     const initializeFromUrl = async () => {
       setIsDataReady(false);
       const path = location.pathname.substring(1);
       const serviceType = path.split("/")[0];
+
+      // Special case for legal-statement
+      if (serviceType === "legal-statement") {
+        // Don't change the current service when on legal-statement
+        setIsDataReady(true);
+        return;
+      }
 
       // Get the service from URL or default to "Removal"
       const matchedService = getServiceFromUrl(serviceType);
@@ -69,18 +76,19 @@ function App() {
       console.log("Initial service type:", serviceType);
       console.log("Matched service:", matchedService);
 
-      setCurrentService(matchedService);
-
-      try {
-        await fetchTraders({
-          service: matchedService,
-          location: currentLocation,
-        });
-      } catch (error) {
-        console.error("Error loading initial traders:", error);
-      } finally {
-        setIsDataReady(true);
+      // Only set current service and fetch traders if it's a valid service
+      if (matchedService) {
+        setCurrentService(matchedService);
+        try {
+          await fetchTraders({
+            service: matchedService,
+            location: currentLocation,
+          });
+        } catch (error) {
+          console.error("Error loading initial traders:", error);
+        }
       }
+      setIsDataReady(true);
     };
 
     initializeFromUrl();
@@ -99,7 +107,8 @@ function App() {
       const serviceType = path.split("/")[0];
       const matchedService = getServiceFromUrl(serviceType);
 
-      if (matchedService && matchedService !== currentService) {
+      // Always update currentService if we have a valid service
+      if (matchedService) {
         setIsDataReady(false);
         setCurrentService(matchedService);
 
@@ -251,16 +260,31 @@ function App() {
     "disable-funding": "paylater,venmo",
   };
 
-  if (!currentService || !isDataReady) {
+  if (!isDataReady) {
     return null;
   }
 
   return (
     <HelmetProvider>
       <PayPalScriptProvider options={initialOptions}>
+        <ScrollToTop />
         <Routes>
-          <Route path="/about" element={<Navigate to="/" replace />} />
           <Route path="/" element={<Navigate to="/removal" replace />} />
+          <Route
+            path="/legal-statement"
+            element={
+              <Layout
+                showFooter={true}
+                currentService={currentService}
+                currentLocation={currentLocation}
+                onSearch={handleSearch}
+                onServiceSelect={handleServiceSelect}
+                isLoading={false}
+              >
+                <LegalStatementPage />
+              </Layout>
+            }
+          />
           <Route
             path="/:serviceType"
             element={

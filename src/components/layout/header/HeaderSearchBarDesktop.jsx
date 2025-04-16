@@ -149,7 +149,7 @@ export default function HeaderSearchBarDesktop({
   };
 
   return (
-    <div className="flex flex-col items-center pt-5 min-[1920px]:pt-6 z-100">
+    <div className="flex flex-col items-center pt-5 mx-6 min-[1920px]:pt-6 z-100">
       <img
         src={logo}
         alt="logo"

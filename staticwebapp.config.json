@@ -1,6 +1,24 @@
 {
   "navigationFallback": {
     "rewrite": "/index.html",
-    "exclude": ["/images/*.{png,jpg,gif}", "/css/*"]
+    "exclude": ["/images/*", "/css/*", "/assets/*", "/api/*"]
+  },
+  "routes": [
+    {
+      "route": "/legal-statement*",
+      "rewrite": "/index.html"
+    },
+    {
+      "route": "/:serviceType*",
+      "rewrite": "/index.html"
+    }
+  ],
+  "responseOverrides": {
+    "404": {
+      "rewrite": "/index.html"
+    }
+  },
+  "mimeTypes": {
+    ".json": "text/json"
   }
 }

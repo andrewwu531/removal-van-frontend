@@ -7,11 +7,11 @@ import CookieBanner from "./cookie/CookieBanner";
 export default function Layout({
   children,
   showFooter = true,
-  currentService,
-  currentLocation,
-  onSearch,
-  onServiceSelect,
-  isLoading,
+  currentService = "",
+  currentLocation = "",
+  onSearch = () => {},
+  onServiceSelect = () => {},
+  isLoading = false,
 }) {
   return (
     <>
@@ -36,9 +36,9 @@ export default function Layout({
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
   showFooter: PropTypes.bool,
-  currentService: PropTypes.string.isRequired,
+  currentService: PropTypes.string,
   currentLocation: PropTypes.string,
-  onSearch: PropTypes.func.isRequired,
-  onServiceSelect: PropTypes.func.isRequired,
+  onSearch: PropTypes.func,
+  onServiceSelect: PropTypes.func,
   isLoading: PropTypes.bool,
 };

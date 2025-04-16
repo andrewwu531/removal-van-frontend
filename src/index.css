@@ -132,3 +132,69 @@ body {
   transform: rotate(45deg);
   left: -12px;
 }
+
+/* Style for the legal pages content */
+.legal-content {
+  @apply max-w-4xl px-4 py-8 mx-auto;
+}
+
+/* Custom scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
+}
+
+/* Ensure smooth scrolling for elements */
+.smooth-scroll {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Style for legal pages main content */
+.legal-page-content {
+  @apply px-4 mt-32 mb-16;
+  min-height: calc(
+    100vh - 400px
+  ); /* Adjust based on your header/footer height */
+}
+
+/* Typography for legal content */
+.legal-text {
+  @apply leading-relaxed text-gray-700;
+}
+
+.legal-heading {
+  @apply mb-6 text-2xl font-semibold text-gray-900;
+}
+
+.legal-subheading {
+  @apply mt-8 mb-4 text-xl font-medium text-gray-800;
+}
+
+/* List styling for legal content */
+.legal-list {
+  @apply pl-6 mb-4 space-y-2 list-disc;
+}
+
+/* Section spacing */
+.legal-section {
+  @apply mb-8;
+}

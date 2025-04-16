@@ -16,7 +16,7 @@ export default function MetaTags({ service, location }) {
     title:
       "Trade Specialists | Leading provider of professional trade services in Scotland",
     description:
-      "Expert contractors for Removal, House Renovation, Painting, Carpet & Flooring, Bathroom & Kitchen, Window & Door, Exterior & Roofing, Solar Panels, and Commercial services. Contact us now at 07943059792!",
+      "Removal, House Renovation, Painting, Carpet & Flooring, Bathroom & Kitchen, Window & Door, Exterior & Roofing, Solar Panels, and Commercial services. Contact us now at 07943059792!",
     keywords:
       "trade specialists, removal services, house renovation, painting, carpet flooring, bathroom kitchen, window door, exterior roofing, solar panels, commercial services, scotland",
   };
