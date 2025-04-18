@@ -108,7 +108,7 @@ function App() {
       const matchedService = getServiceFromUrl(serviceType);
 
       // Always update currentService if we have a valid service
-      if (matchedService) {
+      if (matchedService && matchedService !== currentService) {
         setIsDataReady(false);
         setCurrentService(matchedService);
 
@@ -167,6 +167,12 @@ function App() {
 
   const handleSearch = async (searchParams) => {
     setIsDataReady(false);
+
+    // Update current service if it's provided in search params
+    if (searchParams.service) {
+      setCurrentService(searchParams.service);
+    }
+
     setCurrentLocation(searchParams.location);
     await fetchTraders(searchParams);
     setIsDataReady(true);

@@ -10,8 +10,8 @@ const Stage1BookingFormDesktop = ({ onNextStep }) => {
     FullName: "",
     Email: "",
     Telephone: "",
-    DepositAmount: "1.00",
-    Date: new Date(),
+    DepositAmount: "60.00",
+    Date: new Date().toISOString(),
   });
 
   const handleChange = (e) => {
@@ -52,7 +52,7 @@ const Stage1BookingFormDesktop = ({ onNextStep }) => {
                 </label>
                 <DatePicker
                   id="bookingDate"
-                  selected={formData.Date}
+                  selected={formData.Date ? new Date(formData.Date) : null}
                   onChange={handleDateChange}
                   dateFormat="dd/MM/yyyy"
                   minDate={new Date()}
@@ -82,8 +82,8 @@ const Stage1BookingFormDesktop = ({ onNextStep }) => {
                     aria-labelledby="deposit-amount-label"
                     className="block w-full min-[500px]:w-35 min-[2560px]:w-40 px-4 pr-7 py-3.5 min-[2560px]:p-4 mt-1 bg-white border border-gray-300 rounded-md focus:outline-none text-[15px] appearance-none"
                   >
-                    <option value="1.00">£1</option>
-                    <option value="3.00">£3</option>
+                    <option value="60.00">£60</option>
+                    <option value="100.00">£100</option>
                   </select>
                   <div className="absolute inset-y-0 flex items-center mt-1 pointer-events-none right-2">
                     <svg

@@ -80,15 +80,7 @@ export default function HeaderSearchBarDesktop({
     setLocation(selectedLocation);
     setShowLocationDropdown(false);
 
-    if (isTraderDetailsPage) {
-      navigate("/", {
-        state: {
-          selectedService: service,
-          selectedLocation: selectedLocation,
-        },
-      });
-    }
-
+    // Only trigger search when user actually selects something
     onSearch({
       service: service,
       location: selectedLocation,
@@ -99,15 +91,16 @@ export default function HeaderSearchBarDesktop({
     setService(selectedService);
     setShowServiceDropdown(false);
 
-    if (isTraderDetailsPage) {
-      navigate("/", {
-        state: {
-          selectedService: selectedService,
-          selectedLocation: location,
-        },
-      });
-    }
+    // Convert service name to URL format (e.g., "House Renovation" -> "house-renovation")
+    const urlServiceName = selectedService
+      .toLowerCase()
+      .replace(/&/g, "")
+      .replace(/\s+/g, "-");
 
+    // Navigate to the new service URL
+    navigate(`/${urlServiceName}`);
+
+    // Update the search with new service
     onSearch({
       service: selectedService,
       location: location,
@@ -115,16 +108,11 @@ export default function HeaderSearchBarDesktop({
   };
 
   const handleSearchClick = () => {
-    if (isTraderDetailsPage) {
-      navigate("/", {
-        state: {
-          selectedService: service,
-          selectedLocation: location,
-        },
-      });
-    }
-
-    onSearch({ service, location });
+    // Only trigger search when user clicks the search button
+    onSearch({
+      service: service || currentService,
+      location: location || "",
+    });
   };
 
   const handleLogoClick = () => {

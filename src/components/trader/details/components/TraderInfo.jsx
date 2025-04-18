@@ -17,10 +17,10 @@ export default function TraderInfo({ trader }) {
         <p>{trader.service_descriptions}</p>
       </div>
 
-      <div className="mt-6">
+      {/* <div className="mt-6">
         <h3 className="mb-2 text-lg font-semibold">Qualifications</h3>
         <p>{trader.qualifications}</p>
-      </div>
+      </div> */}
 
       <div className="mt-6">
         <h3 className="mb-2 text-lg font-semibold">Pricing</h3>
