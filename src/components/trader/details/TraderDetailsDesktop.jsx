@@ -82,7 +82,7 @@ export default function TraderDetailsDesktop({
       <TraderFivePhotosDesktop trader={trader} />
       <div className="flex flex-col min-[1339px]:flex-row gap-6 mx-auto max-w-[90%] min-[1423px]:max-w-[85%] min-[1920px]:max-w-[80%]">
         <div className="w-full min-[1339px]:w-[60%]">
-          <div className="min-h-screen col-span-3 pb-4 min-[500px]:pb-16 bg-white rounded-lg">
+          <div className="min-[500px]:min-h-screen col-span-3 pb-4 min-[500px]:pb-16 bg-white rounded-lg">
             <TraderDetailsCardDesktop trader={trader} />
           </div>
         </div>
