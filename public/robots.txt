@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /legal-statement
 
 # Force frequent crawling
 Crawl-delay: 1

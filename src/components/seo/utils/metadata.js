@@ -20,7 +20,7 @@ export const getServiceMetadata = (service, location = "") => {
       name: companyName,
       alternateName: "Trade Specialists Scotland",
       description:
-        "Expert contractors for Removal, House Renovation, Painting, Carpet & Flooring, Bathroom & Kitchen, Window & Door, Exterior & Roofing, Solar Panels, and Commercial services.",
+        "Removal, House Renovation, Painting, Carpet & Flooring, Bathroom & Kitchen, Window & Door, Exterior & Roofing, Solar Panels, and Commercial services.",
       provider: {
         "@type": "LocalBusiness",
         name: companyName,
