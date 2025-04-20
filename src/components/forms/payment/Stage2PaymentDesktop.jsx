@@ -100,11 +100,8 @@ export default function Stage2PaymentDesktop({
         }
       );
 
-      let errorData;
       let responseData;
-
       try {
-        // Try to parse response as JSON
         const textData = await response.text();
         if (textData) {
           responseData = JSON.parse(textData);
@@ -126,20 +123,76 @@ export default function Stage2PaymentDesktop({
         throw new Error("No response data received");
       }
 
-      console.log("Payment successful:", responseData);
+      console.log("Payment response:", responseData);
 
-      // Send confirmation emails after successful payment
-      await sendConfirmationEmails(responseData, bookingDetails);
+      // Handle 3D Secure Authentication
+      if (responseData.status === "PAYER_ACTION_REQUIRED") {
+        const threeDSUrl = responseData.links.find(
+          (link) => link.rel === "payer-action"
+        )?.href;
+        if (threeDSUrl) {
+          // Open 3D Secure verification in a new window
+          const threeDSWindow = window.open(
+            threeDSUrl,
+            "3DSecure",
+            "width=600,height=600"
+          );
 
-      onPaymentSuccess({
-        orderId: responseData.id,
-        status: responseData.status,
-        amount: depositAmount,
-        bookingDetails: {
-          ...bookingDetails,
-          DepositAmount: depositAmount,
-        },
-      });
+          // Poll for window closure and check payment status
+          const pollInterval = setInterval(async () => {
+            if (threeDSWindow.closed) {
+              clearInterval(pollInterval);
+
+              // Check payment status
+              try {
+                const statusResponse = await fetch(
+                  `${import.meta.env.VITE_PAYMENT_API_URL}/api/orders/${responseData.id}`,
+                  {
+                    credentials: "include",
+                  }
+                );
+
+                const statusData = await statusResponse.json();
+
+                if (statusData.status === "COMPLETED") {
+                  // Payment successful after 3D Secure
+                  await sendConfirmationEmails(statusData, bookingDetails);
+                  onPaymentSuccess({
+                    orderId: statusData.id,
+                    status: statusData.status,
+                    amount: depositAmount,
+                    bookingDetails: {
+                      ...bookingDetails,
+                      DepositAmount: depositAmount,
+                    },
+                  });
+                } else {
+                  throw new Error("3D Secure verification failed");
+                }
+              } catch (error) {
+                setError("3D Secure verification failed. Please try again.");
+                onPaymentError();
+              }
+            }
+          }, 1000);
+        } else {
+          throw new Error("3D Secure verification URL not found");
+        }
+      } else if (responseData.status === "COMPLETED") {
+        // Payment successful without 3D Secure
+        await sendConfirmationEmails(responseData, bookingDetails);
+        onPaymentSuccess({
+          orderId: responseData.id,
+          status: responseData.status,
+          amount: depositAmount,
+          bookingDetails: {
+            ...bookingDetails,
+            DepositAmount: depositAmount,
+          },
+        });
+      } else {
+        throw new Error("Payment failed");
+      }
     } catch (error) {
       console.error("Payment process failed:", error);
       setError(error.message || "Payment failed. Please try again.");
@@ -151,6 +204,16 @@ export default function Stage2PaymentDesktop({
 
   const sendConfirmationEmails = async (orderData, bookingDetails) => {
     try {
+      // Check if EmailJS public key is available
+      const emailJsPublicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+      if (!emailJsPublicKey) {
+        console.error("EmailJS public key is missing");
+        return;
+      }
+
+      // Initialize EmailJS
+      emailjs.init(emailJsPublicKey);
+
       const emailData = {
         customer_email: bookingDetails.Email,
         name: bookingDetails.FullName,
@@ -168,7 +231,7 @@ export default function Stage2PaymentDesktop({
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
         import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
         emailData,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+        emailJsPublicKey
       );
 
       // Email to admin
@@ -176,12 +239,13 @@ export default function Stage2PaymentDesktop({
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
         import.meta.env.VITE_EMAILJS_ADMIN_TEMPLATE_ID,
         emailData,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+        emailJsPublicKey
       );
 
       console.log("Confirmation emails sent successfully");
     } catch (error) {
       console.error("Failed to send confirmation emails:", error);
+      // Don't throw the error - we don't want to fail the payment process if emails fail
     }
   };
 
