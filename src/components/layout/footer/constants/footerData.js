@@ -1,46 +1,33 @@
 export const primaryServices = [
   {
     title: "Home & Business Removal",
-    link: "#booking-steps",
   },
   {
     title: "House Renovation",
-    link: "#removal-services",
-  },
-  {
-    title: "Carpet & Flooring",
-    link: "#booking-form",
   },
   {
     title: "Painting & Decoration",
-    link: "#booking-steps",
   },
   {
-    title: "Damage Repair",
-    link: "#removal-services",
+    title: "Carpet & Flooring",
+  },
+  {
+    title: "Bathroom & Kitchen",
   },
 ];
 
 export const secondaryServices = [
   {
-    title: "Electrical & Gas Services",
-    link: "#removal-services",
+    title: "Window & Door",
   },
   {
-    title: "Locksmith Services",
-    link: "#removal-services",
+    title: "Exterior & Roofing",
   },
   {
     title: "Solar Panel Installation",
-    link: "#removal-services",
   },
   {
-    title: "Window & Heating Specialists",
-    link: "#removal-services",
-  },
-  {
-    title: "Car Repair & Maintenance",
-    link: "#removal-services",
+    title: "Commercial Maintenance",
   },
 ];
 
@@ -51,10 +38,10 @@ export const contactInfo = [
   },
   {
     icon: "email",
-    content: "trade-specialists@outlook.com",
+    content: "admin@trade-specialists.com",
   },
   {
     icon: "clock",
-    content: "Mon-Sun: 9am-9pm",
+    content: "Mon-Sun: 24 hours",
   },
 ];

@@ -20,7 +20,7 @@ export default function EnquiryButton({ onClose, cardRef }) {
         07943 059 792
       </div>
       <p className="text-sm text-left text-gray-500">
-        * Our team is available Monday to Sunday from 9am - 8pm.
+        * Our team is available 24 hours a day, 7 days a week.
       </p>
     </div>
   );
