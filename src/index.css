@@ -198,3 +198,34 @@ body {
 .legal-section {
   @apply mb-8;
 }
+
+/* Add to your existing CSS file */
+.hosted-field {
+  height: 48px !important;
+  width: 100% !important;
+}
+
+.hosted-field iframe {
+  height: 100% !important;
+  width: 100% !important;
+  min-height: 48px !important;
+}
+
+.hosted-field.focused {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
+}
+
+.hosted-field.valid {
+  border-color: #10b981;
+}
+
+.hosted-field.invalid {
+  border-color: #ef4444;
+}
+
+iframe {
+  height: 100% !important;
+  width: 100% !important;
+  border: none !important;
+}

@@ -8,7 +8,6 @@ import {
 import { useState, useEffect } from "react";
 import TradersCollectionsDesktop from "./components/traders/TradersCollectionsDesktop";
 import TraderDetailsDesktop from "./components/trader/details/TraderDetailsDesktop";
-import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import emailjs from "@emailjs/browser";
 import Layout from "./components/layout/Layout";
 import { HelmetProvider } from "react-helmet-async";
@@ -50,7 +49,6 @@ function App() {
   const [traders, setTraders] = useState([]);
   const [currentService, setCurrentService] = useState(null);
   const [currentLocation, setCurrentLocation] = useState("");
-  const [clientToken, setClientToken] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isDataReady, setIsDataReady] = useState(false);
   const location = useLocation();
@@ -127,39 +125,6 @@ function App() {
 
     handleUrlChange();
   }, [location.pathname]);
-
-  useEffect(() => {
-    const fetchClientToken = async () => {
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_PAYMENT_API_URL}/api/client-token`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            credentials: "include",
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        if (!data.success) {
-          throw new Error("Failed to get client token");
-        }
-
-        setClientToken(data.data.clientToken);
-      } catch (error) {
-        console.error("Error fetching client token:", error);
-        // Don't set loading to false here if you want to retry
-      }
-    };
-
-    fetchClientToken();
-  }, []);
 
   useEffect(() => {
     emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
@@ -256,84 +221,72 @@ function App() {
     }
   };
 
-  const initialOptions = {
-    "client-id": import.meta.env.VITE_PAYPAL_CLIENT_ID,
-    currency: "GBP",
-    intent: "capture",
-    components: "buttons,hosted-fields",
-    "data-client-token": clientToken,
-    "enable-funding": "card",
-    "disable-funding": "paylater,venmo",
-  };
-
   if (!isDataReady) {
     return null;
   }
 
   return (
     <HelmetProvider>
-      <PayPalScriptProvider options={initialOptions}>
-        <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<Navigate to="/removal" replace />} />
-          <Route
-            path="/legal-statement"
-            element={
-              <Layout
-                showFooter={true}
-                currentService={currentService}
-                currentLocation={currentLocation}
-                onSearch={handleSearch}
-                onServiceSelect={handleServiceSelect}
-                isLoading={false}
-              >
-                <LegalStatementPage />
-              </Layout>
-            }
-          />
-          <Route
-            path="/:serviceType"
-            element={
-              <Layout
-                showFooter={true}
-                currentService={currentService}
-                currentLocation={currentLocation}
-                onSearch={handleSearch}
-                onServiceSelect={handleServiceSelect}
-                isLoading={loading}
-              >
-                <MetaTags service={currentService} location={currentLocation} />
-                <div className="mt-41 min-[1339px]:mt-43 min-[1920px]:mt-48">
-                  <TradersCollectionsDesktop
-                    traders={traders}
-                    currentService={currentService}
-                    onTraderSelect={handleTraderSelect}
-                    setParentLoading={setLoading}
-                  />
-                </div>
-              </Layout>
-            }
-          />
-          <Route
-            path="/:serviceType/:traderId"
-            element={
-              <Layout
-                showFooter={true}
-                currentService={currentService}
-                currentLocation={currentLocation}
-                onSearch={handleSearch}
-                onServiceSelect={handleServiceSelect}
-                isLoading={loading}
-              >
-                <TraderDetailsDesktop
-                  fetchTraders={fetchTraders}
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<Navigate to="/removal" replace />} />
+        <Route
+          path="/legal-statement"
+          element={
+            <Layout
+              showFooter={true}
+              currentService={currentService}
+              currentLocation={currentLocation}
+              onSearch={handleSearch}
+              onServiceSelect={handleServiceSelect}
+              isLoading={false}
+            >
+              <LegalStatementPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/:serviceType"
+          element={
+            <Layout
+              showFooter={true}
+              currentService={currentService}
+              currentLocation={currentLocation}
+              onSearch={handleSearch}
+              onServiceSelect={handleServiceSelect}
+              isLoading={loading}
+            >
+              <MetaTags service={currentService} location={currentLocation} />
+              <div className="mt-41 min-[1339px]:mt-43 min-[1920px]:mt-48">
+                <TradersCollectionsDesktop
+                  traders={traders}
+                  currentService={currentService}
+                  onTraderSelect={handleTraderSelect}
                   setParentLoading={setLoading}
                 />
-              </Layout>
-            }
-          />
-        </Routes>
-      </PayPalScriptProvider>
+              </div>
+            </Layout>
+          }
+        />
+        <Route
+          path="/:serviceType/:traderId"
+          element={
+            <Layout
+              showFooter={true}
+              currentService={currentService}
+              currentLocation={currentLocation}
+              onSearch={handleSearch}
+              onServiceSelect={handleServiceSelect}
+              isLoading={loading}
+            >
+              <TraderDetailsDesktop
+                fetchTraders={fetchTraders}
+                setParentLoading={setLoading}
+              />
+            </Layout>
+          }
+        />
+      </Routes>
     </HelmetProvider>
   );
 }

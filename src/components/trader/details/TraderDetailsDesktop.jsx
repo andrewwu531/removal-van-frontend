@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import TraderDetailsCardDesktop from "./TraderDetailsCardDesktop";
 import TraderFivePhotosDesktop from "../fivePhotos/TraderFivePhotosDesktop";
-import FormDesktop from "../../forms/layout/FormDesktop";
+import Stage1BookingFormDesktop from "../../forms/booking/Stage1BookingFormDesktop";
 import NotFoundState from "./components/NotFoundState";
 
 export default function TraderDetailsDesktop({
@@ -87,7 +87,7 @@ export default function TraderDetailsDesktop({
           </div>
         </div>
         <div className="w-full min-[1339px]:w-[40%]">
-          <FormDesktop trader={trader} />
+          <Stage1BookingFormDesktop trader={trader} />
         </div>
       </div>
     </div>
