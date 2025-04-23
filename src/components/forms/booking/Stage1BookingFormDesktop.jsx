@@ -42,7 +42,10 @@ const Stage1BookingFormDesktop = ({ trader }) => {
   // Add cleanup function
   const cleanupBooking = async (email) => {
     try {
-      const url = `${import.meta.env.VITE_PAYMENT_URL}/api/cleanup-booking`;
+      const baseUrl =
+        import.meta.env.VITE_PAYMENT_URL ||
+        "https://payment.trade-specialists.com";
+      const url = `${baseUrl.replace(/\/+$/, "")}/api/cleanup-booking`;
       console.log("Cleanup URL:", url);
 
       const response = await fetch(url, {
@@ -95,10 +98,19 @@ const Stage1BookingFormDesktop = ({ trader }) => {
         timestamp: new Date().toISOString(),
       };
 
-      // Use the correct URL from environment variable
-      const url = `${import.meta.env.VITE_PAYMENT_URL}/api/store-booking`;
-      console.log("Sending request to:", url);
-      console.log("With data:", bookingData);
+      // Debug environment variables and URL construction
+      console.log("Environment mode:", import.meta.env.MODE);
+      console.log("VITE_PAYMENT_URL:", import.meta.env.VITE_PAYMENT_URL);
+
+      // Ensure we're using the correct payment URL
+      const baseUrl =
+        import.meta.env.VITE_PAYMENT_URL ||
+        "https://payment.trade-specialists.com";
+      // Remove any trailing slashes and construct the URL
+      const url = `${baseUrl.replace(/\/+$/, "")}/api/store-booking`;
+
+      console.log("Final request URL:", url);
+      console.log("Booking data:", bookingData);
 
       const response = await fetch(url, {
         method: "POST",
@@ -110,6 +122,8 @@ const Stage1BookingFormDesktop = ({ trader }) => {
         mode: "cors",
         body: JSON.stringify(bookingData),
       });
+
+      console.log("Response status:", response.status);
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({
