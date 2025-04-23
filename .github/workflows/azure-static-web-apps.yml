@@ -40,7 +40,7 @@ jobs:
       - name: Create Production Environment File
         run: |
           echo "VITE_BASE_URL=${{ secrets.VITE_BASE_URL }}" > .env.production
-          echo "VITE_PAYMENT_API_URL=${{ secrets.VITE_PAYMENT_API_URL }}" >> .env.production
+          echo "VITE_PAYMENT_API_URL=${{ secrets.VITE_PAYMENT_URL }}" >> .env.production
           echo "VITE_PAYPAL_CLIENT_ID=${{ secrets.VITE_PAYPAL_CLIENT_ID }}" >> .env.production
           echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" >> .env.production
           echo "VITE_API_KEY=${{ secrets.VITE_API_KEY }}" >> .env.production
@@ -63,7 +63,7 @@ jobs:
           ls -la dist/
         env:
           VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
-          VITE_PAYMENT_API_URL: ${{ secrets.VITE_PAYMENT_API_URL }}
+          VITE_PAYMENT_API_URL: ${{ secrets.VITE_PAYMENT_URL }}
           VITE_PAYPAL_CLIENT_ID: ${{ secrets.VITE_PAYPAL_CLIENT_ID }}
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
           VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
@@ -91,7 +91,7 @@ jobs:
           app_build_command: "npm run build"
         env:
           VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
-          VITE_PAYMENT_API_URL: ${{ secrets.VITE_PAYMENT_API_URL }}
+          VITE_PAYMENT_API_URL: ${{ secrets.VITE_PAYMENT_URL }}
           VITE_PAYPAL_CLIENT_ID: ${{ secrets.VITE_PAYPAL_CLIENT_ID }}
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
           VITE_API_KEY: ${{ secrets.VITE_API_KEY }}

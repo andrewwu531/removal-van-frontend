@@ -95,12 +95,10 @@ const Stage1BookingFormDesktop = ({ trader }) => {
         timestamp: new Date().toISOString(),
       };
 
-      // Debug log to verify the URL
+      // Use the correct URL from environment variable
       const url = `${import.meta.env.VITE_PAYMENT_URL}/api/store-booking`;
-      console.log("Environment:", import.meta.env.MODE);
-      console.log("VITE_PAYMENT_URL:", import.meta.env.VITE_PAYMENT_URL);
-      console.log("Full request URL:", url);
-      console.log("Booking data:", bookingData);
+      console.log("Sending request to:", url);
+      console.log("With data:", bookingData);
 
       const response = await fetch(url, {
         method: "POST",
@@ -118,11 +116,7 @@ const Stage1BookingFormDesktop = ({ trader }) => {
           error: `HTTP error! status: ${response.status}`,
         }));
         console.error("Server error response:", errorData);
-        throw new Error(
-          errorData.details ||
-            errorData.error ||
-            "Failed to store booking details"
-        );
+        throw new Error(errorData.error || "Failed to store booking details");
       }
 
       const paypalLink = PAYPAL_LINKS[formData.DepositAmount];
