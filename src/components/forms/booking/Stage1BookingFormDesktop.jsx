@@ -42,16 +42,23 @@ const Stage1BookingFormDesktop = ({ trader }) => {
   // Add cleanup function
   const cleanupBooking = async (email) => {
     try {
-      await fetch(`${import.meta.env.VITE_PAYMENT_URL}/api/cleanup-booking`, {
+      const url = `${import.meta.env.VITE_PAYMENT_URL}/api/cleanup-booking`;
+      console.log("Cleanup URL:", url);
+
+      const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
+          "X-Api-Key": import.meta.env.VITE_API_KEY,
         },
         mode: "cors",
-        credentials: "include",
         body: JSON.stringify({ email }),
       });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
     } catch (error) {
       console.error("Error cleaning up booking:", error);
     }
@@ -88,29 +95,34 @@ const Stage1BookingFormDesktop = ({ trader }) => {
         timestamp: new Date().toISOString(),
       };
 
-      console.log(
-        "Sending request to:",
-        `${import.meta.env.VITE_PAYMENT_URL}/api/store-booking`
-      );
+      // Debug log to verify the URL
+      const url = `${import.meta.env.VITE_PAYMENT_URL}/api/store-booking`;
+      console.log("Environment:", import.meta.env.MODE);
+      console.log("VITE_PAYMENT_URL:", import.meta.env.VITE_PAYMENT_URL);
+      console.log("Full request URL:", url);
+      console.log("Booking data:", bookingData);
 
-      const response = await fetch(
-        `${import.meta.env.VITE_PAYMENT_URL}/api/store-booking`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            "X-Api-Key": import.meta.env.VITE_API_KEY,
-          },
-          mode: "cors",
-          body: JSON.stringify(bookingData),
-        }
-      );
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "X-Api-Key": import.meta.env.VITE_API_KEY,
+        },
+        mode: "cors",
+        body: JSON.stringify(bookingData),
+      });
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        console.error("Server response:", errorData);
-        throw new Error(errorData.details || "Failed to store booking details");
+        const errorData = await response.json().catch(() => ({
+          error: `HTTP error! status: ${response.status}`,
+        }));
+        console.error("Server error response:", errorData);
+        throw new Error(
+          errorData.details ||
+            errorData.error ||
+            "Failed to store booking details"
+        );
       }
 
       const paypalLink = PAYPAL_LINKS[formData.DepositAmount];
