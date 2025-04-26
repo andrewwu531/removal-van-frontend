@@ -4,6 +4,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import CustomDateInput from "./components/CustomDateInput";
 import BookingFormFields from "./components/BookingFormFields";
+import { paymentWs } from "../../../services/websocket";
+import { sendConfirmationEmails } from "../../../services/emailService";
 
 const Stage1BookingFormDesktop = ({ trader }) => {
   const [formData, setFormData] = useState({
@@ -32,11 +34,6 @@ const Stage1BookingFormDesktop = ({ trader }) => {
       formData.Telephone.trim() &&
       formData.Date
     );
-  };
-
-  const PAYPAL_LINKS = {
-    "60.00": "https://www.paypal.com/ncp/payment/68ZCMJ5YMKVM4",
-    "100.00": "https://www.paypal.com/ncp/payment/32UEJCJ7EGM2G",
   };
 
   // Add cleanup function
@@ -82,6 +79,26 @@ const Stage1BookingFormDesktop = ({ trader }) => {
     };
   }, [formData.Email]);
 
+  useEffect(() => {
+    const handlePaymentCompletion = async (paymentData) => {
+      try {
+        // Send confirmation emails using EmailJS
+        await sendConfirmationEmails(paymentData);
+        console.log("Payment completed and emails sent");
+      } catch (error) {
+        console.error("Error handling payment completion:", error);
+      }
+    };
+
+    // Add payment completion handler
+    paymentWs.addHandler(handlePaymentCompletion);
+
+    // Cleanup
+    return () => {
+      paymentWs.removeHandler(handlePaymentCompletion);
+    };
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -98,21 +115,13 @@ const Stage1BookingFormDesktop = ({ trader }) => {
         timestamp: new Date().toISOString(),
       };
 
-      // Debug environment variables and URL construction
-      console.log("Environment mode:", import.meta.env.MODE);
-      console.log("VITE_PAYMENT_URL:", import.meta.env.VITE_PAYMENT_URL);
-
-      // Ensure we're using the correct payment URL
       const baseUrl =
         import.meta.env.VITE_PAYMENT_URL ||
         "https://payment.trade-specialists.com";
-      // Remove any trailing slashes and construct the URL
-      const url = `${baseUrl.replace(/\/+$/, "")}/api/store-booking`;
 
-      console.log("Final request URL:", url);
-      console.log("Booking data:", bookingData);
-
-      const response = await fetch(url, {
+      // Store booking
+      const bookingUrl = `${baseUrl.replace(/\/+$/, "")}/api/store-booking`;
+      const bookingResponse = await fetch(bookingUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -123,25 +132,28 @@ const Stage1BookingFormDesktop = ({ trader }) => {
         body: JSON.stringify(bookingData),
       });
 
-      console.log("Response status:", response.status);
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({
-          error: `HTTP error! status: ${response.status}`,
-        }));
-        console.error("Server error response:", errorData);
-        throw new Error(errorData.error || "Failed to store booking details");
+      if (!bookingResponse.ok) {
+        throw new Error("Failed to store booking details");
       }
 
-      const paypalLink = PAYPAL_LINKS[formData.DepositAmount];
-      if (paypalLink) {
+      // Get PayPal payment link
+      const paymentLinkUrl = `${baseUrl.replace(/\/+$/, "")}/api/payment-link/${formData.DepositAmount}`;
+      const paymentLinkResponse = await fetch(paymentLinkUrl);
+
+      if (!paymentLinkResponse.ok) {
+        throw new Error("Failed to get payment link");
+      }
+
+      const { paymentLink } = await paymentLinkResponse.json();
+
+      if (paymentLink) {
         const cleanupHandler = () => {
           cleanupBooking(formData.Email);
           window.removeEventListener("focus", cleanupHandler);
         };
         window.addEventListener("focus", cleanupHandler);
 
-        window.location.href = paypalLink;
+        window.location.href = paymentLink;
       } else {
         throw new Error("Invalid deposit amount");
       }
