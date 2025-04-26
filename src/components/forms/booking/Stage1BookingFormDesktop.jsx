@@ -4,8 +4,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import CustomDateInput from "./components/CustomDateInput";
 import BookingFormFields from "./components/BookingFormFields";
-import { paymentWs } from "../../../services/websocket";
-import { sendConfirmationEmails } from "../../../services/emailService";
 
 const Stage1BookingFormDesktop = ({ trader }) => {
   const [formData, setFormData] = useState({
@@ -64,41 +62,6 @@ const Stage1BookingFormDesktop = ({ trader }) => {
     }
   };
 
-  // Add beforeunload event listener to cleanup on page leave/refresh
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      if (formData.Email) {
-        cleanupBooking(formData.Email);
-      }
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [formData.Email]);
-
-  useEffect(() => {
-    const handlePaymentCompletion = async (paymentData) => {
-      try {
-        // Send confirmation emails using EmailJS
-        await sendConfirmationEmails(paymentData);
-        console.log("Payment completed and emails sent");
-      } catch (error) {
-        console.error("Error handling payment completion:", error);
-      }
-    };
-
-    // Add payment completion handler
-    paymentWs.addHandler(handlePaymentCompletion);
-
-    // Cleanup
-    return () => {
-      paymentWs.removeHandler(handlePaymentCompletion);
-    };
-  }, []);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -147,12 +110,6 @@ const Stage1BookingFormDesktop = ({ trader }) => {
       const { paymentLink } = await paymentLinkResponse.json();
 
       if (paymentLink) {
-        const cleanupHandler = () => {
-          cleanupBooking(formData.Email);
-          window.removeEventListener("focus", cleanupHandler);
-        };
-        window.addEventListener("focus", cleanupHandler);
-
         window.location.href = paymentLink;
       } else {
         throw new Error("Invalid deposit amount");
@@ -162,6 +119,19 @@ const Stage1BookingFormDesktop = ({ trader }) => {
       setIsProcessing(false);
     }
   };
+
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (formData.Email) {
+        cleanupBooking(formData.Email);
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [formData.Email]);
 
   return (
     <div className="w-full mx-auto font-sans">
