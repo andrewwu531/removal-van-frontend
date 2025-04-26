@@ -99,7 +99,7 @@ const Stage1BookingFormDesktop = ({ trader }) => {
         throw new Error("Failed to store booking details");
       }
 
-      // Get PayPal payment link
+      // Get PayPal payment link s
       const paymentLinkUrl = `${baseUrl.replace(/\/+$/, "")}/api/payment-link/${formData.DepositAmount}`;
       const paymentLinkResponse = await fetch(paymentLinkUrl);
 
