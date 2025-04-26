@@ -7,7 +7,7 @@ class PaymentWebSocket {
   connect() {
     const wsUrl =
       import.meta.env.VITE_PAYMENT_WS_URL ||
-      "wss://trade-specialists-payment.azurewebsites.net/ws";
+      "wss://payment.trade-specialists.com/ws";
 
     this.ws = new WebSocket(wsUrl);
 
