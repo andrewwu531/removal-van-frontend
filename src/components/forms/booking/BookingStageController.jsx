@@ -10,7 +10,7 @@ const BookingStageController = ({ trader }) => {
   const [transactionId, setTransactionId] = useState(null);
   const [processing, setProcessing] = useState(false);
 
-  // After booking details are submitted
+  // After booking details are submitteda
   const handleFormComplete = (data) => {
     setFormData(data);
     setStage("payment");
