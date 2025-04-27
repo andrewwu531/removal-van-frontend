@@ -120,19 +120,6 @@ const Stage1BookingFormDesktop = ({ trader }) => {
     }
   };
 
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      if (formData.Email) {
-        cleanupBooking(formData.Email);
-      }
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [formData.Email]);
-
   return (
     <div className="w-full mx-auto font-sans">
       <div className="px-4 pt-2 min-[2560px]:pt-6 bg-white rounded-lg shadow-lg">
