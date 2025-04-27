@@ -23,7 +23,7 @@ const BookingStageController = ({ trader }) => {
   };
 
   return (
-    <div className="min-[1024px]:px-10 mt-10">
+    <div className="min-[1257px]:px-6 mt-10 min-[500px]:w-4/5 min-[500px]:mx-auto min-[1257px]:w-full">
       {stage === "form" && (
         <Stage1BookingForm trader={trader} onComplete={handleFormComplete} />
       )}

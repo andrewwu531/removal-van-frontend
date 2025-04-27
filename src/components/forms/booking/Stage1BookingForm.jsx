@@ -44,8 +44,8 @@ const Stage1BookingForm = ({ trader, onComplete }) => {
       </h2>
       <div className="px-6 pb-16">
         <BookingFormFields formData={formData} handleChange={handleChange} />
-        <div className="flex flex-row space-x-3">
-          <div className="w-full mb-3">
+        <div className="flex flex-row space-x-3 max-[414px]:flex-col max-[414px]:space-x-0 max-[414px]:space-y-3">
+          <div className="w-2/3 mb-3 max-[414px]:w-full">
             <label
               htmlFor="bookingDate"
               className="block font-medium text-gray-700 text-md"
@@ -65,7 +65,7 @@ const Stage1BookingForm = ({ trader, onComplete }) => {
               aria-labelledby="booking-date-label"
             />
           </div>
-          <div className="w-1/2 mb-3">
+          <div className="w-1/2 max-[414px]:w-full mb-3">
             <label
               id="deposit-amount-label"
               htmlFor="depositAmount"
@@ -114,7 +114,7 @@ const Stage1BookingForm = ({ trader, onComplete }) => {
           <button
             type="submit"
             disabled={isProcessing}
-            className={`px-11 py-4.5 mt-5 font-semibold text-lg text-white ${
+            className={`px-11 py-4.5 mt-8 font-semibold text-lg text-white ${
               isProcessing
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-red-500 hover:scale-102"
