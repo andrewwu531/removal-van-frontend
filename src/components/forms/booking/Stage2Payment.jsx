@@ -68,6 +68,7 @@ const Stage2Payment = ({
                     }),
                   });
                   const orderData = await response.json();
+                  console.log("PayPal orderData:", orderData);
                   if (orderData.id) {
                     return orderData.id;
                   } else {
