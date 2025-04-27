@@ -15,7 +15,6 @@ const Stage2Payment = ({
   const initialOptions = {
     "client-id": import.meta.env.VITE_PAYPAL_CLIENT_ID,
     currency: "GBP",
-    "buyer-country": "GB",
     components: "buttons",
   };
 
