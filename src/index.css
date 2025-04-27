@@ -229,3 +229,36 @@ iframe {
   width: 100% !important;
   border: none !important;
 }
+
+/* Add vertical spacing between PayPal buttons and the branding */
+.paypal-buttons + .paypal-powered-by {
+  margin-top: 24px !important;
+}
+
+/* Try to target the branding with more general selectors */
+.paypal-buttons,
+.paypal-button,
+.paypal-button-container {
+  margin-bottom: 24px !important;
+}
+
+/* Try to target the branding container directly */
+div[class*="paypal-powered-by"] {
+  margin-top: 24px !important;
+}
+
+/* Try to target the branding image if present */
+img[alt="Powered by PayPal"] {
+  margin-top: 24px !important;
+  display: block;
+}
+
+/* Move the default select arrow left by 5px */
+.custom-select-arrow {
+  background-position: right 1.3125rem center;
+}
+
+/* For most browsers, the default is right 0.75rem (12px) or right 1rem (16px).
+   Adjust the value as needed for your design and browser. 
+   Try right 1.1875rem (19px) for exactly 3px more left if your default is 1rem (16px).
+*/

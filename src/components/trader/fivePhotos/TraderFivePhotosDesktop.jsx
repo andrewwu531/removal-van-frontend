@@ -25,7 +25,7 @@ export default function TraderPhotos({ trader }) {
   return (
     <>
       <div
-        className="grid min-[500px]:grid-cols-2 grid-cols-2 gap-2 p-4 mx-auto max-[500px]:px-12 min-[500px]:max-w-9/14 min-[1171px]:max-w-5/7 min-[1339px]:max-w-4/7 min-[1920px]:max-w-10/14 cursor-pointer"
+        className="grid min-[500px]:grid-cols-2 grid-cols-2 gap-2 p-4 min-[500px]:mb-6 mx-auto max-[500px]:px-12 min-[500px]:max-w-9/14 min-[1171px]:max-w-5/7 min-[1339px]:max-w-4/7 min-[1920px]:max-w-10/14 cursor-pointer"
         onClick={handlePhotoClick}
       >
         {/* Desktop View */}
