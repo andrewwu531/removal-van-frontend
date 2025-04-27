@@ -5,7 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import CustomDateInput from "./components/CustomDateInput";
 import PropTypes from "prop-types";
 
-const Stage1BookingForm = ({ trader, onComplete }) => {
+const Stage1BookingForm = ({ onComplete }) => {
   const [formData, setFormData] = useState({
     FullName: "",
     Email: "",
@@ -129,12 +129,6 @@ const Stage1BookingForm = ({ trader, onComplete }) => {
 };
 
 Stage1BookingForm.propTypes = {
-  trader: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    telephone: PropTypes.string,
-    email: PropTypes.string,
-    address: PropTypes.string,
-  }).isRequired,
   onComplete: PropTypes.func.isRequired,
 };
 
