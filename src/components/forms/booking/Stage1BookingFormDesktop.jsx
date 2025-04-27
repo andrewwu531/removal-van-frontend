@@ -101,9 +101,13 @@ const Stage1BookingFormDesktop = ({ trader }) => {
 
       // Get PayPal payment link s
       const paymentLinkUrl = `${baseUrl.replace(/\/+$/, "")}/api/payment-link/${formData.DepositAmount}`;
-      const paymentLinkResponse = await fetch(paymentLinkUrl);
+      const paymentLinkResponse = await fetch(paymentLinkUrl, {
+        cache: "no-store",
+      });
 
       if (!paymentLinkResponse.ok) {
+        const text = await paymentLinkResponse.text();
+        console.error("Payment link error response:", text);
         throw new Error("Failed to get payment link");
       }
 
