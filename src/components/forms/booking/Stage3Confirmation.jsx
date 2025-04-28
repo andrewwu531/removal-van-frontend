@@ -76,6 +76,13 @@ const Stage3Confirmation = ({ trader, formData, transactionId }) => {
     sendConfirmationEmails();
   }, [formData, trader, transactionId]);
 
+  useEffect(() => {
+    console.log(
+      "VITE_EMAILJS_PUBLIC_KEY in prod:",
+      import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+    );
+  }, []);
+
   return (
     <div className="px-6 pb-16 text-center">
       <h2 className="pt-8 mb-10 text-2xl font-semibold text-gray-700">
