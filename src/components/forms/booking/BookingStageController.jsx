@@ -3,6 +3,15 @@ import Stage1BookingForm from "./Stage1BookingForm";
 import Stage2Payment from "./Stage2Payment";
 import Stage3Confirmation from "./Stage3Confirmation";
 import PropTypes from "prop-types";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+
+const initialPayPalOptions = {
+  "client-id": import.meta.env.VITE_PAYPAL_CLIENT_ID,
+  currency: "GBP",
+  components: "buttons",
+  debug: import.meta.env.DEV,
+  "enable-funding": "card",
+};
 
 const BookingStageController = ({ trader }) => {
   const [stage, setStage] = useState("form"); // "form" | "payment" | "success"
@@ -28,13 +37,15 @@ const BookingStageController = ({ trader }) => {
         <Stage1BookingForm trader={trader} onComplete={handleFormComplete} />
       )}
       {stage === "payment" && formData && (
-        <Stage2Payment
-          trader={trader}
-          formData={formData}
-          onSuccess={handlePaymentSuccess}
-          processing={processing}
-          setProcessing={setProcessing}
-        />
+        <PayPalScriptProvider options={initialPayPalOptions}>
+          <Stage2Payment
+            trader={trader}
+            formData={formData}
+            onSuccess={handlePaymentSuccess}
+            processing={processing}
+            setProcessing={setProcessing}
+          />
+        </PayPalScriptProvider>
       )}
       {stage === "success" && formData && (
         <Stage3Confirmation
