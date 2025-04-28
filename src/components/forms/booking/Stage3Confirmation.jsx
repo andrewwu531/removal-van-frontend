@@ -42,7 +42,7 @@ const Stage3Confirmation = ({ trader, formData, transactionId }) => {
           amount: formData.DepositAmount,
         };
 
-        // Send to customer
+        // Send to customers
         await emailjs.send(
           serviceId,
           templateId,
