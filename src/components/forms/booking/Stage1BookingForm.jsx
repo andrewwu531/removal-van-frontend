@@ -32,7 +32,7 @@ const Stage1BookingForm = ({ onComplete }) => {
     if (!validateForm()) return;
     setIsProcessing(true);
 
-    // Optionally, store booking details in backend here
+    // Optionally, store booking details in backend heres
     setIsProcessing(false);
     onComplete(formData);
   };
