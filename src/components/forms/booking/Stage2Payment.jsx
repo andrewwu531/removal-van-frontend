@@ -67,6 +67,11 @@ const Stage2Payment = ({
                       },
                     }),
                   });
+
+                  if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                  }
+
                   const orderData = await response.json();
                   console.log("PayPal orderData:", orderData);
                   if (orderData.id) {
@@ -75,7 +80,11 @@ const Stage2Payment = ({
                     throw new Error("Could not create PayPal order");
                   }
                 } catch (error) {
-                  setMessage(`Could not initiate PayPal Checkout: ${error}`);
+                  console.error("PayPal createOrder error:", error);
+                  setMessage(
+                    `Could not initiate PayPal Checkout: ${error.message || error}`
+                  );
+                  throw error; // Rethrow to let PayPal SDK handle the error
                 }
               }}
               onApprove={async (data, actions) => {
@@ -123,10 +132,21 @@ const Stage2Payment = ({
                   }
                 } catch (error) {
                   setProcessing(false);
+                  console.error("PayPal onApprove error:", error);
                   setMessage(
-                    `Sorry, your transaction could not be processed: ${error}`
+                    `Sorry, your transaction could not be processed: ${error.message || error}`
                   );
                 }
+              }}
+              onCancel={() => {
+                console.log("Payment cancelled");
+                setMessage("Payment was cancelled. Please try again.");
+              }}
+              onError={(err) => {
+                console.error("PayPal error:", err);
+                setMessage(
+                  `An error occurred with PayPal: ${err.message || "Unknown error"}`
+                );
               }}
             />
           )}
