@@ -34,7 +34,7 @@ export const secondaryServices = [
 export const contactInfo = [
   {
     icon: "phone",
-    content: "07943 059792",
+    content: "(+44) 7700 101047",
   },
   {
     icon: "email",

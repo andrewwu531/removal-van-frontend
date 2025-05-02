@@ -3,28 +3,55 @@ import PropTypes from "prop-types";
 import { getServiceMetadata } from "./utils/metadata";
 
 export default function MetaTags({ service, location }) {
-  const metadata = getServiceMetadata(service, location);
-  const currentUrl = `https://trade-specialists.com/${service
-    .toLowerCase()
-    .replace(/\s+&\s+/g, "-")
-    .replace(/\s+/g, "-")}${
-    location ? "/" + location.toLowerCase().replace(/\s+/g, "-") : ""
-  }`;
+  // Determine if this is the homepage
+  const isHomePage = !service || service === "home" || service === "";
 
-  // Default site-wide metadata
-  const defaultMetadata = {
-    title:
-      "Trade Specialists | Leading provider of professional trade services in Scotland",
-    description:
-      "Removal, House Renovation, Painting, Carpet & Flooring, Bathroom & Kitchen, Window & Door, Exterior & Roofing, Solar Panels, and Commercial services. Contact us now at 07943059792!",
-    keywords:
-      "trade specialists, removal services, house renovation, painting, carpet flooring, bathroom kitchen, window door, exterior roofing, solar panels, commercial services, scotland",
-  };
+  // Determine if this is the removal page
+  const isRemovalPage =
+    service &&
+    service
+      .toLowerCase()
+      .replace(/\s+&\s+/g, "-")
+      .replace(/\s+/g, "-") === "removal";
 
-  // Use service-specific metadata if available, otherwise use default
-  const pageTitle = metadata?.title || defaultMetadata.title;
-  const pageDescription = metadata?.description || defaultMetadata.description;
-  const pageKeywords = metadata?.keywords || defaultMetadata.keywords;
+  // Set metadata based on page
+  let pageTitle, pageDescription, pageKeywords;
+
+  if (isHomePage) {
+    pageTitle = "Leading Provider for UK Professional Trade Services";
+    pageDescription =
+      "Our services include removal, house renovation, painting, carpet & flooring, bathroom & kitchen, window & door, exterior & roofing, solar panels, and commercial services";
+    pageKeywords =
+      "Removal, House Renovation, Painting, Carpet Flooring, Bathroom Kitchen, Window Door, Exterior Roofing, Solar Panels, Commercial Services, UK, Glasgow, Edinburgh, Scotland";
+  } else if (isRemovalPage) {
+    pageTitle =
+      "Professional Removal Services From £175 | Reliable Home & Business Removal";
+    pageDescription =
+      "Confirm your removal appointment at (+44) 07943059792. We aim to respond to your enquiry within 5 minutes. Our removal service is available 7 days a week nationwide in the UK.";
+    pageKeywords =
+      "Removal Services, Man in a Van, UK, Home Removal, Business Removal, Glasgow, Edinburgh, Scotland";
+  } else {
+    // fallback to service-specific or default
+    const metadata = getServiceMetadata(service, location);
+    pageTitle =
+      metadata?.title || "Leading Provider for UK Professional Trade Services";
+    pageDescription =
+      metadata?.description ||
+      "Our services include removal, house renovation, painting, carpet & flooring, bathroom & kitchen, window & door, exterior & roofing, solar panels, and commercial services";
+    pageKeywords =
+      metadata?.keywords ||
+      "Removal, House Renovation, Painting, Carpet Flooring, Bathroom Kitchen, Window Door, Exterior Roofing, Solar Panels, Commercial Services, UK, Glasgow, Edinburgh, Scotland";
+  }
+
+  // Build canonical URL
+  const currentUrl = isHomePage
+    ? "https://trade-specialists.com/"
+    : `https://trade-specialists.com/${service
+        .toLowerCase()
+        .replace(/\s+&\s+/g, "-")
+        .replace(/\s+/g, "-")}${
+        location ? "/" + location.toLowerCase().replace(/\s+/g, "-") : ""
+      }`;
 
   return (
     <Helmet>
@@ -58,6 +85,6 @@ export default function MetaTags({ service, location }) {
 }
 
 MetaTags.propTypes = {
-  service: PropTypes.string.isRequired,
+  service: PropTypes.string,
   location: PropTypes.string,
 };
