@@ -53,6 +53,40 @@ export default function MetaTags({ service, location }) {
         location ? "/" + location.toLowerCase().replace(/\s+/g, "-") : ""
       }`;
 
+  // Example for /removal page
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://trade-specialists.com/",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Removal",
+        item: "https://trade-specialists.com/removal",
+      },
+    ],
+  };
+
+  const localBusinessJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name: "Trade Specialists",
+    image: "https://trade-specialists.com/logo.png",
+    telephone: "+44 7700 101047",
+    url: "https://trade-specialists.com",
+    address: {
+      "@type": "PostalAddress",
+      addressCountry: "GB",
+      addressRegion: "Scotland",
+    },
+  };
+
   return (
     <Helmet>
       <title>{pageTitle}</title>
@@ -80,6 +114,12 @@ export default function MetaTags({ service, location }) {
       />
 
       <link rel="canonical" href={currentUrl} />
+      <script type="application/ld+json">
+        {JSON.stringify(breadcrumbJsonLd)}
+      </script>
+      <script type="application/ld+json">
+        {JSON.stringify(localBusinessJsonLd)}
+      </script>
     </Helmet>
   );
 }
