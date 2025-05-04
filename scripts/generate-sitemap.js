@@ -10,47 +10,47 @@ const services = [
   },
   {
     url: "/services/removal",
-    changefreq: "weekly",
+    changefreq: "daily",
     priority: 0.8,
   },
   {
     url: "/services/house-renovation",
-    changefreq: "weekly",
+    changefreq: "daily",
     priority: 0.8,
   },
   {
     url: "/services/painting",
-    changefreq: "weekly",
+    changefreq: "daily",
     priority: 0.8,
   },
   {
     url: "/services/carpet-flooring",
-    changefreq: "weekly",
+    changefreq: "daily",
     priority: 0.8,
   },
   {
     url: "/services/bathroom-kitchen",
-    changefreq: "weekly",
+    changefreq: "daily",
     priority: 0.8,
   },
   {
     url: "/services/window-door",
-    changefreq: "weekly",
+    changefreq: "daily",
     priority: 0.8,
   },
   {
     url: "/services/solar-panels",
-    changefreq: "weekly",
+    changefreq: "daily",
     priority: 0.8,
   },
   {
     url: "/services/exterior-roofing",
-    changefreq: "weekly",
+    changefreq: "daily",
     priority: 0.8,
   },
   {
     url: "/services/commercial",
-    changefreq: "weekly",
+    changefreq: "daily",
     priority: 0.8,
   },
 ];
