@@ -14,13 +14,13 @@ export default function EnquiryButton({ onClose, cardRef }) {
       </button>
       <h2 className="mb-4 text-xl font-bold text-gray-800">Contact Us</h2>
       <p className="mb-5 text-gray-600">
-        For general enquiries, please contact us by text or phone call at:
+        For general enquiries, please contact us by text messaging at:
       </p>
       <div className="mb-5 text-xl font-semibold text-center text-red-400">
-        07943 059 792
+        (+44) 7700 1010 47
       </div>
       <p className="text-sm text-left text-gray-500">
-        * Our team is available 24 hours a day, 7 days a week.
+        * Text messaging is the fastest way to confirm your booking.
       </p>
     </div>
   );
