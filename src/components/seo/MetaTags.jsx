@@ -27,9 +27,9 @@ export default function MetaTags({ service, location }) {
     pageTitle =
       "Professional Removal Services From £175 | Reliable Home & Business Removal";
     pageDescription =
-      "Confirm your removal appointment at (+44) 7700 1010 47. We aim to respond to your enquiry within 5 minutes. Our removal service is available 7 days a week nationwide in the UK.";
+      "Confirm your removal appointment today at (+44) 7700 1010 47. We aim to respond to your enquiry within 5 minutes. Our removal service is available 7 days a week nationwide in the UK.";
     pageKeywords =
-      "Removal Services, Man in a Van, UK, Home Removal, Business Removal, Glasgow, Edinburgh, Scotland";
+      "Removal Services, Man in a Van, UK, Home Removal, Business Relocation, Glasgow, Edinburgh, Scotland";
   } else {
     // fallback to service-specific or default
     const metadata = getServiceMetadata(service, location);

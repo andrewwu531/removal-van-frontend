@@ -1,11 +1,11 @@
 export const serviceMetadata = {
   Removal: {
     title:
-      "Professional Removal Services | Reliable House & Business Relocation | UK",
+      "Professional Removal Services From £175 | Reliable Home & Business Removal",
     description:
-      "Professional movers offering competitive rates and hassle-free relocation across the UK. Get a quote today!",
+      "Confirm your removal appointment today at (+44) 7700 1010 47. We aim to respond to your enquiry within 5 minutes. Our removal service is available 7 days a week nationwide in the UK.",
     keywords:
-      "removal services, man with a van, house moving, office relocation, UK movers, professional moving service",
+      "Removal Services, Man in a Van, UK, Home Removal, Business Relocation, Glasgow, Edinburgh, Scotland",
     schema: {
       "@type": "MovingCompany",
       serviceType: "Removal Services",
