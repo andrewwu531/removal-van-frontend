@@ -106,8 +106,8 @@ const Stage1BookingForm = ({ onComplete }) => {
         </div>
         <div className="p-5 mt-8 rounded-lg bg-blue-50">
           <p className="px-2 py-1 text-blue-800">
-            Before booking an appointment, please contact us by phone or text
-            via (+44) 7943 059 792 to confirm availability.
+            Before booking an appointment, please text us at (+44) 7700 1010 47
+            to confirm availability.
           </p>
         </div>
         <div className="mt-2 text-left">

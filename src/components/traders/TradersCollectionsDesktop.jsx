@@ -46,7 +46,7 @@ export default function TradersCollectionsDesktop({
       setTimeout(() => {
         setIsLoading(false);
         setParentLoading(false);
-      }, 200);
+      }, 100);
     });
 
     return () => {

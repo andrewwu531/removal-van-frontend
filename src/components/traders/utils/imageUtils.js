@@ -3,7 +3,7 @@ export const getImageUrl = (photoPath) => {
 
   const baseUrl = import.meta.env.PROD
     ? "https://tradespecialistsmedia.blob.core.windows.net/media-prod"
-    : "https://tradespecialistsmedia.blob.core.windows.net/media";
+    : "https://tradespecialistsmedia.blob.core.windows.net/media-prod";
 
   // if (photoPath.startsWith("https://")) return photoPath;
 
