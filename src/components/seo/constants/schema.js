@@ -9,7 +9,7 @@ export const organizationSchema = {
   logo: logo,
   contactPoint: {
     "@type": "ContactPoint",
-    telephone: "7700 101047",
+    telephone: "07700 101047",
     contactType: "customer service",
     areaServed: "GB",
     availableLanguage: "English",
@@ -25,7 +25,7 @@ export const localBusinessSchema = {
     addressCountry: "GB",
     addressRegion: "Scotland",
   },
-  telephone: "7700 101047",
+  telephone: "07700 101047",
   url: "https://trade-specialists.com",
   priceRange: "£",
 };

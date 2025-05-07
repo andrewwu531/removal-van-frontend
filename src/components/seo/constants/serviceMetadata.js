@@ -3,7 +3,7 @@ export const serviceMetadata = {
     title:
       "Professional Removal Services From £175 | Reliable Home & Business Removal",
     description:
-      "Confirm your removal appointment today at (+44) 7700 1010 47. We aim to respond to your enquiry within 5 minutes. Our removal service is available 7 days a week nationwide in the UK.",
+      "Confirm your removal appointment today at (+44) 07700 1010 47. We aim to respond to your enquiry within 5 minutes. Our removal service is available 7 days a week nationwide in the UK.",
     keywords:
       "Removal Services, Man in a Van, UK, Home Removal, Business Relocation, Glasgow, Edinburgh, Scotland",
     schema: {
