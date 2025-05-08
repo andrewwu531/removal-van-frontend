@@ -106,7 +106,13 @@ const Stage1BookingForm = ({ onComplete }) => {
         </div>
         <div className="p-5 mt-8 rounded-lg bg-blue-50">
           <p className="px-2 py-1 text-blue-800">
-            Before booking an appointment, please text us at (+44) 07700 1010 47
+            Before booking an appointment, please text us at{" "}
+            <a
+              href="tel:+447700101047"
+              className="text-blue-600 underline hover:text-blue-800"
+            >
+              (+44) 07700 1010 47
+            </a>{" "}
             to confirm availability. The number must start with the zero for it
             to work.
           </p>
