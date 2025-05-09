@@ -10,7 +10,7 @@
     },
     {
       "route": "/:serviceType*",
-      "rewrite": "/index.html"
+      "rewrite": "/removal.html"
     }
   ],
   "responseOverrides": {
