@@ -5,8 +5,8 @@
   },
   "routes": [
     {
-      "route": "/legal-statement*",
-      "rewrite": "/index.html"
+      "route": "/removal*",
+      "rewrite": "/removal.html"
     },
     {
       "route": "/:serviceType*",
