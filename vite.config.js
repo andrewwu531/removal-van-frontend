@@ -2,26 +2,19 @@ import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import tailwindcss from "@tailwindcss/vite";
 
-// Determine if we're in production
-const isProduction = import.meta.env.PROD;
-
 export default defineConfig({
   plugins: [tailwindcss(), react()],
   server: {
     proxy: {
       "/api": {
-        target: isProduction
-          ? "https://trade-specialists.com/api" // Production API URL
-          : "http://localhost:8080", // Local development API URL
+        target: import.meta.env.VITE_API_URL,
         changeOrigin: true,
-        secure: isProduction, // Enable SSL in production
+        secure: import.meta.env.MODE === "production",
       },
       "/api/backend": {
-        target: isProduction
-          ? "https://trade-specialists.com/api/backend" // Production backend URL
-          : "http://localhost:8000", // Local development backend URL
+        target: import.meta.env.VITE_BACKEND_URL,
         changeOrigin: true,
-        secure: isProduction, // Enable SSL in production
+        secure: import.meta.env.MODE === "production",
       },
     },
     historyApiFallback: true,
