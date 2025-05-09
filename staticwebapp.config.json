@@ -1,16 +1,24 @@
 {
   "navigationFallback": {
     "rewrite": "/index.html",
-    "exclude": ["/images/*", "/css/*", "/assets/*", "/api/*", "/removal"]
+    "exclude": ["/images/*", "/css/*", "/assets/*", "/api/*"]
   },
   "routes": [
     {
+      "route": "/",
+      "rewrite": "/index.html"
+    },
+    {
       "route": "/removal",
+      "rewrite": "/removal/removal.html"
+    },
+    {
+      "route": "/removal/:traderId",
       "rewrite": "/removal.html"
     },
     {
-      "route": "/:serviceType",
-      "rewrite": "/removal.html"
+      "route": "/:serviceType/:traderId",
+      "rewrite": "/index.html"
     }
   ],
   "responseOverrides": {
