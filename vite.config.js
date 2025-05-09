@@ -16,6 +16,7 @@ export default defineConfig({
         changeOrigin: true,
       },
     },
+    historyApiFallback: true,
   },
   build: {
     outDir: "dist",

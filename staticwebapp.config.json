@@ -1,21 +1,22 @@
 {
   "navigationFallback": {
     "rewrite": "/index.html",
-    "exclude": ["/images/*", "/css/*", "/assets/*", "/api/*"]
+    "exclude": ["/images/*", "/css/*", "/assets/*", "/api/*", "/removal"]
   },
   "routes": [
     {
-      "route": "/removal*",
+      "route": "/removal",
       "rewrite": "/removal.html"
     },
     {
-      "route": "/:serviceType*",
+      "route": "/:serviceType",
       "rewrite": "/removal.html"
     }
   ],
   "responseOverrides": {
     "404": {
-      "rewrite": "/index.html"
+      "rewrite": "/index.html",
+      "statusCode": 200
     }
   },
   "mimeTypes": {
