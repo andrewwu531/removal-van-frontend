@@ -7,14 +7,14 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: import.meta.env.VITE_API_URL,
+        target: "http://localhost:8080",
         changeOrigin: true,
-        secure: import.meta.env.NODE_ENV === "production",
+        secure: false,
       },
       "/api/backend": {
-        target: import.meta.env.VITE_BACKEND_URL,
+        target: "http://localhost:8000",
         changeOrigin: true,
-        secure: import.meta.env.NODE_ENV === "production",
+        secure: false,
       },
     },
     historyApiFallback: true,
