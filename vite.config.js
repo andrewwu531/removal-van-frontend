@@ -9,12 +9,12 @@ export default defineConfig({
       "/api": {
         target: import.meta.env.VITE_API_URL,
         changeOrigin: true,
-        secure: import.meta.env.MODE === "production",
+        secure: import.meta.env.NODE_ENV === "production",
       },
       "/api/backend": {
         target: import.meta.env.VITE_BACKEND_URL,
         changeOrigin: true,
-        secure: import.meta.env.MODE === "production",
+        secure: import.meta.env.NODE_ENV === "production",
       },
     },
     historyApiFallback: true,
