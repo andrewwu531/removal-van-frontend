@@ -6,6 +6,6 @@ Disallow: /legal-statement
 Crawl-delay: 1
 
 # Important: Remove old content
-Clean-param: *welcome* *removal*
+Clean-param: *welcome*
 
 Sitemap: https://trade-specialists.com/sitemap.xml
