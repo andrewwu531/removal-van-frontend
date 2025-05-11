@@ -6,24 +6,18 @@ export default function MetaTags({ service, location }) {
   // Determine if this is the homepage
   const isHomePage = !service || service === "home" || service === "";
 
-  // Determine if this is the removal page
-  const isRemovalPage =
-    service &&
-    service
-      .toLowerCase()
-      .replace(/\s+&\s+/g, "-")
-      .replace(/\s+/g, "-") === "removal";
-
   // Set metadata based on page
   let pageTitle, pageDescription, pageKeywords;
 
   if (isHomePage) {
+    // Homepage metadata (even though it redirects)
     pageTitle = "Leading Provider for UK Professional Trade Services";
     pageDescription =
       "Our services include removal, house renovation, painting, carpet & flooring, bathroom & kitchen, window & door, exterior & roofing, solar panels, and commercial services";
     pageKeywords =
       "Removal, House Renovation, Painting, Carpet Flooring, Bathroom Kitchen, Window Door, Exterior Roofing, Solar Panels, Commercial Services, UK, Glasgow, Edinburgh, Scotland";
-  } else if (isRemovalPage) {
+  } else if (service === "Removal") {
+    // Removal page metadata
     pageTitle =
       "Professional Removal Services From £175 | Reliable Home & Business Removal";
     pageDescription =
@@ -49,9 +43,7 @@ export default function MetaTags({ service, location }) {
     : `https://trade-specialists.com/${service
         .toLowerCase()
         .replace(/\s+&\s+/g, "-")
-        .replace(/\s+/g, "-")}${
-        location ? "/" + location.toLowerCase().replace(/\s+/g, "-") : ""
-      }`;
+        .replace(/\s+/g, "-")}`;
 
   // Example for /removal page
   const breadcrumbJsonLd = {

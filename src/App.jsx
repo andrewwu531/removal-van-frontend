@@ -229,7 +229,31 @@ function App() {
     <HelmetProvider>
       <ScrollToTop />
       <Routes>
-        <Route path="/" element={<Navigate to="/removal" replace />} />
+        <Route
+          path="/"
+          element={
+            <>
+              <MetaTags service={null} location={null} />
+              <Navigate to="/removal" replace />
+            </>
+          }
+        />
+        <Route
+          path="/removal"
+          element={
+            <Layout
+              showFooter={true}
+              currentService={currentService}
+              currentLocation={currentLocation}
+              onSearch={handleSearch}
+              onServiceSelect={handleServiceSelect}
+              isLoading={loading}
+            >
+              <MetaTags service="Removal" location={currentLocation} />
+              {/* Rest of your removal page content */}
+            </Layout>
+          }
+        />
         <Route
           path="/legal-statement"
           element={
