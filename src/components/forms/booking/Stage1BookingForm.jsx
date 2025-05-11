@@ -113,8 +113,7 @@ const Stage1BookingForm = ({ onComplete }) => {
             >
               (+44) 07700 1010 47
             </a>{" "}
-            to confirm availability. The number must start with the zero for it
-            to work.
+            to confirm availability.
           </p>
         </div>
         <div className="mt-2 text-left">
