@@ -23,7 +23,16 @@ export default function ContactInfo({ contactItems }) {
         return (
           <p key={index} className="flex items-center">
             <Icon className="mr-5" />
-            <span className="-translate-y-[1px]">{item.content}</span>
+            {item.link ? (
+              <a
+                href={item.link}
+                className="text-white transition-colors hover:text-red-500"
+              >
+                {item.content}
+              </a>
+            ) : (
+              <span className="-translate-y-[1px]">{item.content}</span>
+            )}
           </p>
         );
       })}
@@ -46,6 +55,7 @@ ContactInfo.propTypes = {
     PropTypes.shape({
       icon: PropTypes.oneOf(["phone", "email", "clock"]).isRequired,
       content: PropTypes.string.isRequired,
+      link: PropTypes.string,
     })
   ).isRequired,
 };

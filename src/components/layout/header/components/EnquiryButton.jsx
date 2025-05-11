@@ -16,12 +16,13 @@ export default function EnquiryButton({ onClose, cardRef }) {
       <p className="mb-5 text-gray-600">
         For general enquiries, please contact us by text at:
       </p>
-      <div className="mb-5 text-xl font-semibold text-center text-red-400">
-        (+44) 07700 1010 47
+      <div className="mb-5 text-xl font-semibold text-center">
+        <a href="sms:+447700101047" className="text-red-400 hover:text-red-500">
+          (+44) 07700 1010 47
+        </a>
       </div>
       <p className="text-sm text-left text-gray-500">
-        * Texting is the fastest way to confirm your booking. The number must
-        start with the zero for it to work.
+        * Texting is the fastest way to confirm your booking.
       </p>
     </div>
   );
