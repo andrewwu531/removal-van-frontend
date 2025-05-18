@@ -3,8 +3,8 @@ export const sitemapConfig = {
   services: [
     {
       name: "removal",
-      changefreq: "weekly",
-      priority: 0.8,
+      changefreq: "daily",
+      priority: 1.0,
     },
     {
       name: "house-renovation",
