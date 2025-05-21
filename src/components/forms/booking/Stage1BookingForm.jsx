@@ -10,7 +10,7 @@ const Stage1BookingForm = ({ onComplete }) => {
     FullName: "",
     Email: "",
     Telephone: "",
-    DepositAmount: "60.00",
+    DepositAmount: "45.00",
     Date: new Date().toISOString(),
   });
   const [isProcessing, setIsProcessing] = useState(false);

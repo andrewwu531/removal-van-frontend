@@ -19,7 +19,7 @@ export default function MetaTags({ service, location }) {
   } else if (service === "Removal") {
     // Removal page metadata
     pageTitle =
-      "Professional Removal Services From £175 | Reliable Home & Business Removal";
+      "Professional Removal Services From £185 | Reliable Home & Business Removal";
     pageDescription =
       "Confirm your removal appointment today at (+44) 07453 610 625. We aim to respond to your enquiry within 5 minutes. Our removal service is available 7 days a week nationwide in the UK.";
     pageKeywords =
