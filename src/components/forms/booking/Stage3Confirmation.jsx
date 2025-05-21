@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import emailjs from "@emailjs/browser";
 
@@ -8,6 +8,16 @@ const Stage3Confirmation = ({ trader, formData, transactionId }) => {
   const hasSent = useRef(false);
 
   useEffect(() => {
+    // Track conversion
+    if (window.gtag) {
+      window.gtag("event", "conversion", {
+        send_to: "AW-17012396077",
+        value: formData.DepositAmount,
+        currency: "GBP",
+        transaction_id: transactionId,
+      });
+    }
+
     // Only send email once per confirmation
     if (hasSent.current) return;
     hasSent.current = true;
