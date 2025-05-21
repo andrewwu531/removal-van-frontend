@@ -98,7 +98,16 @@ function App() {
       const path = location.pathname.substring(1);
 
       if (!path) {
-        navigate("/removal", { replace: true });
+        // Instead of immediate redirect, set the service to Removal
+        setCurrentService("Removal");
+        try {
+          await fetchTraders({
+            service: "Removal",
+            location: currentLocation,
+          });
+        } catch (error) {
+          console.error("Error loading traders:", error);
+        }
         return;
       }
 

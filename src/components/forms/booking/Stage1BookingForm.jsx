@@ -85,7 +85,7 @@ const Stage1BookingForm = ({ onComplete }) => {
               >
                 <option value="45.00">£45</option>
                 <option value="80.00">£80</option>
-                {/* <option value="1.00">£1 (Test)</option> */}
+                <option value="1.00">£1 (Test)</option>
               </select>
               <span
                 className="absolute inset-y-0 flex items-center text-black pointer-events-none"

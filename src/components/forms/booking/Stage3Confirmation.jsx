@@ -30,6 +30,25 @@ const Stage3Confirmation = ({ trader, formData, transactionId }) => {
         const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
         const adminEmail = import.meta.env.VITE_ADMIN_EMAIL;
 
+        // Log environment variables (without sensitive data)
+        console.log("EmailJS Configuration:", {
+          serviceId: serviceId ? "Set" : "Missing",
+          templateId: templateId ? "Set" : "Missing",
+          adminTemplateId: adminTemplateId ? "Set" : "Missing",
+          publicKey: publicKey ? "Set" : "Missing",
+          adminEmail: adminEmail ? "Set" : "Missing",
+        });
+
+        if (
+          !serviceId ||
+          !templateId ||
+          !adminTemplateId ||
+          !publicKey ||
+          !adminEmail
+        ) {
+          throw new Error("Missing required EmailJS configuration");
+        }
+
         const formattedDate = new Date(formData.Date).toLocaleString(
           undefined,
           {
@@ -52,8 +71,9 @@ const Stage3Confirmation = ({ trader, formData, transactionId }) => {
           amount: formData.DepositAmount,
         };
 
+        console.log("Sending customer email to:", formData.Email);
         // Send to customers
-        await emailjs.send(
+        const customerResult = await emailjs.send(
           serviceId,
           templateId,
           {
@@ -63,9 +83,11 @@ const Stage3Confirmation = ({ trader, formData, transactionId }) => {
           },
           publicKey
         );
+        console.log("Customer email sent successfully:", customerResult);
 
+        console.log("Sending admin email to:", adminEmail);
         // Send to admin
-        await emailjs.send(
+        const adminResult = await emailjs.send(
           serviceId,
           adminTemplateId,
           {
@@ -75,11 +97,19 @@ const Stage3Confirmation = ({ trader, formData, transactionId }) => {
           },
           publicKey
         );
+        console.log("Admin email sent successfully:", adminResult);
 
         setEmailSent(true);
       } catch (err) {
-        setError("Failed to send confirmation email. Please contact support.");
-        console.error("EmailJS error:", err);
+        console.error("EmailJS error details:", {
+          message: err.message,
+          text: err.text,
+          status: err.status,
+          stack: err.stack,
+        });
+        setError(
+          `Failed to send confirmation email: ${err.message || "Unknown error"}. Please contact support at ${import.meta.env.VITE_ADMIN_EMAIL || "admin@trade-specialists.com"}`
+        );
       }
     };
 
@@ -99,11 +129,15 @@ const Stage3Confirmation = ({ trader, formData, transactionId }) => {
         Payment Successful!
       </h2>
       <p className="mb-8 text-lg text-gray-700">
-        Your payment has been processed successfully. You will now receive an
-        email confirmation and we will contact you shortly with the booking
-        confirmation.
+        Your payment has been processed successfully.
+        {emailSent ? (
+          "You will receive an email confirmation shortly."
+        ) : error ? (
+          <span className="text-red-600"> {error}</span>
+        ) : (
+          "Sending confirmation email..."
+        )}
       </p>
-      {error && <p className="text-red-600">{error}</p>}
 
       <div className="p-6 space-y-1 text-lg text-left">
         <div>

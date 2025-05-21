@@ -1,5 +1,9 @@
 export const sitemapConfig = {
   hostname: "https://trade-specialists.com",
+  homepage: {
+    changefreq: "daily",
+    priority: 1.0,
+  },
   services: [
     {
       name: "removal",
