@@ -83,8 +83,8 @@ const Stage1BookingForm = ({ onComplete }) => {
                 aria-labelledby="deposit-amount-label"
                 className="block w-full pl-4 pr-10 py-3.5 mt-1 bg-white border border-gray-300 rounded-md focus:outline-none text-[15px] appearance-none"
               >
-                <option value="50.00">£50</option>
-                <option value="100.00">£100</option>
+                <option value="45.00">£45</option>
+                <option value="80.00">£80</option>
                 {/* <option value="1.00">£1 (Test)</option> */}
               </select>
               <span
