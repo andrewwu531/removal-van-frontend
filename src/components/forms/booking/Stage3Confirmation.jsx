@@ -11,10 +11,10 @@ const Stage3Confirmation = ({ trader, formData, transactionId }) => {
     // Track conversion
     if (window.gtag) {
       window.gtag("event", "conversion", {
-        send_to: "AW-17012396077",
+        send_to: "AW-17012396077/PXouCIvj-ckaEK2gkrA_",
+        transaction_id: transactionId,
         value: formData.DepositAmount,
         currency: "GBP",
-        transaction_id: transactionId,
       });
     }
 
