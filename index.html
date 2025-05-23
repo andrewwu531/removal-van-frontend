@@ -12,8 +12,21 @@
         dataLayer.push(arguments);
       }
       gtag("js", new Date());
-
-      gtag("config", "AW-17012396077");
+    </script>
+    <!-- Click tracking function -->
+    <script>
+      window.gtag_report_conversion = function (url) {
+        var callback = function () {
+          if (typeof url != "undefined") {
+            window.location = url;
+          }
+        };
+        gtag("event", "conversion", {
+          send_to: "AW-17012396077/PXouCIvj-ckaEK2gkrA_",
+          event_callback: callback,
+        });
+        return false;
+      };
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

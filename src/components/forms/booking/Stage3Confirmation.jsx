@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import emailjs from "@emailjs/browser";
+import { trackTransactionConversion } from "../../../utils/analytics";
 
 const Stage3Confirmation = ({ trader, formData, transactionId }) => {
   const [emailSent, setEmailSent] = useState(false);
@@ -8,11 +9,10 @@ const Stage3Confirmation = ({ trader, formData, transactionId }) => {
   const hasSent = useRef(false);
 
   useEffect(() => {
-    // Track conversion
-    if (window.gtag) {
-      window.gtag("event", "conversion", {
-        send_to: "AW-17012396077/PXouCIvj-ckaEK2gkrA_",
-        transaction_id: transactionId,
+    // Only track conversion if we have a transaction ID
+    if (transactionId) {
+      trackTransactionConversion({
+        transactionId,
         value: formData.DepositAmount,
         currency: "GBP",
       });
