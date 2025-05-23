@@ -14,6 +14,11 @@ import { HelmetProvider } from "react-helmet-async";
 import MetaTags from "./components/seo/MetaTags";
 import ScrollToTop from "./components/layout/footer/components/ScrollToTop";
 import LegalStatementPage from "./components/layout/footer/components/LegalStatementPage";
+import {
+  trackPageView,
+  trackTimeSpent,
+  trackUserAction,
+} from "./utils/analytics";
 
 const getServiceFromUrl = (urlService) => {
   // Special routes that should not be treated as services
@@ -137,6 +142,53 @@ function App() {
 
   useEffect(() => {
     emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
+  }, []);
+
+  useEffect(() => {
+    // Track page view when component mounts
+    trackPageView();
+
+    // Start tracking time spent
+    trackTimeSpent();
+
+    // Track form interactions
+    const trackFormInteractions = () => {
+      const forms = document.querySelectorAll("form");
+      forms.forEach((form) => {
+        form.addEventListener("submit", () => {
+          trackUserAction("form_submit", form.id || "unnamed_form");
+        });
+      });
+    };
+
+    // Track button clicks
+    const trackButtonClicks = () => {
+      const buttons = document.querySelectorAll("button");
+      buttons.forEach((button) => {
+        button.addEventListener("click", () => {
+          trackUserAction(
+            "button_click",
+            button.textContent || button.id || "unnamed_button"
+          );
+        });
+      });
+    };
+
+    trackFormInteractions();
+    trackButtonClicks();
+
+    // Cleanup
+    return () => {
+      const forms = document.querySelectorAll("form");
+      forms.forEach((form) => {
+        form.removeEventListener("submit", () => {});
+      });
+
+      const buttons = document.querySelectorAll("button");
+      buttons.forEach((button) => {
+        button.removeEventListener("click", () => {});
+      });
+    };
   }, []);
 
   const handleSearch = async (searchParams) => {

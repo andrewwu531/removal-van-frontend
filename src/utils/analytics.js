@@ -9,6 +9,55 @@ const isFromGoogleAds = () => {
 };
 
 /**
+ * Tracks page view with timing
+ */
+export const trackPageView = () => {
+  if (window.gtag) {
+    window.gtag("event", "page_view", {
+      page_title: document.title,
+      page_location: window.location.href,
+      page_path: window.location.pathname,
+      send_to: "AW-17012396077",
+    });
+  }
+};
+
+/**
+ * Tracks user interaction with timing
+ * @param {string} action - The action performed (e.g., 'button_click', 'form_start')
+ * @param {string} label - The specific element interacted with
+ */
+export const trackUserAction = (action, label) => {
+  if (window.gtag) {
+    window.gtag("event", action, {
+      event_category: "user_interaction",
+      event_label: label,
+      send_to: "AW-17012396077",
+    });
+  }
+};
+
+/**
+ * Tracks time spent on page
+ */
+export const trackTimeSpent = () => {
+  let startTime = Date.now();
+
+  // Track when user leaves the page
+  window.addEventListener("beforeunload", () => {
+    const timeSpent = Math.round((Date.now() - startTime) / 1000); // Convert to seconds
+    if (window.gtag) {
+      window.gtag("event", "time_spent", {
+        event_category: "engagement",
+        event_label: "page_duration",
+        value: timeSpent,
+        send_to: "AW-17012396077",
+      });
+    }
+  });
+};
+
+/**
  * Tracks a click conversion event (for pre-conversion tracking)
  * Only tracks if the session came from Google Ads
  * @param {string} [url] - Optional URL to navigate to after tracking
