@@ -1,10 +1,4 @@
-import {
-  Routes,
-  Route,
-  useLocation,
-  useNavigate,
-  Navigate,
-} from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import TradersCollectionsDesktop from "./components/traders/TradersCollectionsDesktop";
 import TraderDetailsDesktop from "./components/trader/details/TraderDetailsDesktop";
@@ -282,6 +276,14 @@ function App() {
     }
   };
 
+  // Add this effect to handle initial page load
+  useEffect(() => {
+    // If we're on the root path, redirect to /removal
+    if (window.location.pathname === "/") {
+      navigate("/removal", { replace: true });
+    }
+  }, [navigate]);
+
   if (!isDataReady) {
     return null;
   }
@@ -290,7 +292,6 @@ function App() {
     <HelmetProvider>
       <ScrollToTop />
       <Routes>
-        <Route path="/" element={<Navigate to="/removal" replace />} />
         <Route
           path="/legal-statement"
           element={

@@ -13,11 +13,26 @@ const isFromGoogleAds = () => {
  */
 export const trackPageView = () => {
   if (window.gtag) {
+    // Get the current path
+    const path = window.location.pathname;
+
+    // If we're on the root path, don't track it as a separate page view
+    if (path === "/") {
+      return;
+    }
+
     window.gtag("event", "page_view", {
       page_title: document.title,
       page_location: window.location.href,
-      page_path: window.location.pathname,
+      page_path: path,
       send_to: "AW-17012396077",
+    });
+
+    // Log the page view for debugging
+    console.log("Page view tracked:", {
+      path,
+      title: document.title,
+      isFromGoogleAds: isFromGoogleAds(),
     });
   }
 };
