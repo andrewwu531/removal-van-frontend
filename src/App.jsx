@@ -14,6 +14,7 @@ import { HelmetProvider } from "react-helmet-async";
 import MetaTags from "./components/seo/MetaTags";
 import ScrollToTop from "./components/layout/footer/components/ScrollToTop";
 import LegalStatementPage from "./components/layout/footer/components/LegalStatementPage";
+import PhoneNumberPopup from "./components/popup/PhoneNumberPopup";
 
 const getServiceFromUrl = (urlService) => {
   // Special routes that should not be treated as services
@@ -51,6 +52,7 @@ function App() {
   const [currentLocation, setCurrentLocation] = useState("");
   const [loading, setLoading] = useState(true);
   const [isDataReady, setIsDataReady] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -265,6 +267,10 @@ function App() {
                   setParentLoading={setLoading}
                 />
               </div>
+              <PhoneNumberPopup
+                isOpen={isPopupOpen}
+                onClose={() => setIsPopupOpen(false)}
+              />
             </Layout>
           }
         />
