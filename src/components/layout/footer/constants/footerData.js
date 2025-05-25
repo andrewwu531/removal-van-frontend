@@ -35,7 +35,7 @@ export const contactInfo = [
   {
     icon: "phone",
     content: "(+44) 07943 059 792",
-    link: "sms:+447453610625",
+    link: "sms:+4407943059792",
   },
   {
     icon: "email",
