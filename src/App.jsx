@@ -50,81 +50,94 @@ function App() {
   const [currentLocation, setCurrentLocation] = useState("");
   const [loading, setLoading] = useState(true);
   const [isDataReady, setIsDataReady] = useState(false);
-  const [hasRetried, setHasRetried] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Single initialization effect
+  // Update the initialization effect
   useEffect(() => {
-    let isMounted = true; // Add mounted check
-
     const initializeFromUrl = async () => {
-      if (!isMounted) return;
+      setIsDataReady(false);
+      const path = location.pathname.substring(1);
+      const serviceType = path.split("/")[0];
 
-      try {
-        setIsDataReady(false);
-        setLoading(true);
-        const path = location.pathname.substring(1);
-        const serviceType = path.split("/")[0];
+      // Special case for legal-statement
+      if (serviceType === "legal-statement") {
+        setIsDataReady(true);
+        return;
+      }
 
-        // Special case for legal-statement
-        if (serviceType === "legal-statement") {
-          if (isMounted) {
-            setIsDataReady(true);
-            setLoading(false);
-          }
-          return;
-        }
+      // If we're on the root path, redirect to /removal
+      if (!path || path === "/") {
+        navigate("/removal", { replace: true });
+        return;
+      }
 
-        // If we're on the root path, redirect to /removal
-        if (!path || path === "/") {
-          navigate("/removal", { replace: true });
-          return;
-        }
+      // Get the service from URL or default to "Removal"
+      const matchedService = getServiceFromUrl(serviceType);
+      console.log("Initial URL path:", path);
+      console.log("Initial service type:", serviceType);
+      console.log("Matched service:", matchedService);
 
-        // Get the service from URL or default to "Removal"
-        const matchedService = getServiceFromUrl(serviceType);
-
-        if (matchedService) {
-          if (isMounted) {
-            setCurrentService(matchedService);
-          }
-
-          const traders = await fetchTraders({
+      // Only set current service and fetch traders if it's a valid service
+      if (matchedService) {
+        setCurrentService(matchedService);
+        try {
+          await fetchTraders({
             service: matchedService,
             location: currentLocation,
           });
-
-          if (isMounted) {
-            setTraders(traders);
-            setIsDataReady(true);
-            setLoading(false);
-          }
+        } catch (error) {
+          console.error("Error loading initial traders:", error);
         }
-      } catch (error) {
-        console.error("Error during initialization:", error);
+      }
+      setIsDataReady(true);
+    };
 
-        // If we haven't retried yet, try one more time
-        if (!hasRetried && isMounted) {
-          setHasRetried(true);
-          setTimeout(() => {
-            initializeFromUrl();
-          }, 1000);
-        } else if (isMounted) {
-          // If we've already retried, show the page anyway
+    initializeFromUrl();
+  }, []); // Run only once on mount
+
+  // Update the URL effect to handle subsequent URL changes
+  useEffect(() => {
+    const handleUrlChange = async () => {
+      const path = location.pathname.substring(1);
+
+      if (!path) {
+        // Instead of immediate redirect, set the service to Removal
+        setCurrentService("Removal");
+        try {
+          await fetchTraders({
+            service: "Removal",
+            location: currentLocation,
+          });
+        } catch (error) {
+          console.error("Error loading traders:", error);
+        }
+        return;
+      }
+
+      const serviceType = path.split("/")[0];
+      const matchedService = getServiceFromUrl(serviceType);
+
+      // Always update currentService if we have a valid service
+      if (matchedService && matchedService !== currentService) {
+        setIsDataReady(false);
+        setCurrentService(matchedService);
+
+        try {
+          await fetchTraders({
+            service: matchedService,
+            location: currentLocation,
+          });
+        } catch (error) {
+          console.error("Error loading traders:", error);
+        } finally {
           setIsDataReady(true);
-          setLoading(false);
         }
       }
     };
 
-    initializeFromUrl();
-
-    // Cleanup function
-    return () => {
-      isMounted = false;
-    };
-  }, [location.pathname]); // Only depend on location.pathname
+    handleUrlChange();
+  }, [location.pathname]);
 
   useEffect(() => {
     emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
@@ -260,6 +273,7 @@ function App() {
       }
 
       console.log("Filtered traders:", filteredTraders);
+      setTraders(filteredTraders);
       return filteredTraders;
     } catch (error) {
       console.error("Error fetching traders:", error);
@@ -267,8 +281,7 @@ function App() {
     }
   };
 
-  // Show blank page during loading
-  if (!isDataReady || loading) {
+  if (!isDataReady) {
     return null;
   }
 
