@@ -5,18 +5,23 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   plugins: [tailwindcss(), react()],
   server: {
+    port: 3000,
     proxy: {
       "/api": {
-        target: "http://localhost:8080",
+        target: "http://localhost:5000",
         changeOrigin: true,
-        secure: false,
-      },
-      "/api/backend": {
-        target: "http://localhost:8000",
-        changeOrigin: true,
-        secure: false,
       },
     },
+    middleware: [
+      (req, res, next) => {
+        if (req.url === "/") {
+          res.writeHead(302, { Location: "/removal" });
+          res.end();
+        } else {
+          next();
+        }
+      },
+    ],
     historyApiFallback: true,
   },
   base: "/",

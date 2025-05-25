@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { useLocation, useNavigate } from "react-router-dom";
 import { serviceIcons } from "./constants/serviceIcons";
 import ServiceButton from "./components/ServiceButton";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function HeaderServiceBarDesktop({
   currentService = "Removal",
@@ -10,6 +10,18 @@ export default function HeaderServiceBarDesktop({
 }) {
   const [hoveredService, setHoveredService] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Add effect to handle initial service selection
+  useEffect(() => {
+    const path = location.pathname.substring(1);
+    const serviceType = path.split("/")[0];
+
+    // If we're on /removal, ensure Removal is selected
+    if (serviceType === "removal" && currentService !== "Removal") {
+      onServiceSelect("Removal");
+    }
+  }, [location.pathname, currentService, onServiceSelect]);
 
   const handleServiceClick = (serviceName) => {
     // Convert service name to URL format
