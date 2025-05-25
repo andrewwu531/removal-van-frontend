@@ -56,7 +56,11 @@ function App() {
 
   // Single initialization effect
   useEffect(() => {
+    let isMounted = true; // Add mounted check
+
     const initializeFromUrl = async () => {
+      if (!isMounted) return;
+
       try {
         setIsDataReady(false);
         setLoading(true);
@@ -65,8 +69,10 @@ function App() {
 
         // Special case for legal-statement
         if (serviceType === "legal-statement") {
-          setIsDataReady(true);
-          setLoading(false);
+          if (isMounted) {
+            setIsDataReady(true);
+            setLoading(false);
+          }
           return;
         }
 
@@ -80,25 +86,31 @@ function App() {
         const matchedService = getServiceFromUrl(serviceType);
 
         if (matchedService) {
-          setCurrentService(matchedService);
-          await fetchTraders({
+          if (isMounted) {
+            setCurrentService(matchedService);
+          }
+
+          const traders = await fetchTraders({
             service: matchedService,
             location: currentLocation,
           });
-        }
 
-        setIsDataReady(true);
-        setLoading(false);
+          if (isMounted) {
+            setTraders(traders);
+            setIsDataReady(true);
+            setLoading(false);
+          }
+        }
       } catch (error) {
         console.error("Error during initialization:", error);
 
         // If we haven't retried yet, try one more time
-        if (!hasRetried) {
+        if (!hasRetried && isMounted) {
           setHasRetried(true);
           setTimeout(() => {
             initializeFromUrl();
           }, 1000);
-        } else {
+        } else if (isMounted) {
           // If we've already retried, show the page anyway
           setIsDataReady(true);
           setLoading(false);
@@ -107,6 +119,11 @@ function App() {
     };
 
     initializeFromUrl();
+
+    // Cleanup function
+    return () => {
+      isMounted = false;
+    };
   }, [location.pathname]); // Only depend on location.pathname
 
   useEffect(() => {
@@ -243,7 +260,6 @@ function App() {
       }
 
       console.log("Filtered traders:", filteredTraders);
-      setTraders(filteredTraders);
       return filteredTraders;
     } catch (error) {
       console.error("Error fetching traders:", error);
