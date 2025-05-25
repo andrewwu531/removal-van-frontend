@@ -57,7 +57,7 @@ function App() {
   const [retryCount, setRetryCount] = useState(0);
   const MAX_RETRIES = 3;
 
-  // Modify the initialization effect
+  // Separate effect for initialization
   useEffect(() => {
     const initializeFromUrl = async () => {
       try {
@@ -94,9 +94,21 @@ function App() {
             // If no traders were fetched and we haven't exceeded retry limit, retry
             if (traders.length === 0 && retryCount < MAX_RETRIES) {
               setRetryCount((prev) => prev + 1);
+              // Use setTimeout to break the synchronous loop
               setTimeout(() => {
-                initializeFromUrl();
-              }, 1000); // Retry after 1 second
+                fetchTraders({
+                  service: matchedService,
+                  location: currentLocation,
+                })
+                  .then(() => {
+                    setIsDataReady(true);
+                    setLoading(false);
+                  })
+                  .catch(() => {
+                    setIsDataReady(true);
+                    setLoading(false);
+                  });
+              }, 1000);
               return;
             }
           } catch (error) {
@@ -105,7 +117,18 @@ function App() {
             if (retryCount < MAX_RETRIES) {
               setRetryCount((prev) => prev + 1);
               setTimeout(() => {
-                initializeFromUrl();
+                fetchTraders({
+                  service: matchedService,
+                  location: currentLocation,
+                })
+                  .then(() => {
+                    setIsDataReady(true);
+                    setLoading(false);
+                  })
+                  .catch(() => {
+                    setIsDataReady(true);
+                    setLoading(false);
+                  });
               }, 1000);
               return;
             }
@@ -121,7 +144,7 @@ function App() {
     };
 
     initializeFromUrl();
-  }, [location.pathname, retryCount]);
+  }, [location.pathname]); // Remove retryCount from dependencies
 
   // Update the URL effect to handle subsequent URL changes
   useEffect(() => {
