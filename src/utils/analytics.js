@@ -8,6 +8,9 @@ const isFromGoogleAds = () => {
   return urlParams.has("gclid");
 };
 
+// Store the session start time
+let sessionStartTime = Date.now();
+
 /**
  * Tracks page view with timing
  */
@@ -17,7 +20,9 @@ export const trackPageView = () => {
     const path = window.location.pathname;
 
     // If we're on the root path, don't track it as a separate page view
+    // but keep the session start time
     if (path === "/") {
+      sessionStartTime = Date.now();
       return;
     }
 
@@ -56,17 +61,23 @@ export const trackUserAction = (action, label) => {
  * Tracks time spent on page
  */
 export const trackTimeSpent = () => {
-  let startTime = Date.now();
-
   // Track when user leaves the page
   window.addEventListener("beforeunload", () => {
-    const timeSpent = Math.round((Date.now() - startTime) / 1000); // Convert to seconds
+    const timeSpent = Math.round((Date.now() - sessionStartTime) / 1000); // Convert to seconds
+
     if (window.gtag) {
       window.gtag("event", "time_spent", {
         event_category: "engagement",
-        event_label: "page_duration",
+        event_label: "session_duration",
         value: timeSpent,
         send_to: "AW-17012396077",
+      });
+
+      // Log the time spent for debugging
+      console.log("Time spent tracked:", {
+        timeSpent,
+        path: window.location.pathname,
+        isFromGoogleAds: isFromGoogleAds(),
       });
     }
   });
