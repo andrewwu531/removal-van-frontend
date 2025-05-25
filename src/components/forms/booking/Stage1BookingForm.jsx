@@ -108,10 +108,10 @@ const Stage1BookingForm = ({ onComplete }) => {
           <p className="px-2 py-1 text-blue-800">
             Before booking an appointment, please text us at{" "}
             <a
-              href="sms:+4407453610625"
+              href="sms:+4407943059792"
               className="text-blue-600 underline hover:text-blue-800"
             >
-              (+44) 07453 610 625
+              (+44) 07943 059 792
             </a>{" "}
             to confirm availability.
           </p>

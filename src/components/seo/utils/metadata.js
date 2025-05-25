@@ -35,7 +35,7 @@ export const getServiceMetadata = (service, location = "") => {
           addressRegion: "Scotland",
           addressLocality: location || "Scotland",
         },
-        telephone: "07453 610 625",
+        telephone: "07943 059 792",
         url: websiteUrl,
         priceRange: "£",
         hasOfferCatalog: {
@@ -111,7 +111,7 @@ export const getServiceMetadata = (service, location = "") => {
       availableChannel: {
         "@type": "ServiceChannel",
         serviceUrl: websiteUrl,
-        servicePhone: "07453 610 625",
+        servicePhone: "07943 059 792",
       },
     },
   };

@@ -21,7 +21,7 @@ export default function MetaTags({ service, location }) {
     pageTitle =
       "Professional Removal Services From £185 | Reliable Home & Business Removal";
     pageDescription =
-      "Confirm your removal appointment today at (+44) 07453 610 625. We aim to respond to your enquiry within 5 minutes. Our removal service is available 7 days a week nationwide in the UK.";
+      "Confirm your removal appointment today at (+44) 07943 059 792. We aim to respond to your enquiry within 5 minutes. Our removal service is available 7 days a week nationwide in the UK.";
     pageKeywords =
       "Removal Services, Man in a Van, UK, Home Removal, Business Relocation, Glasgow, Edinburgh, Scotland";
   } else {
@@ -70,7 +70,7 @@ export default function MetaTags({ service, location }) {
     "@type": "LocalBusiness",
     name: "Trade Specialists",
     image: "https://trade-specialists.com/logo.png",
-    telephone: "+44 07453 610 625",
+    telephone: "+44 07943 059 792",
     url: "https://trade-specialists.com",
     address: {
       "@type": "PostalAddress",

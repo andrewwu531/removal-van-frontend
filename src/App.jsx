@@ -62,8 +62,13 @@ function App() {
 
       // Special case for legal-statement
       if (serviceType === "legal-statement") {
-        // Don't change the current service when on legal-statement
         setIsDataReady(true);
+        return;
+      }
+
+      // If we're on the root path, redirect to /removal
+      if (!path || path === "/") {
+        navigate("/removal", { replace: true });
         return;
       }
 
@@ -275,14 +280,6 @@ function App() {
       throw error;
     }
   };
-
-  // Add this effect to handle initial page load
-  useEffect(() => {
-    // If we're on the root path, redirect to /removal
-    if (window.location.pathname === "/") {
-      navigate("/removal", { replace: true });
-    }
-  }, [navigate]);
 
   if (!isDataReady) {
     return null;

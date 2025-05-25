@@ -34,7 +34,7 @@ export const secondaryServices = [
 export const contactInfo = [
   {
     icon: "phone",
-    content: "(+44) 07453 610 625",
+    content: "(+44) 07943 059 792",
     link: "sms:+447453610625",
   },
   {

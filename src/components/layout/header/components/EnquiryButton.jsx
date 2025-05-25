@@ -17,7 +17,7 @@ export default function EnquiryButton({ onClose, cardRef }) {
         For general enquiries, please contact us by text at:
       </p>
       <div className="mb-5 text-xl font-semibold text-center text-red-400">
-        (+44) 07453 610 625
+        (+44) 07943 059 792
       </div>
       <p className="text-sm text-left text-gray-500">
         * Texting is the fastest way to confirm your booking.
