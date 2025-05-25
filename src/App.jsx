@@ -50,14 +50,11 @@ function App() {
   const [currentLocation, setCurrentLocation] = useState("");
   const [loading, setLoading] = useState(true);
   const [isDataReady, setIsDataReady] = useState(false);
+  const [hasRetried, setHasRetried] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Add a retry counter
-  const [retryCount, setRetryCount] = useState(0);
-  const MAX_RETRIES = 3;
-
-  // Separate effect for initialization
+  // Single initialization effect
   useEffect(() => {
     const initializeFromUrl = async () => {
       try {
@@ -82,112 +79,35 @@ function App() {
         // Get the service from URL or default to "Removal"
         const matchedService = getServiceFromUrl(serviceType);
 
-        // Only set current service and fetch traders if it's a valid service
         if (matchedService) {
           setCurrentService(matchedService);
-          try {
-            const traders = await fetchTraders({
-              service: matchedService,
-              location: currentLocation,
-            });
-
-            // If no traders were fetched and we haven't exceeded retry limit, retry
-            if (traders.length === 0 && retryCount < MAX_RETRIES) {
-              setRetryCount((prev) => prev + 1);
-              // Use setTimeout to break the synchronous loop
-              setTimeout(() => {
-                fetchTraders({
-                  service: matchedService,
-                  location: currentLocation,
-                })
-                  .then(() => {
-                    setIsDataReady(true);
-                    setLoading(false);
-                  })
-                  .catch(() => {
-                    setIsDataReady(true);
-                    setLoading(false);
-                  });
-              }, 1000);
-              return;
-            }
-          } catch (error) {
-            console.error("Error loading initial traders:", error);
-            // Retry on error if we haven't exceeded retry limit
-            if (retryCount < MAX_RETRIES) {
-              setRetryCount((prev) => prev + 1);
-              setTimeout(() => {
-                fetchTraders({
-                  service: matchedService,
-                  location: currentLocation,
-                })
-                  .then(() => {
-                    setIsDataReady(true);
-                    setLoading(false);
-                  })
-                  .catch(() => {
-                    setIsDataReady(true);
-                    setLoading(false);
-                  });
-              }, 1000);
-              return;
-            }
-          }
-        }
-        setIsDataReady(true);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error during initialization:", error);
-        setIsDataReady(true);
-        setLoading(false);
-      }
-    };
-
-    initializeFromUrl();
-  }, [location.pathname]); // Remove retryCount from dependencies
-
-  // Update the URL effect to handle subsequent URL changes
-  useEffect(() => {
-    const handleUrlChange = async () => {
-      const path = location.pathname.substring(1);
-
-      if (!path) {
-        // Instead of immediate redirect, set the service to Removal
-        setCurrentService("Removal");
-        try {
-          await fetchTraders({
-            service: "Removal",
-            location: currentLocation,
-          });
-        } catch (error) {
-          console.error("Error loading traders:", error);
-        }
-        return;
-      }
-
-      const serviceType = path.split("/")[0];
-      const matchedService = getServiceFromUrl(serviceType);
-
-      // Always update currentService if we have a valid service
-      if (matchedService && matchedService !== currentService) {
-        setIsDataReady(false);
-        setCurrentService(matchedService);
-
-        try {
           await fetchTraders({
             service: matchedService,
             location: currentLocation,
           });
-        } catch (error) {
-          console.error("Error loading traders:", error);
-        } finally {
+        }
+
+        setIsDataReady(true);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error during initialization:", error);
+
+        // If we haven't retried yet, try one more time
+        if (!hasRetried) {
+          setHasRetried(true);
+          setTimeout(() => {
+            initializeFromUrl();
+          }, 1000);
+        } else {
+          // If we've already retried, show the page anyway
           setIsDataReady(true);
+          setLoading(false);
         }
       }
     };
 
-    handleUrlChange();
-  }, [location.pathname]);
+    initializeFromUrl();
+  }, [location.pathname]); // Only depend on location.pathname
 
   useEffect(() => {
     emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
@@ -331,7 +251,7 @@ function App() {
     }
   };
 
-  // Remove the loading spinner and just return null during loading
+  // Show blank page during loading
   if (!isDataReady || loading) {
     return null;
   }
