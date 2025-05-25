@@ -1,6 +1,6 @@
 User-agent: *
 Allow: /removal
-Disallow: /
+Allow: /
 Disallow: /legal-statement
 
 # Force frequent crawling
