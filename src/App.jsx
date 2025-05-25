@@ -53,48 +53,75 @@ function App() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Update the initialization effect
+  // Add a retry counter
+  const [retryCount, setRetryCount] = useState(0);
+  const MAX_RETRIES = 3;
+
+  // Modify the initialization effect
   useEffect(() => {
     const initializeFromUrl = async () => {
-      setIsDataReady(false);
-      const path = location.pathname.substring(1);
-      const serviceType = path.split("/")[0];
+      try {
+        setIsDataReady(false);
+        setLoading(true);
+        const path = location.pathname.substring(1);
+        const serviceType = path.split("/")[0];
 
-      // Special case for legal-statement
-      if (serviceType === "legal-statement") {
-        setIsDataReady(true);
-        return;
-      }
-
-      // If we're on the root path, redirect to /removal
-      if (!path || path === "/") {
-        navigate("/removal", { replace: true });
-        return;
-      }
-
-      // Get the service from URL or default to "Removal"
-      const matchedService = getServiceFromUrl(serviceType);
-      console.log("Initial URL path:", path);
-      console.log("Initial service type:", serviceType);
-      console.log("Matched service:", matchedService);
-
-      // Only set current service and fetch traders if it's a valid service
-      if (matchedService) {
-        setCurrentService(matchedService);
-        try {
-          await fetchTraders({
-            service: matchedService,
-            location: currentLocation,
-          });
-        } catch (error) {
-          console.error("Error loading initial traders:", error);
+        // Special case for legal-statement
+        if (serviceType === "legal-statement") {
+          setIsDataReady(true);
+          setLoading(false);
+          return;
         }
+
+        // If we're on the root path, redirect to /removal
+        if (!path || path === "/") {
+          navigate("/removal", { replace: true });
+          return;
+        }
+
+        // Get the service from URL or default to "Removal"
+        const matchedService = getServiceFromUrl(serviceType);
+
+        // Only set current service and fetch traders if it's a valid service
+        if (matchedService) {
+          setCurrentService(matchedService);
+          try {
+            const traders = await fetchTraders({
+              service: matchedService,
+              location: currentLocation,
+            });
+
+            // If no traders were fetched and we haven't exceeded retry limit, retry
+            if (traders.length === 0 && retryCount < MAX_RETRIES) {
+              setRetryCount((prev) => prev + 1);
+              setTimeout(() => {
+                initializeFromUrl();
+              }, 1000); // Retry after 1 second
+              return;
+            }
+          } catch (error) {
+            console.error("Error loading initial traders:", error);
+            // Retry on error if we haven't exceeded retry limit
+            if (retryCount < MAX_RETRIES) {
+              setRetryCount((prev) => prev + 1);
+              setTimeout(() => {
+                initializeFromUrl();
+              }, 1000);
+              return;
+            }
+          }
+        }
+        setIsDataReady(true);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error during initialization:", error);
+        setIsDataReady(true);
+        setLoading(false);
       }
-      setIsDataReady(true);
     };
 
     initializeFromUrl();
-  }, []); // Run only once on mount
+  }, [location.pathname, retryCount]);
 
   // Update the URL effect to handle subsequent URL changes
   useEffect(() => {
@@ -281,7 +308,8 @@ function App() {
     }
   };
 
-  if (!isDataReady) {
+  // Remove the loading spinner and just return null during loading
+  if (!isDataReady || loading) {
     return null;
   }
 

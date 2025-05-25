@@ -12,6 +12,14 @@
         dataLayer.push(arguments);
       }
       gtag("js", new Date());
+
+      // Track page load time
+      window.addEventListener("load", function () {
+        gtag("event", "page_load", {
+          event_category: "Performance",
+          event_label: "Page Load Time",
+        });
+      });
     </script>
     <!-- Click tracking function -->
     <script>
