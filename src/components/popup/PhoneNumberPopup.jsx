@@ -15,7 +15,7 @@ const PhoneNumberPopup = ({ isOpen, onClose }) => {
       className="fixed inset-0 z-50 flex items-start justify-center bg-white/30"
       onClick={handleOverlayClick}
     >
-      <div className="bg-white pt-14 pb-12 px-14 rounded-lg relative w-full h-[calc(100vh-50px)] min-[450px]:w-[450px] min-[450px]:mt-55 min-[450px]:h-[calc(50vh)] text-center shadow-lg flex flex-col justify-center mt-[60px]">
+      <div className="bg-white pb-6 min-[375px]:pb-10 min-[390px]:pb-18 px-14 rounded-lg relative w-full h-[calc(100vh)] min-[450px]:w-[450px] min-[450px]:mt-55 min-[450px]:h-[calc(50vh)] text-center shadow-lg flex flex-col justify-center mt-[60px]">
         <button
           onClick={onClose}
           className="absolute text-2xl font-light text-gray-600 min-[350px]:text-3xl top-1 right-3 hover:text-gray-800"
