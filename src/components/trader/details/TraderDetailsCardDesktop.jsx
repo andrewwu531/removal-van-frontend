@@ -27,7 +27,7 @@ export default function TraderDetailsCardDesktop({
     };
   }, [trader, isLoading]);
 
-  // Show no trader message after 5 seconds if trader is not found
+  // Show no trader message after 5 seconds if trader is not foun
   if (!trader && showNoTrader) {
     return <NotFoundState />;
   }
