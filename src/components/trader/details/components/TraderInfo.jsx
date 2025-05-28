@@ -27,7 +27,7 @@ Thank you`;
 
   return (
     <div className="px-11 min-[500px]:px-16 pt-5 min-[500px]:pt-13">
-      <div className="flex items-center gap-8 mb-5">
+      <div className="flex flex-col min-[600px]:flex-row items-start min-[600px]:items-center gap-4 min-[600px]:gap-8 mb-5">
         <h1 className="text-3xl font-bold">{trader.name}</h1>
         <a
           href={`sms:07943059792?body=${encodeURIComponent(defaultMessage)}`}
