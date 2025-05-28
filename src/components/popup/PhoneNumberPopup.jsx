@@ -6,7 +6,7 @@ const PhoneNumberPopup = ({ isOpen, onClose }) => {
 
   const defaultMessage = `Hi Trade Specialists,
 
-I would like to make a booking for a house removal. Here are my details:
+I would like to make a booking for a house/ business removal. Here are my details:
 
 • Full Name:
 • Email Address:

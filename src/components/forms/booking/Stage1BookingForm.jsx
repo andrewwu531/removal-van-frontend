@@ -15,6 +15,29 @@ const Stage1BookingForm = ({ onComplete }) => {
   });
   const [isProcessing, setIsProcessing] = useState(false);
 
+  const defaultMessage = `Hi Trade Specialists,
+
+I would like to make a booking for a house/ business removal. Here are my details:
+
+• Full Name:
+• Email Address:
+• Pickup Location:
+• Destination Location:
+• Preferred Removal Date(s):
+• Number of Bedrooms/ Approximate Office Size for Removal:
+• Photos of Furniture for Removal:
+
+I am looking forward to your reply.
+
+Thank you`;
+
+  const handlePhoneClick = (e) => {
+    e.preventDefault();
+    const phoneNumber = "07943059792";
+    const encodedMessage = encodeURIComponent(defaultMessage);
+    window.location.href = `sms:${phoneNumber}?body=${encodedMessage}`;
+  };
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -108,7 +131,8 @@ const Stage1BookingForm = ({ onComplete }) => {
           <p className="px-2 py-1 text-blue-800">
             Before booking an appointment, please text us at{" "}
             <a
-              href="sms:+4407943059792"
+              href={`sms:07943059792?body=${encodeURIComponent(defaultMessage)}`}
+              onClick={handlePhoneClick}
               className="text-blue-600 underline hover:text-blue-800"
             >
               (+44) 07943 059 792
