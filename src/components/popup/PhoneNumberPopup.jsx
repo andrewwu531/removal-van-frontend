@@ -4,10 +4,33 @@ import PropTypes from "prop-types";
 const PhoneNumberPopup = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
+  const defaultMessage = `Hi Trade Specialists,
+
+I would like to make a booking for a house removal. Here are my details:
+
+• Full Name:
+• Email Address:
+• Pickup Location:
+• Destination Location:
+• Preferred Removal Date(s):
+• Number of Bedrooms/ Approximate Office Size for Removal:
+• Photos of Furniture for Removal:
+
+I am looking forward to your reply.
+
+Thank you`;
+
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) {
       onClose();
     }
+  };
+
+  const handlePhoneClick = (e) => {
+    e.preventDefault();
+    const phoneNumber = "07943059792";
+    const encodedMessage = encodeURIComponent(defaultMessage);
+    window.location.href = `sms:${phoneNumber}?body=${encodedMessage}`;
   };
 
   return (
@@ -32,7 +55,8 @@ const PhoneNumberPopup = ({ isOpen, onClose }) => {
         </p>
 
         <a
-          href="sms:+4407943059792"
+          href={`sms:07943059792?body=${encodeURIComponent(defaultMessage)}`}
+          onClick={handlePhoneClick}
           className="inline-block py-2.5 mt-2 min-[350px]:mt-3 mb-4 text-md min-[350px]:text-xl font-bold text-white transition-all duration-300 ease-in-out bg-red-500 border-2 rounded-xl hover:scale-105"
         >
           07943 059 792

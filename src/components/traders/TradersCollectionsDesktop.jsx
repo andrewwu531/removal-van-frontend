@@ -72,12 +72,12 @@ export default function TradersCollectionsDesktop({
   return (
     <div>
       {!isLoading && (
-        <div className="container justify-center px-12 py-6 min-[1423px]:py-8 mx-auto min-[500px]:max-w-19/20 min-[1339px]:max-w-11/12 min-[1920px]:max-w-5/6">
+        <div className="container justify-center px-5 min-[600px]:px-12 py-6 min-[1423px]:py-8 mx-auto min-[500px]:max-w-19/20 min-[1339px]:max-w-11/12 min-[1920px]:max-w-5/6">
           <ServiceTitle currentService={currentService} />
           {traders.length === 0 ? (
             <EmptyTradersList />
           ) : (
-            <div className="grid justify-center grid-cols-1 gap-0 min-[600px]:grid-cols-4 min-[600px]:gap-5">
+            <div className="grid justify-center grid-cols-2 min-[600px]:grid-cols-4 gap-3.5 min-[600px]:gap-5">
               {traders.map((trader) => (
                 <TraderCard
                   key={trader.id}
