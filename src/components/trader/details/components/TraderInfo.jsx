@@ -32,7 +32,7 @@ Thank you`;
         <a
           href={`sms:07943059792?body=${encodeURIComponent(defaultMessage)}`}
           onClick={handlePhoneClick}
-          className="hidden min-[600px]:block px-5.5 py-2 font-semibold text-white transition-all duration-300 ease-in-out bg-red-500 rounded-xl text-md hover:bg-red-500 hover:scale-105 mt-1"
+          className="hidden min-[600px]:block px-5.5 py-2 font-semibold text-white transition-all duration-300 ease-in-out bg-red-500 rounded-xl text-[16px] hover:bg-red-500 hover:scale-105 mt-1"
         >
           07943 059 792
         </a>
