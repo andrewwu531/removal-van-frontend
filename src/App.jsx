@@ -53,7 +53,7 @@ function App() {
   const [currentLocation, setCurrentLocation] = useState("");
   const [loading, setLoading] = useState(true);
   const [isDataReady, setIsDataReady] = useState(false);
-  const [isPhonePopupOpen, setIsPhonePopupOpen] = useState(false);
+  const [isPhonePopupOpen, setIsPhonePopupOpen] = useState(true);
   const [isCookiePopupOpen, setIsCookiePopupOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -135,17 +135,12 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // Check if user has seen the initial popup
-    const hasSeenInitialPopup = localStorage.getItem("hasSeenInitialPopup");
+    // Check if cookies have been accepted
     const hasAcceptedCookies = localStorage.getItem("cookieConsent");
 
     // Always show phone popup on page load/refresh
     setIsPhonePopupOpen(true);
-
-    // Only show cookie popup if user has accepted cookies before
-    if (hasAcceptedCookies === "true") {
-      setIsCookiePopupOpen(true);
-    }
+    setIsCookiePopupOpen(false); // Ensure cookie popup is hidden initially
   }, []);
 
   const handleSearch = async (searchParams) => {
@@ -241,9 +236,12 @@ function App() {
 
   const handlePhonePopupClose = () => {
     setIsPhonePopupOpen(false);
-    localStorage.setItem("hasSeenInitialPopup", "true");
-    // Show cookie popup after phone popup is closed
-    setIsCookiePopupOpen(true);
+
+    // Check if we should show cookie popup after closing phone popup
+    const hasAcceptedCookies = localStorage.getItem("cookieConsent");
+    if (!hasAcceptedCookies) {
+      setIsCookiePopupOpen(true);
+    }
   };
 
   const handleCookiePopupClose = () => {
