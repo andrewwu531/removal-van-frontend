@@ -27,17 +27,26 @@ Thank you`;
 
   return (
     <div className="px-11 min-[500px]:px-16 pt-5 min-[500px]:pt-13">
-      <div className="flex flex-col min-[600px]:flex-row items-start min-[600px]:items-center gap-4 min-[600px]:gap-8 mb-4 min-[600px]:mb-5">
+      <div className="flex flex-col min-[600px]:flex-row items-start min-[600px]:items-center justify-start gap-4 min-[600px]:gap-10 mb-4 min-[600px]:mb-5">
         <h1 className="text-3xl font-bold">{trader.name}</h1>
         <a
           href={`sms:07943059792?body=${encodeURIComponent(defaultMessage)}`}
           onClick={handlePhoneClick}
-          className="px-5.5 py-2 mt-0.5 min-[600px]:mt-1.5 font-semibold text-white transition-all duration-300 ease-in-out bg-red-500 rounded-xl text-md hover:bg-red-500 hover:scale-105"
+          className="hidden min-[600px]:block px-5.5 py-2 font-semibold text-white transition-all duration-300 ease-in-out bg-red-500 rounded-xl text-md hover:bg-red-500 hover:scale-105 mt-1"
         >
           07943 059 792
         </a>
       </div>
+
       <h2 className="text-xl text-gray-600">{trader.title}</h2>
+
+      <a
+        href={`sms:07943059792?body=${encodeURIComponent(defaultMessage)}`}
+        onClick={handlePhoneClick}
+        className="block min-[600px]:hidden mt-4 w-fit px-5.5 py-2 font-semibold text-white transition-all duration-300 ease-in-out bg-red-500 rounded-xl text-md hover:bg-red-500 hover:scale-105"
+      >
+        07943 059 792
+      </a>
 
       <div className="mt-10">
         <h3 className="mb-1 text-lg font-semibold">Service Type</h3>

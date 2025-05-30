@@ -12,6 +12,8 @@ export default function Layout({
   onSearch = () => {},
   onServiceSelect = () => {},
   isLoading = false,
+  isCookiePopupOpen,
+  onCookiePopupClose,
 }) {
   return (
     <>
@@ -28,7 +30,7 @@ export default function Layout({
       </div>
       {children}
       {showFooter && !isLoading && <FooterDesktop />}
-      <CookieBanner />
+      <CookieBanner isOpen={isCookiePopupOpen} onClose={onCookiePopupClose} />
     </>
   );
 }
@@ -41,4 +43,6 @@ Layout.propTypes = {
   onSearch: PropTypes.func,
   onServiceSelect: PropTypes.func,
   isLoading: PropTypes.bool,
+  isCookiePopupOpen: PropTypes.bool,
+  onCookiePopupClose: PropTypes.func,
 };

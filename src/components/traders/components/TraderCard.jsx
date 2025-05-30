@@ -18,7 +18,7 @@ export default function TraderCard({ trader, onClick }) {
           <span className="px-6 min-[1920px]:px-6.5 py-3 min-[1920px]:py-3.5 font-semibold text-white bg-black rounded-xl text-[15px] min-[1256px]:text-[16px] min-[1920px]:text-[17px] hidden min-[600px]:block">
             {trader.name}
           </span>
-          <span className="px-5 min-[1920px]:px-6.5 py-2 min-[1920px]:py-3.5 font-semibold text-white bg-black rounded-xl min-[600px]:rounded-xl text-[15px] min-[1256px]:text-base min-[1920px]:text-[17px] block min-[600px]:hidden">
+          <span className="px-5.5 min-[1920px]:px-6.5 py-2 min-[1920px]:py-3.5 font-semibold text-white bg-black rounded-xl min-[600px]:rounded-xl text-[15px] min-[1256px]:text-base min-[1920px]:text-[17px] block min-[600px]:hidden">
             {/* {trader.available_locations.join(", ")} */}
             {trader.available_locations[0]}
           </span>
@@ -26,7 +26,7 @@ export default function TraderCard({ trader, onClick }) {
       </div>
 
       <div className="flex flex-col flex-grow px-2.5 min-[1920px]:px-3.5 pt-3 min-[600px]:pt-4">
-        <p className="mb-2 min-[600px]:mb-2 min-[1920px]:mb-4.5 text-md min-[600px]:text-lg font-semibold text-gray-700 ">
+        <p className="max-[600px]:mt-1 mb-2.5 min-[600px]:mb-2 min-[1920px]:mb-4.5 text-md min-[600px]:text-lg font-semibold text-gray-700 ">
           {trader.title}
         </p>
 

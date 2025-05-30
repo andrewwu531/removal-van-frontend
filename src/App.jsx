@@ -15,6 +15,7 @@ import MetaTags from "./components/seo/MetaTags";
 import ScrollToTop from "./components/layout/footer/components/ScrollToTop";
 import LegalStatementPage from "./components/layout/footer/components/LegalStatementPage";
 import PhoneNumberPopup from "./components/popup/PhoneNumberPopup";
+import CookieBanner from "./components/layout/cookie/CookieBanner";
 
 const getServiceFromUrl = (urlService) => {
   // Special routes that should not be treated as services
@@ -52,7 +53,8 @@ function App() {
   const [currentLocation, setCurrentLocation] = useState("");
   const [loading, setLoading] = useState(true);
   const [isDataReady, setIsDataReady] = useState(false);
-  const [isPopupOpen, setIsPopupOpen] = useState(true);
+  const [isPhonePopupOpen, setIsPhonePopupOpen] = useState(false);
+  const [isCookiePopupOpen, setIsCookiePopupOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -130,6 +132,20 @@ function App() {
 
   useEffect(() => {
     emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
+  }, []);
+
+  useEffect(() => {
+    // Check if user has seen the initial popup
+    const hasSeenInitialPopup = localStorage.getItem("hasSeenInitialPopup");
+    const hasAcceptedCookies = localStorage.getItem("cookieConsent");
+
+    // Always show phone popup on page load/refresh
+    setIsPhonePopupOpen(true);
+
+    // Only show cookie popup if user has accepted cookies before
+    if (hasAcceptedCookies === "true") {
+      setIsCookiePopupOpen(true);
+    }
   }, []);
 
   const handleSearch = async (searchParams) => {
@@ -223,6 +239,18 @@ function App() {
     }
   };
 
+  const handlePhonePopupClose = () => {
+    setIsPhonePopupOpen(false);
+    localStorage.setItem("hasSeenInitialPopup", "true");
+    // Show cookie popup after phone popup is closed
+    setIsCookiePopupOpen(true);
+  };
+
+  const handleCookiePopupClose = () => {
+    setIsCookiePopupOpen(false);
+    localStorage.setItem("cookieConsent", "true");
+  };
+
   if (!isDataReady) {
     return null;
   }
@@ -268,8 +296,12 @@ function App() {
                 />
               </div>
               <PhoneNumberPopup
-                isOpen={isPopupOpen}
-                onClose={() => setIsPopupOpen(false)}
+                isOpen={isPhonePopupOpen}
+                onClose={handlePhonePopupClose}
+              />
+              <CookieBanner
+                isOpen={isCookiePopupOpen}
+                onClose={handleCookiePopupClose}
               />
             </Layout>
           }
