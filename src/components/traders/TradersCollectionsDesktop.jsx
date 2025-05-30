@@ -16,6 +16,17 @@ export default function TradersCollectionsDesktop({
   const [isLoading, setIsLoading] = useState(true);
   const [sortedTraders, setSortedTraders] = useState([]);
 
+  // Define the priority order for locations
+  const locationPriority = [
+    "edinburgh",
+    "glasgow",
+    "manchester",
+    "london",
+    "birmingham",
+    "newcastle",
+    "sheffield",
+  ];
+
   useEffect(() => {
     if (!traders || traders.length === 0) {
       setIsLoading(false);
@@ -26,19 +37,35 @@ export default function TradersCollectionsDesktop({
     setIsLoading(true);
     setParentLoading(true);
 
-    // Sort traders to prioritize Glasgow and Edinburgh
+    // Sort traders based on location priority
     const sorted = [...traders].sort((a, b) => {
-      const aHasPriority = a.available_locations.some(
-        (loc) =>
-          loc.toLowerCase() === "glasgow" || loc.toLowerCase() === "edinburgh"
-      );
-      const bHasPriority = b.available_locations.some(
-        (loc) =>
-          loc.toLowerCase() === "glasgow" || loc.toLowerCase() === "edinburgh"
-      );
+      // Get the highest priority location for each trader
+      const getHighestPriorityLocation = (locations) => {
+        const lowerCaseLocations = locations.map((loc) => loc.toLowerCase());
+        for (const priorityLoc of locationPriority) {
+          if (lowerCaseLocations.includes(priorityLoc)) {
+            return priorityLoc;
+          }
+        }
+        return null;
+      };
 
-      if (aHasPriority && !bHasPriority) return -1;
-      if (!aHasPriority && bHasPriority) return 1;
+      const aPriority = getHighestPriorityLocation(a.available_locations);
+      const bPriority = getHighestPriorityLocation(b.available_locations);
+
+      // If both have priority locations, compare their positions in the priority array
+      if (aPriority && bPriority) {
+        return (
+          locationPriority.indexOf(aPriority) -
+          locationPriority.indexOf(bPriority)
+        );
+      }
+
+      // If only one has a priority location, it should come first
+      if (aPriority) return -1;
+      if (bPriority) return 1;
+
+      // If neither has a priority location, maintain original order
       return 0;
     });
 
