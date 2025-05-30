@@ -16,6 +16,7 @@ import ScrollToTop from "./components/layout/footer/components/ScrollToTop";
 import LegalStatementPage from "./components/layout/footer/components/LegalStatementPage";
 import PhoneNumberPopup from "./components/popup/PhoneNumberPopup";
 import CookieBanner from "./components/layout/cookie/CookieBanner";
+import FloatingButton from "./components/common/FloatingButton";
 
 const getServiceFromUrl = (urlService) => {
   // Special routes that should not be treated as services
@@ -135,9 +136,6 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // Check if cookies have been accepted
-    const hasAcceptedCookies = localStorage.getItem("cookieConsent");
-
     // Always show phone popup on page load/refresh
     setIsPhonePopupOpen(true);
     setIsCookiePopupOpen(false); // Ensure cookie popup is hidden initially
@@ -255,74 +253,55 @@ function App() {
 
   return (
     <HelmetProvider>
-      <ScrollToTop />
-      <Routes>
-        <Route path="/" element={<Navigate to="/removal" replace />} />
-        <Route
-          path="/legal-statement"
-          element={
-            <Layout
-              showFooter={true}
-              currentService={currentService}
-              currentLocation={currentLocation}
-              onSearch={handleSearch}
-              onServiceSelect={handleServiceSelect}
-              isLoading={false}
-            >
-              <LegalStatementPage />
-            </Layout>
-          }
-        />
-        <Route
-          path="/:serviceType"
-          element={
-            <Layout
-              showFooter={true}
-              currentService={currentService}
-              currentLocation={currentLocation}
-              onSearch={handleSearch}
-              onServiceSelect={handleServiceSelect}
-              isLoading={loading}
-            >
-              <MetaTags service={currentService} location={currentLocation} />
-              <div className="mt-41 min-[1339px]:mt-43 min-[1920px]:mt-48">
-                <TradersCollectionsDesktop
-                  traders={traders}
-                  currentService={currentService}
-                  onTraderSelect={handleTraderSelect}
-                  setParentLoading={setLoading}
-                />
-              </div>
-              <PhoneNumberPopup
-                isOpen={isPhonePopupOpen}
-                onClose={handlePhonePopupClose}
-              />
-              <CookieBanner
-                isOpen={isCookiePopupOpen}
-                onClose={handleCookiePopupClose}
-              />
-            </Layout>
-          }
-        />
-        <Route
-          path="/:serviceType/:traderId"
-          element={
-            <Layout
-              showFooter={true}
-              currentService={currentService}
-              currentLocation={currentLocation}
-              onSearch={handleSearch}
-              onServiceSelect={handleServiceSelect}
-              isLoading={loading}
-            >
-              <TraderDetailsDesktop
-                fetchTraders={fetchTraders}
+      <MetaTags />
+      <Layout
+        onSearch={handleSearch}
+        onServiceSelect={handleServiceSelect}
+        currentService={currentService}
+        currentLocation={currentLocation}
+        isLoading={loading}
+      >
+        <Routes>
+          <Route path="/" element={<Navigate to="/removal" replace />} />
+          <Route path="/legal-statement" element={<LegalStatementPage />} />
+          <Route
+            path="/:serviceType"
+            element={
+              <TradersCollectionsDesktop
+                traders={traders}
+                onTraderSelect={handleTraderSelect}
+                loading={loading}
+                isDataReady={isDataReady}
                 setParentLoading={setLoading}
+                currentService={currentService}
               />
-            </Layout>
-          }
+            }
+          />
+          <Route
+            path="/:serviceType/:traderId"
+            element={
+              <TraderDetailsDesktop
+                traders={traders}
+                onTraderSelect={handleTraderSelect}
+                loading={loading}
+                isDataReady={isDataReady}
+                setParentLoading={setLoading}
+                fetchTraders={fetchTraders}
+              />
+            }
+          />
+        </Routes>
+        <FloatingButton />
+        <PhoneNumberPopup
+          isOpen={isPhonePopupOpen}
+          onClose={handlePhonePopupClose}
         />
-      </Routes>
+        <CookieBanner
+          isOpen={isCookiePopupOpen}
+          onClose={handleCookiePopupClose}
+        />
+        <ScrollToTop />
+      </Layout>
     </HelmetProvider>
   );
 }

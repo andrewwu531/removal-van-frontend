@@ -17,6 +17,7 @@ export default function TraderDetailsDesktop({
 
   useEffect(() => {
     let isMounted = true;
+    let timeoutId = null;
 
     const loadTraderData = async () => {
       if (!traderId) return;
@@ -37,12 +38,17 @@ export default function TraderDetailsDesktop({
 
         if (currentTrader && isMounted) {
           setTrader(currentTrader);
-          setTimeout(() => {
-            if (isMounted) {
-              setIsLoading(false);
-              setParentLoading(false);
-            }
-          }, 500);
+          setIsLoading(false);
+
+          // Wait for the next render cycle to ensure content is rendered
+          requestAnimationFrame(() => {
+            // Then wait 1 second before showing footer
+            timeoutId = setTimeout(() => {
+              if (isMounted) {
+                setParentLoading(false);
+              }
+            }, 1000);
+          });
         } else {
           setError(true);
           setIsLoading(false);
@@ -62,6 +68,9 @@ export default function TraderDetailsDesktop({
 
     return () => {
       isMounted = false;
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
     };
   }, [traderId]);
 
