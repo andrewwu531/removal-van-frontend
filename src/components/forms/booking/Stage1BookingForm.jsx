@@ -17,7 +17,8 @@ const Stage1BookingForm = ({ onComplete }) => {
 
   const defaultMessage = `Hi Trade Specialists,
 
-I would like to make a booking for a house/ business removal. Here are my details:
+I’m planning a house/business removal and I would like to confirm a booking. Here are my details.
+
 
 • Full Name:
 • Email Address:
