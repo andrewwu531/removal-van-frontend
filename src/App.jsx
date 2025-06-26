@@ -13,6 +13,8 @@ import CookieBanner from "./components/layout/cookie/CookieBanner";
 import FloatingButton from "./components/common/FloatingButton";
 import ServiceNavigation from "./components/traders/ServicesNavigation";
 import ServicePromises from "./components/traders/ServicesPromises";
+import EnquiryController from "./components/forms/enquiry/EnquiryController";
+import ServiceFormSelector from "./components/forms/ServiceFormSelector";
 
 const getServiceFromUrl = (urlService) => {
   // Special routes that should not be treated as services
@@ -137,7 +139,29 @@ function App() {
   }, [location.pathname]);
 
   useEffect(() => {
-    emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
+    // Initialize EmailJS
+    const initEmailJS = async () => {
+      try {
+        if (import.meta.env.VITE_EMAILJS_PUBLIC_KEY) {
+          emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
+          console.log("EmailJS initialized successfully");
+          console.log("Public Key:", import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
+          console.log("Service ID:", import.meta.env.VITE_EMAILJS_SERVICE_ID);
+          console.log(
+            "Template ID:",
+            import.meta.env.VITE_EMAILJS_ENQUIRY_TEMPLATE_ID
+          );
+        } else {
+          console.error(
+            "EmailJS public key not found in environment variables"
+          );
+        }
+      } catch (error) {
+        console.error("Error initializing EmailJS:", error);
+      }
+    };
+
+    initEmailJS();
   }, []);
 
   useEffect(() => {
@@ -249,7 +273,7 @@ function App() {
             element={
               <>
                 {/* <ServiceNavigation /> */}
-                {/* <ServicePromises /> */}
+
                 <TradersCollections
                   traders={traders}
                   onTraderSelect={handleTraderSelect}
@@ -259,7 +283,7 @@ function App() {
                   currentService={currentService}
                 />
                 <div className="mx-auto max-w-3xl">
-                  <BookingStageController trader={null} />
+                  <ServiceFormSelector currentService={currentService} />
                 </div>
               </>
             }
