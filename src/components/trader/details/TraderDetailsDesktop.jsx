@@ -10,7 +10,7 @@ export default function TraderDetailsDesktop({
   fetchTraders,
   setParentLoading,
 }) {
-  const { traderId } = useParams();
+  const { serviceType, traderId } = useParams();
   const [trader, setTrader] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -20,8 +20,6 @@ export default function TraderDetailsDesktop({
     let timeoutId = null;
 
     const loadTraderData = async () => {
-      if (!traderId) return;
-
       try {
         setIsLoading(true);
         setParentLoading(true);
@@ -32,9 +30,22 @@ export default function TraderDetailsDesktop({
 
         if (!isMounted) return;
 
-        const currentTrader = allTraders.find(
-          (t) => t.id.toString() === traderId
-        );
+        let currentTrader = null;
+
+        if (traderId) {
+          // If traderId is provided, find the specific trader
+          currentTrader = allTraders.find((t) => t.id.toString() === traderId);
+        } else if (serviceType) {
+          // If only serviceType is provided, find the first trader for that service
+          const serviceTraders = allTraders.filter(
+            (t) =>
+              t.service_type
+                .toLowerCase()
+                .replace(/&/g, "")
+                .replace(/\s+/g, "-") === serviceType
+          );
+          currentTrader = serviceTraders[0]; // Get the first trader for this service
+        }
 
         if (currentTrader && isMounted) {
           setTrader(currentTrader);
@@ -72,7 +83,7 @@ export default function TraderDetailsDesktop({
         clearTimeout(timeoutId);
       }
     };
-  }, [traderId]);
+  }, [serviceType, traderId]);
 
   if (isLoading) {
     return null;
@@ -80,7 +91,7 @@ export default function TraderDetailsDesktop({
 
   if (error || !trader) {
     return (
-      <div className="container min-h-screen pb-20 mx-auto pt-45">
+      <div className="container pb-20 mx-auto min-h-screen pt-45">
         <NotFoundState />
       </div>
     );

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { PayPalButtons } from "@paypal/react-paypal-js";
 
@@ -10,16 +10,6 @@ const Stage2Payment = ({
   setProcessing,
 }) => {
   const [message, setMessage] = useState("");
-  const [paypalError, setPaypalError] = useState(null);
-
-  // Use environment variable for PayPal client ID
-  const initialOptions = {
-    "client-id": import.meta.env.VITE_PAYPAL_CLIENT_ID,
-    currency: "GBP",
-    components: "buttons",
-    debug: import.meta.env.DEV, // Enable debug mode in development
-    "enable-funding": "card", // Enable additional funding sources if needed
-  };
 
   useEffect(() => {
     // Log PayPal configuration in development
@@ -37,12 +27,6 @@ const Stage2Payment = ({
       <h2 className="pt-10 mb-10 text-2xl font-semibold text-gray-700">
         Book Appointment
       </h2>
-
-      {paypalError && (
-        <div className="p-3 mb-4 text-red-700 bg-red-100 rounded-md">
-          {paypalError}
-        </div>
-      )}
 
       <div style={{ position: "relative", minHeight: 48, zIndex: 10 }}>
         {!processing && (
@@ -83,7 +67,7 @@ const Stage2Payment = ({
                       name: formData.FullName,
                       email: formData.Email,
                       telephone: formData.Telephone,
-                      company: trader.name,
+                      company: trader?.name || "Trade Specialists",
                       date: formData.Date,
                       amount: formData.DepositAmount,
                     },
@@ -101,7 +85,7 @@ const Stage2Payment = ({
                       response.status,
                       errorDetails
                     );
-                  } catch (e) {
+                  } catch {
                     // If not JSON, get as text
                     const errorText = await response.text();
                     console.error(
@@ -155,7 +139,7 @@ const Stage2Payment = ({
                         name: formData.FullName,
                         email: formData.Email,
                         telephone: formData.Telephone,
-                        company: trader.name,
+                        company: trader?.name || "Trade Specialists",
                         date: formData.Date,
                         amount: formData.DepositAmount,
                       },
@@ -253,11 +237,15 @@ Stage2Payment.propTypes = {
     telephone: PropTypes.string,
     email: PropTypes.string,
     address: PropTypes.string,
-  }).isRequired,
+  }),
   formData: PropTypes.object.isRequired,
   onSuccess: PropTypes.func.isRequired,
   processing: PropTypes.bool,
   setProcessing: PropTypes.func,
+};
+
+Stage2Payment.defaultProps = {
+  trader: null,
 };
 
 export default Stage2Payment;

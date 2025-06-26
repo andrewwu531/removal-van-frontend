@@ -1,22 +1,18 @@
-import {
-  Routes,
-  Route,
-  useLocation,
-  useNavigate,
-  Navigate,
-} from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import TradersCollectionsDesktop from "./components/traders/TradersCollectionsDesktop";
+import TradersCollections from "./components/traders/TradersCollections";
 import TraderDetailsDesktop from "./components/trader/details/TraderDetailsDesktop";
+import BookingStageController from "./components/forms/booking/BookingStageController";
 import emailjs from "@emailjs/browser";
 import Layout from "./components/layout/Layout";
 import { HelmetProvider } from "react-helmet-async";
 import MetaTags from "./components/seo/MetaTags";
 import ScrollToTop from "./components/layout/footer/components/ScrollToTop";
 import LegalStatementPage from "./components/layout/footer/components/LegalStatementPage";
-import PhoneNumberPopup from "./components/popup/PhoneNumberPopup";
 import CookieBanner from "./components/layout/cookie/CookieBanner";
 import FloatingButton from "./components/common/FloatingButton";
+import ServiceNavigation from "./components/traders/ServicesNavigation";
+import ServicePromises from "./components/traders/ServicesPromises";
 
 const getServiceFromUrl = (urlService) => {
   // Special routes that should not be treated as services
@@ -54,7 +50,6 @@ function App() {
   const [currentLocation, setCurrentLocation] = useState("");
   const [loading, setLoading] = useState(true);
   const [isDataReady, setIsDataReady] = useState(false);
-  const [isPhonePopupOpen, setIsPhonePopupOpen] = useState(true);
   const [isCookiePopupOpen, setIsCookiePopupOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -73,24 +68,35 @@ function App() {
         return;
       }
 
-      // Get the service from URL or default to "Removal"
+      // Handle root path - show all services
+      if (!path) {
+        setCurrentService("All Services");
+        try {
+          await fetchTraders({}); // Fetch all traders without filtering
+        } catch (error) {
+          console.error("Error loading all traders:", error);
+        }
+        setIsDataReady(true);
+        return;
+      }
+
+      // Get the service from URL
       const matchedService = getServiceFromUrl(serviceType);
       console.log("Initial URL path:", path);
       console.log("Initial service type:", serviceType);
       console.log("Matched service:", matchedService);
 
-      // Only set current service and fetch traders if it's a valid service
+      // Set current service and fetch all traders (no filtering)
       if (matchedService) {
         setCurrentService(matchedService);
-        try {
-          await fetchTraders({
-            service: matchedService,
-            location: currentLocation,
-          });
-        } catch (error) {
-          console.error("Error loading initial traders:", error);
-        }
       }
+
+      try {
+        await fetchTraders({}); // Always fetch all traders
+      } catch (error) {
+        console.error("Error loading traders:", error);
+      }
+
       setIsDataReady(true);
     };
 
@@ -102,29 +108,28 @@ function App() {
     const handleUrlChange = async () => {
       const path = location.pathname.substring(1);
 
+      // Handle root path
       if (!path) {
-        navigate("/removal", { replace: true });
+        setCurrentService("All Services");
+        setIsDataReady(true);
         return;
       }
 
       const serviceType = path.split("/")[0];
       const matchedService = getServiceFromUrl(serviceType);
 
-      // Always update currentService if we have a valid service
+      // Update currentService if we have a valid service
       if (matchedService && matchedService !== currentService) {
-        setIsDataReady(false);
         setCurrentService(matchedService);
+      }
 
-        try {
-          await fetchTraders({
-            service: matchedService,
-            location: currentLocation,
-          });
-        } catch (error) {
-          console.error("Error loading traders:", error);
-        } finally {
-          setIsDataReady(true);
-        }
+      // Always fetch all traders (no filtering)
+      try {
+        await fetchTraders({});
+      } catch (error) {
+        console.error("Error loading traders:", error);
+      } finally {
+        setIsDataReady(true);
       }
     };
 
@@ -136,9 +141,11 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // Always show phone popup on page load/refresh
-    setIsPhonePopupOpen(true);
-    setIsCookiePopupOpen(false); // Ensure cookie popup is hidden initially
+    // Check if we should show cookie popup on page load/refresh
+    const hasAcceptedCookies = localStorage.getItem("cookieConsent");
+    if (!hasAcceptedCookies) {
+      setIsCookiePopupOpen(true);
+    }
   }, []);
 
   const handleSearch = async (searchParams) => {
@@ -208,37 +215,12 @@ function App() {
       const data = await response.json();
       console.log("Received traders data:", data);
 
-      let filteredTraders = data;
-
-      if (searchParams?.service) {
-        console.log("Filtering for service:", searchParams.service);
-        filteredTraders = filteredTraders.filter(
-          (trader) => trader.removal_type === searchParams.service
-        );
-      }
-
-      if (searchParams?.location) {
-        filteredTraders = filteredTraders.filter((trader) =>
-          trader.available_locations.includes(searchParams.location)
-        );
-      }
-
-      console.log("Filtered traders:", filteredTraders);
-      setTraders(filteredTraders);
-      return filteredTraders;
+      // Remove filtering - just set all traders
+      setTraders(data);
+      return data;
     } catch (error) {
       console.error("Error fetching traders:", error);
       throw error;
-    }
-  };
-
-  const handlePhonePopupClose = () => {
-    setIsPhonePopupOpen(false);
-
-    // Check if we should show cookie popup after closing phone popup
-    const hasAcceptedCookies = localStorage.getItem("cookieConsent");
-    if (!hasAcceptedCookies) {
-      setIsCookiePopupOpen(true);
     }
   };
 
@@ -262,18 +244,37 @@ function App() {
         isLoading={loading}
       >
         <Routes>
-          <Route path="/" element={<Navigate to="/removal" replace />} />
+          <Route
+            path="/"
+            element={
+              <>
+                {/* <ServiceNavigation /> */}
+                {/* <ServicePromises /> */}
+                <TradersCollections
+                  traders={traders}
+                  onTraderSelect={handleTraderSelect}
+                  loading={loading}
+                  isDataReady={isDataReady}
+                  setParentLoading={setLoading}
+                  currentService={currentService}
+                />
+                <div className="mx-auto max-w-3xl">
+                  <BookingStageController trader={null} />
+                </div>
+              </>
+            }
+          />
           <Route path="/legal-statement" element={<LegalStatementPage />} />
           <Route
             path="/:serviceType"
             element={
-              <TradersCollectionsDesktop
+              <TraderDetailsDesktop
                 traders={traders}
                 onTraderSelect={handleTraderSelect}
                 loading={loading}
                 isDataReady={isDataReady}
                 setParentLoading={setLoading}
-                currentService={currentService}
+                fetchTraders={fetchTraders}
               />
             }
           />
@@ -292,10 +293,6 @@ function App() {
           />
         </Routes>
         <FloatingButton />
-        <PhoneNumberPopup
-          isOpen={isPhonePopupOpen}
-          onClose={handlePhonePopupClose}
-        />
         <CookieBanner
           isOpen={isCookiePopupOpen}
           onClose={handleCookiePopupClose}

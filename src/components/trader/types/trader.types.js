@@ -5,7 +5,7 @@ export const TraderPropType = PropTypes.shape({
   name: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   main_photo: PropTypes.string.isRequired,
-  removal_type: PropTypes.string.isRequired,
+  service_type: PropTypes.string.isRequired,
   from_price: PropTypes.number.isRequired,
   pricing_descriptions: PropTypes.string,
   qualifications: PropTypes.string.isRequired,

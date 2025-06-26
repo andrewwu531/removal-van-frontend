@@ -50,7 +50,7 @@ Thank you`;
 
       <div className="mt-10">
         <h3 className="mb-1 text-lg font-semibold">Service Type</h3>
-        <p>{trader.removal_type}</p>
+        <p>{trader.service_type}</p>
       </div>
 
       <div className="mt-6">

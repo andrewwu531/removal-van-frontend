@@ -62,7 +62,7 @@ const Stage3Confirmation = ({ trader, formData, transactionId }) => {
           name: formData.FullName,
           customer_email: formData.Email,
           telephone: formData.Telephone,
-          company: trader.name,
+          company: trader?.name || "Trade Specialists",
           order_id: transactionId,
           date: formattedDate,
           amount: formData.DepositAmount,
@@ -147,7 +147,7 @@ const Stage3Confirmation = ({ trader, formData, transactionId }) => {
           <strong>Telephone:</strong> {formData.Telephone}
         </div>
         <div>
-          <strong>Company:</strong> {trader.name}
+          <strong>Company:</strong> {trader?.name || "Trade Specialists"}
         </div>
         <div>
           <strong>Date:</strong>{" "}
@@ -176,9 +176,13 @@ Stage3Confirmation.propTypes = {
     telephone: PropTypes.string,
     email: PropTypes.string,
     address: PropTypes.string,
-  }).isRequired,
+  }),
   formData: PropTypes.object.isRequired,
   transactionId: PropTypes.string,
+};
+
+Stage3Confirmation.defaultProps = {
+  trader: null,
 };
 
 export default Stage3Confirmation;
