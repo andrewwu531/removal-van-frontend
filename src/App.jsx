@@ -282,7 +282,7 @@ function App() {
                   setParentLoading={setLoading}
                   currentService={currentService}
                 />
-                <div className="mx-auto max-w-3xl">
+                <div className="mx-auto max-w-4xl">
                   <ServiceFormSelector currentService={currentService} />
                 </div>
               </>

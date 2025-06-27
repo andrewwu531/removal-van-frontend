@@ -479,7 +479,6 @@ This enquiry was submitted through the Trade Specialists website.`;
             </div>
           </div>
         </div>
-
         {/* Service-Specific Fields */}
         <div className="mb-6">
           <h3 className="mb-4 text-lg font-medium text-gray-800">
@@ -489,7 +488,6 @@ This enquiry was submitted through the Trade Specialists website.`;
             {renderServiceFields()}
           </div>
         </div>
-
         {/* Date and Message */}
         <div className="mb-6">
           <h3 className="mb-4 text-lg font-medium text-gray-800">
@@ -579,7 +577,6 @@ This enquiry was submitted through the Trade Specialists website.`;
             />
           </div>
         </div>
-
         {/* Information Box */}
         <div className="p-5 mt-8 bg-blue-50 rounded-lg">
           <p className="px-2 py-1 text-blue-800">
@@ -593,7 +590,6 @@ This enquiry was submitted through the Trade Specialists website.`;
             </a>
           </p>
         </div>
-
         {/* Submit Button */}
         <div className="mt-2 text-left">
           <button
@@ -608,15 +604,14 @@ This enquiry was submitted through the Trade Specialists website.`;
             {isProcessing ? "Sending..." : "Send Enquiry"}
           </button>
         </div>
-
-        {/* Add this button temporarily to test (add it before the submit button) */}
+        {/* Add this button temporarily to test (add it before the submit button)
         <button
           type="button"
           onClick={testEmailJS}
           className="px-4 py-2 mr-4 text-white bg-gray-500 rounded"
         >
           Test EmailJS
-        </button>
+        </button> */}
       </div>
     </form>
   );

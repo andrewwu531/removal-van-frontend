@@ -17,7 +17,7 @@ const Stage1BookingForm = ({ onComplete }) => {
 
   const defaultMessage = `Hi Trade Specialists,
 
-I’m planning a house/business removal and I would like to confirm a booking. Here are my details.
+I'm planning a house/business removal and I would like to confirm a booking. Here are my details.
 
 
 • Full Name:
@@ -68,8 +68,10 @@ Thank you`;
       </h2>
       <div className="px-6 pb-16">
         <BookingFormFields formData={formData} handleChange={handleChange} />
-        <div className="flex flex-row space-x-3 max-[414px]:flex-col max-[414px]:space-x-0 max-[414px]:space-y-3">
-          <div className="w-2/3 mb-3 max-[414px]:w-full">
+
+        {/* Date and Deposit Amount - Separate rows on mobile */}
+        <div className="grid grid-cols-1 gap-4 mb-3 md:grid-cols-2">
+          <div className="w-full">
             <label
               htmlFor="bookingDate"
               className="block font-medium text-gray-700 text-md"
@@ -89,7 +91,7 @@ Thank you`;
               aria-labelledby="booking-date-label"
             />
           </div>
-          <div className="w-1/2 max-[414px]:w-full mb-3">
+          <div className="w-full">
             <label
               id="deposit-amount-label"
               htmlFor="depositAmount"
@@ -112,7 +114,7 @@ Thank you`;
                 <option value="1.00">£1 (Test)</option>
               </select>
               <span
-                className="absolute inset-y-0 flex items-center text-black pointer-events-none"
+                className="flex absolute inset-y-0 items-center text-black pointer-events-none"
                 style={{ right: "7px", top: "1px " }}
               >
                 <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
@@ -128,7 +130,8 @@ Thank you`;
             </div>
           </div>
         </div>
-        <div className="p-5 mt-8 rounded-lg bg-blue-50">
+
+        <div className="p-5 mt-8 bg-blue-50 rounded-lg">
           <p className="px-2 py-1 text-blue-800">
             Before booking an appointment, please text us at{" "}
             <a

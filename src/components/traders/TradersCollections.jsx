@@ -159,9 +159,9 @@ export default function TradersCollections({
                     <span className="font-medium text-center text-gray-700 transition-colors duration-200 text-[16px] sm:text-xl md:text-xl lg:text-xl xl:text-lg group-hover:text-blue-600">
                       {trader.name}
                     </span>
-                    <p className="mt-1 text-sm text-gray-600">
+                    {/* <p className="mt-1 text-sm text-gray-600">
                       From £{trader.from_price}
-                    </p>
+                    </p> */}
                   </div>
                 </div>
               ))}

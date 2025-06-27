@@ -83,27 +83,6 @@ const EnquiryController = ({ currentService = "Removal", onBack }) => {
 
   return (
     <div>
-      <div className="mb-6 text-center">
-        <button
-          onClick={handleBackToOptions}
-          className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-600 bg-white rounded-md border border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          <svg
-            className="mr-2 w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
-          Back to Options
-        </button>
-      </div>
       <EnquiryForm
         onComplete={handleEnquiryComplete}
         currentService={currentService}

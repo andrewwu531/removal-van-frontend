@@ -4,91 +4,55 @@ import EnquiryController from "./enquiry/EnquiryController";
 import BookingStageController from "./booking/BookingStageController";
 
 const ServiceFormSelector = ({ currentService = "Removal" }) => {
-  const [selectedOption, setSelectedOption] = useState(null);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-
-  const handleOptionSelect = (option) => {
-    setIsTransitioning(true);
-    setTimeout(() => {
-      setSelectedOption(option);
-      setIsTransitioning(false);
-    }, 300); // Match the transition duration
-  };
-
-  const handleBackToSelection = () => {
-    setIsTransitioning(true);
-    setTimeout(() => {
-      setSelectedOption(null);
-      setIsTransitioning(false);
-    }, 300);
-  };
-
-  if (selectedOption) {
-    return (
-      <div
-        className={`transition-all duration-300 ease-in-out ${isTransitioning ? "opacity-0 transform translate-y-4" : "opacity-100 transform translate-y-0"}`}
-      >
-        {selectedOption === "enquiry" ? (
-          <EnquiryController
-            currentService={currentService}
-            onBack={handleBackToSelection}
-          />
-        ) : (
-          <div>
-            <div className="mb-6 text-center">
-              <button
-                onClick={handleBackToSelection}
-                className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-600 bg-white rounded-md border border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <svg
-                  className="mr-2 w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M15 19l-7-7 7-7"
-                  />
-                </svg>
-                Back to Options
-              </button>
-            </div>
-            <BookingStageController trader={null} />
-          </div>
-        )}
-      </div>
-    );
-  }
+  const [activeCard, setActiveCard] = useState(null); // "enquiry" or "booking"
 
   return (
-    <div
-      className={`transition-all duration-300 ease-in-out ${isTransitioning ? "opacity-0 transform translate-y-4" : "opacity-100 transform translate-y-0"}`}
-    >
-      <div className="p-6 mx-auto max-w-4xl">
-        {/* Header */}
-        <div className="mb-12 text-center">
-          <h1 className="mb-4 text-4xl font-bold text-gray-800">
-            How can we help you?
-          </h1>
-          <p className="mx-auto max-w-2xl text-lg text-gray-600">
-            Choose whether you'd like to make an enquiry about our services or
-            book an appointment directly.
-          </p>
-        </div>
+    <div className="p-6 mx-auto mb-20 w-full">
+      {/* Header */}
+      <div className="mt-12 mb-12 text-center">
+        <h1 className="mb-4 text-4xl font-bold text-gray-800">
+          How can we help today?
+        </h1>
+        <p className="mx-auto max-w-2xl text-lg text-gray-600">
+          Choose whether you'd like to make an enquiry about our services or
+          book an appointment directly.
+        </p>
+      </div>
 
-        {/* Option Cards */}
-        <div className="grid grid-cols-1 gap-8 mx-auto max-w-4xl md:grid-cols-2">
-          {/* Enquiry Option */}
-          <div
-            className="relative cursor-pointer group"
-            onClick={() => handleOptionSelect("enquiry")}
-          >
-            <div className="p-8 bg-white rounded-2xl border-2 border-gray-200 shadow-lg transition-all duration-300 hover:shadow-xl group-hover:border-blue-500 group-hover:scale-105">
-              <div className="text-center">
-                <div className="flex justify-center items-center mx-auto mb-6 w-16 h-16 bg-blue-100 rounded-full transition-colors duration-300 group-hover:bg-blue-200">
+      {/* Option Cards Container */}
+      <div className="flex flex-col gap-8 justify-center items-stretch mx-auto w-full max-w-6xl transition-all duration-500 md:flex-row">
+        {/* Enquiry Option */}
+        <div
+          className={`
+            transition-all duration-500 ease-in-out
+            ${
+              activeCard === "enquiry"
+                ? "w-full"
+                : activeCard === "booking"
+                  ? "hidden md:block md:w-0 md:opacity-0 md:overflow-hidden"
+                  : "w-full md:w-1/2"
+            }
+          `}
+        >
+          <div className="flex flex-col p-10 h-full bg-white rounded-2xl border-2 border-gray-200 shadow-lg transition-all duration-300">
+            {activeCard === "enquiry" ? (
+              <>
+                <div className="mb-6 text-right">
+                  <button
+                    onClick={() => setActiveCard(null)}
+                    className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-md border border-gray-300 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    &larr; Back to Options
+                  </button>
+                </div>
+                <EnquiryController
+                  currentService={currentService}
+                  onBack={() => setActiveCard(null)}
+                />
+              </>
+            ) : (
+              <div className="flex flex-col h-full text-center">
+                <div className="flex justify-center items-center mx-auto mb-6 w-16 h-16 bg-blue-100 rounded-full">
                   <svg
                     className="w-8 h-8 text-blue-600"
                     fill="none"
@@ -155,21 +119,49 @@ const ServiceFormSelector = ({ currentService = "Removal" }) => {
                     Availability check
                   </li>
                 </ul>
-                <button className="px-6 py-3 w-full font-semibold text-white bg-blue-500 rounded-lg transition-colors duration-300 hover:bg-blue-600">
+                <button
+                  className="px-6 py-3 mt-auto w-full font-semibold text-white bg-blue-500 rounded-lg transition-colors duration-300 hover:bg-blue-600"
+                  onClick={() => setActiveCard("enquiry")}
+                >
                   Start Enquiry
                 </button>
               </div>
-            </div>
+            )}
           </div>
+        </div>
 
-          {/* Booking Option */}
-          <div
-            className="relative cursor-pointer group"
-            onClick={() => handleOptionSelect("booking")}
-          >
-            <div className="p-8 bg-white rounded-2xl border-2 border-gray-200 shadow-lg transition-all duration-300 hover:shadow-xl group-hover:border-red-500 group-hover:scale-105">
-              <div className="text-center">
-                <div className="flex justify-center items-center mx-auto mb-6 w-16 h-16 bg-red-100 rounded-full transition-colors duration-300 group-hover:bg-red-200">
+        {/* Booking Option */}
+        <div
+          className={`
+            transition-all duration-500 ease-in-out
+            ${
+              activeCard === "booking"
+                ? "w-full"
+                : activeCard === "enquiry"
+                  ? "hidden md:block md:w-0 md:opacity-0 md:overflow-hidden"
+                  : "w-full md:w-1/2"
+            }
+          `}
+        >
+          <div className="flex flex-col p-10 h-full bg-white rounded-2xl border-2 border-gray-200 shadow-lg transition-all duration-300">
+            {activeCard === "booking" ? (
+              <>
+                <div className="mb-6 text-right">
+                  <button
+                    onClick={() => setActiveCard(null)}
+                    className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-md border border-gray-300 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    &larr; Back to Options
+                  </button>
+                </div>
+                <BookingStageController
+                  trader={null}
+                  onBack={() => setActiveCard(null)}
+                />
+              </>
+            ) : (
+              <div className="flex flex-col h-full text-center">
+                <div className="flex justify-center items-center mx-auto mb-6 w-16 h-16 bg-red-100 rounded-full">
                   <svg
                     className="w-8 h-8 text-red-600"
                     fill="none"
@@ -236,11 +228,14 @@ const ServiceFormSelector = ({ currentService = "Removal" }) => {
                     Deposit payment
                   </li>
                 </ul>
-                <button className="px-6 py-3 w-full font-semibold text-white bg-red-500 rounded-lg transition-colors duration-300 hover:bg-red-600">
+                <button
+                  className="px-6 py-3 mt-auto w-full font-semibold text-white bg-red-500 rounded-lg transition-colors duration-300 hover:bg-red-600"
+                  onClick={() => setActiveCard("booking")}
+                >
                   Book Now
                 </button>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
