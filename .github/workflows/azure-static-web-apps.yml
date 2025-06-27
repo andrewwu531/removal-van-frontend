@@ -48,6 +48,7 @@ jobs:
           echo "VITE_EMAILJS_SERVICE_ID=${{ secrets.VITE_EMAILJS_SERVICE_ID }}" >> .env.production
           echo "VITE_EMAILJS_TEMPLATE_ID=${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}" >> .env.production
           echo "VITE_EMAILJS_ADMIN_TEMPLATE_ID=${{ secrets.VITE_EMAILJS_ADMIN_TEMPLATE_ID }}" >> .env.production
+          echo "VITE_EMAILJS_ENQUIRY_TEMPLATE_ID=${{ secrets.VITE_EMAILJS_ENQUIRY_TEMPLATE_ID }}" >> .env.production
           echo "VITE_ADMIN_EMAIL=${{ secrets.VITE_ADMIN_EMAIL }}" >> .env.production
           echo "Environment file created"
           cat .env.production
@@ -109,6 +110,7 @@ jobs:
           VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}
           VITE_EMAILJS_SERVICE_ID: ${{ secrets.VITE_EMAILJS_SERVICE_ID }}
           VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
+          VITE_EMAILJS_ENQUIRY_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_ENQUIRY_TEMPLATE_ID }}
           VITE_EMAILJS_ADMIN_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_ADMIN_TEMPLATE_ID }}
           VITE_ADMIN_EMAIL: ${{ secrets.VITE_ADMIN_EMAIL }}
 
