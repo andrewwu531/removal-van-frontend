@@ -32,7 +32,7 @@ const getServiceFromUrl = (urlService) => {
     commercial: "Commercial Maintenance",
   };
 
-  if (!urlService) return "Removal"; // Default case
+  if (!urlService) return null; // Don't default to Removal, let the root path handle it
   const normalizedUrl = urlService.toLowerCase().trim();
   return urlToServiceMap[normalizedUrl];
 };
