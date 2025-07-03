@@ -33,7 +33,7 @@ export default function TraderDetailsCardDesktop({
   }
 
   return (
-    <div className="min-[500px]:min-h-screen col-span-3 pb-16 bg-white rounded-lg shadow-lg">
+    <div className="col-span-3 pb-20 bg-white rounded-2xl shadow-lg">
       <TraderInfo trader={trader} />
     </div>
   );

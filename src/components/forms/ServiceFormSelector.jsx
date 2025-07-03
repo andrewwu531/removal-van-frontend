@@ -10,8 +10,8 @@ const ServiceFormSelector = ({ currentService = "Removal" }) => {
   return (
     <div className="p-6 mx-auto mb-20 w-full">
       {/* Header */}
-      <div className="mt-20 mb-12 text-center">
-        <h1 className="mb-8 text-4xl font-bold text-gray-800">
+      <div className="mx-6 text-center mb-18 mt-18 md:mx-0">
+        <h1 className="mb-6 text-4xl font-bold text-gray-800">
           How can we help today?
         </h1>
         <p className="mx-auto max-w-2xl text-lg text-gray-600">

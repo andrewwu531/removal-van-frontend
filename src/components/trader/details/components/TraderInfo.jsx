@@ -4,7 +4,7 @@ import PhoneMessagingButton from "../../../common/PhoneMessagingButton";
 
 export default function TraderInfo({ trader }) {
   return (
-    <div className="px-11 min-[500px]:px-16 pt-5 min-[500px]:pt-13">
+    <div className="px-11 min-[500px]:px-28 pt-5 min-[500px]:pt-13">
       <div className="flex flex-col min-[600px]:flex-row items-start min-[600px]:items-center justify-start gap-4 min-[600px]:gap-10 mb-4 min-[600px]:mb-5">
         <h1 className="text-3xl font-bold">{trader.name}</h1>
         <div className="hidden min-[600px]:block mt-1">

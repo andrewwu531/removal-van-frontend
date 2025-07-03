@@ -15,15 +15,15 @@ export default function TradersCollections({
   const [sortedTraders, setSortedTraders] = useState([]);
   const [showContent, setShowContent] = useState(false);
 
-  // Define the service priority order
+  // Define the service priority order - matching header search bar
   const servicePriority = [
-    "Removal Services",
-    "Painting Services",
+    "Removal",
+    "Painting",
     "Carpet & Flooring",
     "Bathroom & Kitchen",
     "Window & Door",
     "Exterior & Roofing",
-    "Solar Energy Solutions",
+    "Solar Panels",
     "Commercial Maintenance",
   ];
 
