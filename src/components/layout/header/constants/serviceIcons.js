@@ -1,14 +1,10 @@
 import { TbTruckDelivery, TbRollerSkating } from "react-icons/tb";
 import {
-  MdOutlineBuild,
   MdOutlineWindow,
   MdOutlineFormatPaint,
-  MdDirectionsCar,
   MdOutlineWbSunny,
 } from "react-icons/md";
-import { HiOutlineLightBulb } from "react-icons/hi";
 import { PiLockKey } from "react-icons/pi";
-import { GiBathtub } from "react-icons/gi";
 import { BiBuildingHouse } from "react-icons/bi";
 import { LuHammer } from "react-icons/lu";
 
@@ -19,23 +15,11 @@ export const serviceIcons = [
     iconProps: {
       size: 30,
       className:
-        "text-gray-600 max-[500px]:translate-y-1.5 min-[500px]:translate-y-1",
+        "text-gray-600 max-[500px]:translate-y-0.5 min-[500px]:translate-y-1",
     },
-    paddingTop: "-pt-1",
+    paddingTop: "-pt-3",
     marginX:
-      "mr-0.5 min-[500px]:-mr-10 min-[1171px]:-mr-9.5 min-[1256px]:-mr-9 min-[1423px]:-mr-8 min-[1920px]:-mr-5.5",
-  },
-  {
-    name: "House Renovation",
-    IconComponent: MdOutlineBuild,
-    iconProps: {
-      size: 26,
-      className:
-        "text-gray-600 max-[500px]:translate-y-1 min-[500px]:translate-y-0.5 max-[500px]:scale-95",
-    },
-    paddingTop: "pt-1",
-    marginX:
-      "mr-0.5 min-[500px]:-mr-10.5 min-[1171px]:-mr-10 min-[1256px]:-mr-9.5 min-[1423px]:-mr-8 min-[1920px]:-mr-7",
+      "mr-0.5 min-[500px]:-mr-16 min-[1171px]:-mr-16 min-[1256px]:-mr-15.5 min-[1423px]:-mr-14.5 min-[1920px]:-mr-5.5",
   },
   {
     name: "Painting",

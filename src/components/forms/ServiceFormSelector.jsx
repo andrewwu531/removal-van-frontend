@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import EnquiryController from "./enquiry/EnquiryController";
 import BookingStageController from "./booking/BookingStageController";
+import PhoneMessagingButton from "../common/PhoneMessagingButton";
 
 const ServiceFormSelector = ({ currentService = "Removal" }) => {
   const [activeCard, setActiveCard] = useState(null); // "enquiry" or "booking"
@@ -9,13 +10,20 @@ const ServiceFormSelector = ({ currentService = "Removal" }) => {
   return (
     <div className="p-6 mx-auto mb-20 w-full">
       {/* Header */}
-      <div className="mt-12 mb-12 text-center">
-        <h1 className="mb-4 text-4xl font-bold text-gray-800">
+      <div className="mt-20 mb-12 text-center">
+        <h1 className="mb-8 text-4xl font-bold text-gray-800">
           How can we help today?
         </h1>
         <p className="mx-auto max-w-2xl text-lg text-gray-600">
-          Choose whether you'd like to make an enquiry about our services or
-          book an appointment directly.
+          Message or call us directly today on{" "}
+          <PhoneMessagingButton
+            serviceType={currentService}
+            className="inline-block mx-2 my-2"
+          >
+            07943 059 792
+          </PhoneMessagingButton>{" "}
+          to find out more about our services in details and secure a preferred
+          date. Alternatively, you can:
         </p>
       </div>
 
@@ -52,7 +60,7 @@ const ServiceFormSelector = ({ currentService = "Removal" }) => {
               </>
             ) : (
               <div className="flex flex-col h-full text-center">
-                <div className="flex justify-center items-center mx-auto mb-6 w-16 h-16 bg-blue-100 rounded-full">
+                <div className="flex justify-center items-center mx-auto mb-6 w-16 h-16 bg-blue-200 rounded-full">
                   <svg
                     className="w-8 h-8 text-blue-600"
                     fill="none"
@@ -120,7 +128,7 @@ const ServiceFormSelector = ({ currentService = "Removal" }) => {
                   </li>
                 </ul>
                 <button
-                  className="px-6 py-3 mt-auto w-full font-semibold text-white bg-blue-500 rounded-lg transition-colors duration-300 hover:bg-blue-600"
+                  className="px-6 py-3 mt-auto w-full font-semibold text-white bg-blue-600 rounded-lg transition-colors duration-300 hover:bg-blue-600"
                   onClick={() => setActiveCard("enquiry")}
                 >
                   Start Enquiry
@@ -180,9 +188,9 @@ const ServiceFormSelector = ({ currentService = "Removal" }) => {
                   Book Appointment
                 </h3>
                 <p className="mb-6 leading-relaxed text-gray-600">
-                  Ready to proceed? Book your appointment directly and secure
-                  your slot. Ideal if you know what you need and want to get
-                  started.
+                  Ready to proceed? Pay a deposit and secure your booking. Ideal
+                  if you have already spoken to us and want to go ahead with an
+                  appointment.
                 </p>
                 <ul className="mb-6 space-y-2 text-sm text-left text-gray-600">
                   <li className="flex items-center">

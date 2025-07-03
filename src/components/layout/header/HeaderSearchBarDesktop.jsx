@@ -91,11 +91,21 @@ export default function HeaderSearchBarDesktop({
     setService(selectedService);
     setShowServiceDropdown(false);
 
-    // Convert service name to URL format (e.g., "House Renovation" -> "house-renovation")
-    const urlServiceName = selectedService
-      .toLowerCase()
-      .replace(/&/g, "")
-      .replace(/\s+/g, "-");
+    // Map service names to the correct URL paths
+    const serviceUrlMap = {
+      Removal: "removal",
+      Painting: "painting",
+      "Carpet & Flooring": "carpet-flooring",
+      "Bathroom & Kitchen": "bathroom-kitchen",
+      "Window & Door": "window-door",
+      "Exterior & Roofing": "exterior-roofing",
+      "Solar Panels": "solar-panels",
+      Commercial: "commercial-maintenance",
+    };
+
+    const urlServiceName =
+      serviceUrlMap[selectedService] ||
+      selectedService.toLowerCase().replace(/&/g, "").replace(/\s+/g, "-");
 
     // Navigate to the new service URL
     navigate(`/${urlServiceName}`);
@@ -173,7 +183,7 @@ export default function HeaderSearchBarDesktop({
         </div>
 
         <div
-          className="h-6 mx-2 border-l border-gray-300"
+          className="mx-2 h-6 border-l border-gray-300"
           role="separator"
         ></div>
 
@@ -201,7 +211,7 @@ export default function HeaderSearchBarDesktop({
         </div>
 
         <button
-          className="p-3 ml-2 text-white transition-colors bg-red-500 rounded-full hover:bg-red-600"
+          className="p-3 ml-2 text-white bg-red-500 rounded-full transition-colors hover:bg-red-600"
           onClick={handleSearchClick}
           aria-label="Search traders"
           type="button"

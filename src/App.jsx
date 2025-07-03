@@ -2,7 +2,6 @@ import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import TradersCollections from "./components/traders/TradersCollections";
 import TraderDetailsDesktop from "./components/trader/details/TraderDetailsDesktop";
-import BookingStageController from "./components/forms/booking/BookingStageController";
 import emailjs from "@emailjs/browser";
 import Layout from "./components/layout/Layout";
 import { HelmetProvider } from "react-helmet-async";
@@ -11,9 +10,6 @@ import ScrollToTop from "./components/layout/footer/components/ScrollToTop";
 import LegalStatementPage from "./components/layout/footer/components/LegalStatementPage";
 import CookieBanner from "./components/layout/cookie/CookieBanner";
 import FloatingButton from "./components/common/FloatingButton";
-import ServiceNavigation from "./components/traders/ServicesNavigation";
-import ServicePromises from "./components/traders/ServicesPromises";
-import EnquiryController from "./components/forms/enquiry/EnquiryController";
 import ServiceFormSelector from "./components/forms/ServiceFormSelector";
 
 const getServiceFromUrl = (urlService) => {
@@ -26,7 +22,6 @@ const getServiceFromUrl = (urlService) => {
   // Mapping of URL formats to service names
   const urlToServiceMap = {
     removal: "Removal",
-    "house-renovation": "House Renovation",
     painting: "Painting",
     "carpet-flooring": "Carpet & Flooring",
     "electricity-gas": "Electricity & Gas",
@@ -34,7 +29,7 @@ const getServiceFromUrl = (urlService) => {
     "window-door": "Window & Door",
     "exterior-roofing": "Exterior & Roofing",
     "solar-panels": "Solar Panels",
-    "commercial-maintenance": "Commercial Maintenance",
+    commercial: "Commercial Maintenance",
   };
 
   if (!urlService) return "Removal"; // Default case
@@ -43,6 +38,11 @@ const getServiceFromUrl = (urlService) => {
 };
 
 const getUrlFromService = (serviceName) => {
+  // Special case for Commercial
+  if (serviceName === "Commercial") {
+    return "commercial-maintenance";
+  }
+
   return serviceName.toLowerCase().replace(/&/g, "").replace(/\s+/g, "-");
 };
 

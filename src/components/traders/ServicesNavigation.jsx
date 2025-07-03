@@ -10,11 +10,7 @@ const ServiceNavigation = () => {
       image: "/images/removal.webp",
       url: "/removal",
     },
-    {
-      name: "House Renovation",
-      image: "/images/house-renovation.webp", // Will need to be added
-      url: "/house-renovation",
-    },
+
     {
       name: "Painting",
       image: "/images/painting.webp",
@@ -64,7 +60,7 @@ const ServiceNavigation = () => {
             onClick={() => handleServiceClick(service.url)}
           >
             <div className="relative px-2 mb-3">
-              <div className="w-full overflow-hidden transition-colors duration-200 border-2 border-gray-200 shadow-md aspect-square rounded-2xl">
+              <div className="overflow-hidden w-full rounded-2xl border-2 border-gray-200 shadow-md transition-colors duration-200 aspect-square">
                 <img
                   src={service.image}
                   alt={service.name}
