@@ -56,6 +56,15 @@ function App() {
   const location = useLocation();
   const navigate = useNavigate();
 
+  // Initial loading effect - show only header bars for 0.5s
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsDataReady(true);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   // Update the initialization effect
   useEffect(() => {
     const initializeFromUrl = async () => {
@@ -254,7 +263,20 @@ function App() {
   };
 
   if (!isDataReady) {
-    return null;
+    return (
+      <HelmetProvider>
+        <MetaTags />
+        <Layout
+          onSearch={handleSearch}
+          onServiceSelect={handleServiceSelect}
+          currentService={currentService}
+          currentLocation={currentLocation}
+          isLoading={loading}
+        >
+          {/* Show only header bars during initial load */}
+        </Layout>
+      </HelmetProvider>
+    );
   }
 
   return (
@@ -272,8 +294,6 @@ function App() {
             path="/"
             element={
               <>
-                {/* <ServiceNavigation /> */}
-
                 <TradersCollections
                   traders={traders}
                   onTraderSelect={handleTraderSelect}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import EnquiryController from "./enquiry/EnquiryController";
 import BookingStageController from "./booking/BookingStageController";
@@ -6,19 +6,34 @@ import PhoneMessagingButton from "../common/PhoneMessagingButton";
 
 const ServiceFormSelector = ({ currentService = "Removal" }) => {
   const [activeCard, setActiveCard] = useState(null); // "enquiry" or "booking"
+  const [showContent, setShowContent] = useState(false);
+
+  // 100ms timeout for sections below TradersCollection
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowContent(true);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  // If content is not shown yet, render nothing
+  if (!showContent) {
+    return null;
+  }
 
   return (
     <div className="p-6 mx-auto mb-20 w-full">
       {/* Header */}
-      <div className="mx-6 text-center mb-18 mt-18 md:mx-0">
-        <h1 className="mb-6 text-4xl font-bold text-gray-800">
+      <div className="mx-6 mt-12 mb-12 text-center md:mx-0">
+        <h1 className="mb-4 text-4xl font-bold text-gray-800">
           How can we help today?
         </h1>
         <p className="mx-auto max-w-2xl text-lg text-gray-600">
           Message or call us directly today on{" "}
           <PhoneMessagingButton
             serviceType={currentService}
-            className="inline-block mx-2 my-2"
+            className="inline-block mx-2"
           >
             07943 059 792
           </PhoneMessagingButton>{" "}

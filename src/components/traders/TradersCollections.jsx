@@ -82,16 +82,13 @@ export default function TradersCollections({
     };
   }, [traders, setParentLoading]);
 
-  // Loading animation timing
+  // 500ms timeout for TradersCollection
   useEffect(() => {
-    // Show content after 0.5s
-    const contentTimer = setTimeout(() => {
+    const timer = setTimeout(() => {
       setShowContent(true);
     }, 500);
 
-    return () => {
-      clearTimeout(contentTimer);
-    };
+    return () => clearTimeout(timer);
   }, []);
 
   const handleTraderClick = (trader) => {
