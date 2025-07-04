@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import ServiceTitle from "./components/ServiceTitle";
-import EmptyTradersList from "./components/EmptyTradersList";
 import { useState, useEffect } from "react";
 import { getImageUrl } from "./utils/imageUtils";
 
@@ -135,39 +134,35 @@ export default function TradersCollections({
       <div className="hidden md:block">
         <div className="flex flex-col px-6 pt-48 mx-auto max-w-7xl md:px-16 lg:px-20 xl:px-20 md:pt-48">
           <ServiceTitle currentService={currentService} />
-          {sortedTraders.length === 0 ? (
-            <EmptyTradersList />
-          ) : (
-            <div className="grid grid-cols-2 gap-y-6 md:grid-cols-4 md:gap-y-8">
-              {sortedTraders.map((trader) => (
-                <div
-                  key={trader.id}
-                  className="flex flex-col items-center cursor-pointer group"
-                  onClick={() => handleTraderClick(trader)}
-                >
-                  <div className="relative mb-4 px-1.5 xl:px-2">
-                    <div className="overflow-hidden w-full rounded-2xl border-2 border-gray-200 shadow-md transition-all duration-300 aspect-square">
-                      <img
-                        src={getImageUrl(trader.main_photo)}
-                        alt={trader.name}
-                        className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-102"
-                        onError={(e) => {
-                          // Fallback to a placeholder if image doesn't exist
-                          e.target.src =
-                            "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f3f4f6'/%3E%3Ctext x='50' y='50' font-family='Arial' font-size='12' fill='%236b7280' text-anchor='middle' dy='.3em'%3E%3C/tspan%3E%3C/svg%3E";
-                        }}
-                      />
-                    </div>
-                  </div>
-                  <div className="px-2 text-center">
-                    <span className="font-medium leading-tight text-gray-700 transition-colors duration-200 text-md sm:text-base md:text-lg xl:text-xl group-hover:text-gray-950">
-                      {trader.name}
-                    </span>
+          <div className="grid grid-cols-2 gap-y-6 md:grid-cols-4 md:gap-y-8">
+            {sortedTraders.map((trader) => (
+              <div
+                key={trader.id}
+                className="flex flex-col items-center cursor-pointer group"
+                onClick={() => handleTraderClick(trader)}
+              >
+                <div className="relative mb-4 px-1.5 xl:px-2">
+                  <div className="overflow-hidden w-full rounded-2xl border-2 border-gray-200 shadow-md transition-all duration-300 aspect-square">
+                    <img
+                      src={getImageUrl(trader.main_photo)}
+                      alt={trader.name}
+                      className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-102"
+                      onError={(e) => {
+                        // Fallback to a placeholder if image doesn't exist
+                        e.target.src =
+                          "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f3f4f6'/%3E%3Ctext x='50' y='50' font-family='Arial' font-size='12' fill='%236b7280' text-anchor='middle' dy='.3em'%3E%3C/tspan%3E%3C/svg%3E";
+                      }}
+                    />
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
+                <div className="px-2 text-center">
+                  <span className="font-medium leading-tight text-gray-700 transition-colors duration-200 text-md sm:text-base md:text-lg xl:text-xl group-hover:text-gray-950">
+                    {trader.name}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -175,39 +170,35 @@ export default function TradersCollections({
       <div className="block md:hidden">
         <div className="flex flex-col px-6 pt-48 mx-auto max-w-full">
           <ServiceTitle currentService={currentService} />
-          {sortedTraders.length === 0 ? (
-            <EmptyTradersList />
-          ) : (
-            <div className="grid grid-cols-2 gap-y-6">
-              {sortedTraders.map((trader) => (
-                <div
-                  key={trader.id}
-                  className="flex flex-col items-center cursor-pointer group"
-                  onClick={() => handleTraderClick(trader)}
-                >
-                  <div className="relative px-2 mb-3">
-                    <div className="overflow-hidden w-full rounded-2xl border-2 border-gray-200 shadow-md transition-all duration-300 aspect-square">
-                      <img
-                        src={getImageUrl(trader.main_photo)}
-                        alt={trader.name}
-                        className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
-                        onError={(e) => {
-                          // Fallback to a placeholder if image doesn't exist
-                          e.target.src =
-                            "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f3f4f6'/%3E%3Ctext x='50' y='50' font-family='Arial' font-size='12' fill='%236b7280' text-anchor='middle' dy='.3em'%3E%3C/tspan%3E%3C/svg%3E";
-                        }}
-                      />
-                    </div>
-                  </div>
-                  <div className="px-2 text-center">
-                    <span className="text-sm font-medium leading-tight text-gray-700 transition-colors duration-200 sm:text-base md:text-lg lg:text-xl group-hover:text-blue-600">
-                      {trader.name}
-                    </span>
+          <div className="grid grid-cols-2 gap-y-6">
+            {sortedTraders.map((trader) => (
+              <div
+                key={trader.id}
+                className="flex flex-col items-center cursor-pointer group"
+                onClick={() => handleTraderClick(trader)}
+              >
+                <div className="relative px-2 mb-3">
+                  <div className="overflow-hidden w-full rounded-2xl border-2 border-gray-200 shadow-md transition-all duration-300 aspect-square">
+                    <img
+                      src={getImageUrl(trader.main_photo)}
+                      alt={trader.name}
+                      className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
+                      onError={(e) => {
+                        // Fallback to a placeholder if image doesn't exist
+                        e.target.src =
+                          "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f3f4f6'/%3E%3Ctext x='50' y='50' font-family='Arial' font-size='12' fill='%236b7280' text-anchor='middle' dy='.3em'%3E%3C/tspan%3E%3C/svg%3E";
+                      }}
+                    />
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
+                <div className="px-2 text-center">
+                  <span className="text-sm font-medium leading-tight text-gray-700 transition-colors duration-200 sm:text-base md:text-lg lg:text-xl group-hover:text-blue-600">
+                    {trader.name}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </>
