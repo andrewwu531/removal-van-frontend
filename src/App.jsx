@@ -56,15 +56,6 @@ function App() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Initial loading effect - show only header bars for 0.5s
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsDataReady(true);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   // Update the initialization effect
   useEffect(() => {
     const initializeFromUrl = async () => {
