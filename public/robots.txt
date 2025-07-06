@@ -1,5 +1,4 @@
 User-agent: *
-Allow: /removal
 Allow: /
 Disallow: /legal-statement
 
