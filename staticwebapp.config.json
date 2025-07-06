@@ -9,12 +9,8 @@
       "rewrite": "/index.html"
     },
     {
-      "route": "/removal",
-      "rewrite": "/removal/removal.html"
-    },
-    {
       "route": "/removal/:traderId",
-      "rewrite": "/removal.html"
+      "rewrite": "/index.html"
     },
     {
       "route": "/:serviceType/:traderId",
