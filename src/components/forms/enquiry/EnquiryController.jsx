@@ -73,7 +73,7 @@ const EnquiryController = ({ currentService = "Removal", onBack }) => {
               onClick={handleBackToOptions}
               className="px-8 py-3 font-medium text-gray-600 bg-white rounded-lg border border-gray-300 hover:bg-gray-50 focus:outline-none"
             >
-              Back to Options
+              Back
             </button>
           </div>
         </div>

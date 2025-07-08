@@ -26,14 +26,14 @@ const ServiceFormSelector = ({ currentService = "Removal" }) => {
     <div className="p-6 mx-auto mb-20 w-full">
       {/* Header */}
       <div className="mx-6 mt-12 mb-12 text-center md:mx-0">
-        <h1 className="mb-4 text-4xl font-bold text-gray-800">
+        <h1 className="mb-5 text-4xl font-bold text-gray-800">
           How can we help today?
         </h1>
         <p className="mx-auto max-w-2xl text-lg text-gray-600">
           Message or call us directly today on{" "}
           <PhoneMessagingButton
             serviceType={currentService}
-            className="inline-block mx-2"
+            className="inline-block mx-2 my-2"
           >
             07943 059 792
           </PhoneMessagingButton>{" "}
@@ -63,9 +63,9 @@ const ServiceFormSelector = ({ currentService = "Removal" }) => {
                 <div className="mb-6 text-right">
                   <button
                     onClick={() => setActiveCard(null)}
-                    className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-md border border-gray-300 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="inline-flex items-center px-7 py-2.5 text-base font-medium text-gray-600 bg-gray-100 rounded-md border border-gray-300 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
-                    &larr; Back to Options
+                    &larr; Back
                   </button>
                 </div>
                 <EnquiryController
@@ -172,9 +172,9 @@ const ServiceFormSelector = ({ currentService = "Removal" }) => {
                 <div className="mb-6 text-right">
                   <button
                     onClick={() => setActiveCard(null)}
-                    className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-md border border-gray-300 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="inline-flex items-center px-7 py-2.5 text-base font-medium text-gray-600 bg-gray-100 rounded-md border border-gray-300 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
-                    &larr; Back to Options
+                    &larr; Back
                   </button>
                 </div>
                 <BookingStageController
